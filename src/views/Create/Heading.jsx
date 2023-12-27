@@ -32,9 +32,9 @@ export default function Heading() {
         </div>
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:mx-0">
-            <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">Don't You Think You've Done Enough</h2>
+            <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">For when you're really sorry, but not sorry really</h2>
             <p className="mt-6 text-lg leading-8 text-gray-300">
-              Help us help you help them
+              Put the I in apologize
             </p>
           </div>
         </div>

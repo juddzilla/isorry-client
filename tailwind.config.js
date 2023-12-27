@@ -9,6 +9,15 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
+      keyframes: {
+        'blinking-bg': {
+            '0%, 100%': { backgroundColor: '#ef4444' },
+            '50%': { backgroundColor: '#fee2e2' },
+        }
+      },
+      animation: {
+          'blinking-bg': 'blinking-bg 3s ease-in-out infinite',
+      }
     },
   
   },

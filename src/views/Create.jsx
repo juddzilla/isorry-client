@@ -1,8 +1,20 @@
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+
+import { Fragment, useRef, useState } from 'react'
+import { Dialog, RadioGroup, Transition } from '@headlessui/react';
+import { CheckIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
+
+import Grimacing from '../images/emoji/grimacing-face_1f62c.png';
+import Neutral from '../images/emoji/neutral-face_1f610.png';
+import Smirking from '../images/emoji/smirking-face_1f60f.png';
+import Unamused from '../images/emoji/unamused-face_1f612.png';
+import Weary from '../images/emoji/weary-face_1f629.png';
+import WithoutMouth from '../images/emoji/face-without-mouth_1f636.png';
+import Woozy from '../images/emoji/woozy-face_1f974.png';
 
 import Heading from './Create/Heading';
+import Collection, { classNames } from './Create/Collection';
 
-const rangeClassList = `w-full bg-transparent cursor-pointer appearance-none disabled:opacity-50 disabled:pointer-events-none focus:outline-none
+const rangeClassList = `w-full bg-transparent cursor-pointer appearance-none mx-4 disabled:opacity-50 disabled:pointer-events-none focus:outline-none
 [&::-webkit-slider-thumb]:w-2.5
 [&::-webkit-slider-thumb]:h-2.5
 [&::-webkit-slider-thumb]:-mt-0.5
@@ -38,233 +50,60 @@ const rangeClassList = `w-full bg-transparent cursor-pointer appearance-none dis
 [&::-moz-range-track]:rounded-full`;
 
 const Component = () => {
-    return (
-        <>
-            <Heading />
-            <div className="bg-gray-100 py-24 sm:py-32">
-                <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                    <div className="space-y-10 divide-y divide-gray-900/10">
-                        <div className="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-3">
-                            <div className="px-4 sm:px-0">
-                                <h2 className="text-base font-semibold leading-7 text-gray-900">Context</h2>
-                                <p className="mt-1 text-sm leading-6 text-gray-600">
-                                    This information will be displayed publicly so be careful what you share.
-                                </p>
-                            </div>
 
-                            <form className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
-                                <div className="px-4 py-6 sm:p-8">
-                                    <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                        <div className="col-span-full">
-                                            <label htmlFor="about" className="block text-sm font-medium leading-6 text-gray-900">
-                                                What Had Happened Was
-                                            </label>
-                                            <div className="mt-2">
-                                                <textarea
-                                                    id="about"
-                                                    name="about"
-                                                    rows={3}
-                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                                    defaultValue={''}
-                                                />
-                                            </div>
-                                            <p className="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
-                                        </div>
 
-                                        <div className="col-span-full">
-                                            <label htmlFor="about" className="block text-sm font-medium leading-6 text-gray-900">
-                                                And For Context
-                                            </label>
-                                            <div className="mt-2">
-                                                <textarea
-                                                    id="about"
-                                                    name="about"
-                                                    rows={3}
-                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                                    defaultValue={''}
-                                                />
-                                            </div>
-                                            <p className="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+    const actions = (current) => {
 
-                        <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
-                            <div className="px-4 sm:px-0">
-                                <h2 className="text-base font-semibold leading-7 text-gray-900">Your Feelings</h2>
-                                <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
-                            </div>
+    };
+    const [form, setForm] = useState({
+        reason: '',
+        selfFeeling: '',
+        selfFault: '',
+        remorse: '',
+        empathy: '',
+        type: '',
+    });
+    const [open, setOpen] = useState(true);
 
-                            <form className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
-                                <div className="px-4 py-6 sm:p-8">
-                                    <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                        <div className="sm:col-span-8">
-                                            <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
-                                                How Do You Feel About It?
-                                            </label>
-                                            <div className="mt-2">
-                                                <input type="range" className={ rangeClassList } id="basic-range-slider-usage" />
-                                            </div>
-                                        </div>
+    
+    const [stage, setStage] = useState('reason');
 
-                                        <div className="sm:col-span-8">
-                                            <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
-                                                Was It Your Fault?
-                                            </label>
-                                            <div className="mt-2">
+    const cancelButtonRef = useRef(null);
 
-                                                <input type="range" className={ rangeClassList } id="basic-range-slider-usage" />
-                                            </div>
-                                        </div>
 
-                                        <div className="sm:col-span-8">
-                                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                                                Remorse
-                                            </label>
-                                            <div className="mt-2">
-                                                <label for="basic-range-slider-usage" class="sr-only">Example range</label>
-                                                <input type="range" className={ rangeClassList } id="basic-range-slider-usage" />
-                                            </div>
-                                        </div>
-
-                                        <div className="sm:col-span-8">
-                                            <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
-                                                Empathy
-                                            </label>
-                                            <div className="mt-2">
-                                                <label for="basic-range-slider-usage" class="sr-only">Example range</label>
-                                                <input type="range" className={ rangeClassList } id="basic-range-slider-usage" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
-                            <div className="px-4 sm:px-0">
-                                <h2 className="text-base font-semibold leading-7 text-gray-900">Their Feelings</h2>
-                                <p className="mt-1 text-sm leading-6 text-gray-600">
-                                    We'll always let you know about important changes, but you pick what else you want to hear about.
-                                </p>
-                            </div>
-
-                            <form className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
-                                <div className="px-4 py-6 sm:p-8">
-                                    <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                        <div className="sm:col-span-8">
-                                            <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
-                                                How Did They Feel When It Happened?
-                                            </label>
-                                            <div className="mt-2">
-                                                <input type="range" className={ rangeClassList } id="basic-range-slider-usage" />
-                                            </div>
-                                        </div>
-
-                                        <div className="sm:col-span-8">
-                                            <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
-                                                How Do They Feel Now?
-                                            </label>
-                                            <div className="mt-2">
-
-                                                <input type="range" className={ rangeClassList } id="basic-range-slider-usage" />
-                                            </div>
-                                        </div>
-
-                                        <div className="sm:col-span-8">
-                                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                                                Do They Have The Right To Feel That Way?
-                                            </label>
-                                            <div className="mt-2">
-                                                <label for="basic-range-slider-usage" class="sr-only">Example range</label>
-                                                <input type="range" className={ rangeClassList } id="basic-range-slider-usage" />
-                                            </div>
-                                        </div>                                        
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
-                            <div className="px-4 sm:px-0">
-                                <h2 className="text-base font-semibold leading-7 text-gray-900">Commitment To Change</h2>
-                                <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
-                            </div>
-
-                            <form className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
-                                <div className="px-4 py-6 sm:p-8">
-                                    <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                        <div className="sm:col-span-3">
-                                            <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
-                                                Are You Willing To Change?
-                                            </label>
-                                            <div className="mt-2">
-                                                <input
-                                                    type="text"
-                                                    name="first-name"
-                                                    id="first-name"
-                                                    autoComplete="given-name"
-                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="sm:col-span-3">
-                                            <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
-                                                Will You Change?
-                                            </label>
-                                            <div className="mt-2">
-                                                <input
-                                                    type="text"
-                                                    name="last-name"
-                                                    id="last-name"
-                                                    autoComplete="family-name"
-                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="sm:col-span-4">
-                                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                                                What You Will Do
-                                            </label>
-                                            <div className="mt-2">
-                                                <input
-                                                    id="email"
-                                                    name="email"
-                                                    type="email"
-                                                    autoComplete="email"
-                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="sm:col-span-4">
-                                            <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
-                                                When You Will Change
-                                            </label>
-                                            <div className="mt-2">
-                                                <select
-                                                    id="country"
-                                                    name="country"
-                                                    autoComplete="country-name"
-                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                                                >
-                                                    <option>United States</option>
-                                                    <option>Canada</option>
-                                                    <option>Mexico</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+    const Scale = (key) => {
+        console.log(Array(5));
+        return (
+            <div className="isolate inline-flex rounded-md shadow-sm">
+                <RadioGroup value={form[key]} onChange={(value) => { setForm({ ...form, [key]: value }) }} className="mt-2">
+                    <RadioGroup.Label className="sr-only">Choose a memory option</RadioGroup.Label>
+                    <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+                        {[...Array(5)].map((e, i, a) => (
+                            <RadioGroup.Option
+                                key={i}
+                                value={i + 1}
+                                className={({ active, checked }) => classNames(
+                                    active ? 'ring-2 ring-indigo-600 ring-offset-2' : '',
+                                    checked
+                                        ? 'bg-indigo-600 text-white hover:bg-indigo-500'
+                                        : 'ring-1 ring-inset ring-gray-300 bg-white text-gray-900 hover:bg-gray-50',
+                                    'flex items-center justify-center rounded-md py-2 px-2 text-sm font-semibold uppercase sm:flex-1'
+                                )}
+                            >
+                                <RadioGroup.Label as="span" className='flex flex-col justify-center items-center'>
+                                    <span>{i + 1}</span>
+                                </RadioGroup.Label>
+                            </RadioGroup.Option>
+                        ))}
                     </div>
-                </div>
+                </RadioGroup>
             </div>
+        );
+    }
+    return (
+        <>        
+            <Collection />
+            <Heading />
         </>
 
     )
