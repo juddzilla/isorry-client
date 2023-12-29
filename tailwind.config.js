@@ -11,12 +11,16 @@ module.exports = {
       },
       keyframes: {
         'blinking-bg': {
-            '0%, 100%': { backgroundColor: '#ef4444' },
-            '50%': { backgroundColor: '#fee2e2' },
+            '0%, 100%': { backgroundColor: 'rgb(34,127,234)' },
+            '50%': { backgroundColor: 'rgb(192,211,238)' },
         }
       },
       animation: {
           'blinking-bg': 'blinking-bg 3s ease-in-out infinite',
+      },
+      colors: {
+        primary: 'rgb(34,127,234)',
+        secondary: 'rgb(192,211,238)'
       }
     },
   
@@ -25,5 +29,8 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('preline/plugin'),
   ],
+  safelist: [{
+    pattern: /(bg|text|border|fill)-(primary|secondary)/
+  }],
 }
 

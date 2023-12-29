@@ -1,23 +1,21 @@
 
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { Dialog, RadioGroup, Transition } from '@headlessui/react';
-import { CheckIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { Dialog, Transition } from '@headlessui/react';
 
+import Angel from '../../images/emoji/smiling-face-with-halo_1f607.png';
+import Devil from '../../images/emoji/smiling-face-with-horns_1f608.png';
 import Diagonal from '../../images/emoji/face-with-diagonal-mouth_1fae4.png';
-import Grimacing from '../../images/emoji/grimacing-face_1f62c.png';
-import Neutral from '../../images/emoji/neutral-face_1f610.png';
-import Smirking from '../../images/emoji/smirking-face_1f60f.png';
-import Unamused from '../../images/emoji/unamused-face_1f612.png';
-import Weary from '../../images/emoji/weary-face_1f629.png';
-import WithoutMouth from '../../images/emoji/face-without-mouth_1f636.png';
-import Woozy from '../../images/emoji/woozy-face_1f974.png';
+import Pleading from '../../images/emoji/pleading-face_1f97a.png';
 
+import Bool from './Collection/Bool';
+import Feelings from './Collection/Feelings';
 import Generating from './Collection/Generating';
 import NoApology from './Collection/NoApology';
 import Reason from './Collection/Reason';
-import Type from './Collection/Type';
-import Feelings from './Collection/Feelings';
 import Scale from './Collection/Scale';
+import Type from './Collection/Type';
+import WillDo from './Collection/WillDo';
+import WhenChange from './Collection/WhenChange';
 
 export const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ')
@@ -54,7 +52,7 @@ export default () => {
     }
 
     function updateType() {
-        if (type === '0') {
+        if (type === '0%') {
             updateSteps('noApology');
         } else {
             updateSteps(ordered[0]);
@@ -71,7 +69,6 @@ export default () => {
 
     const ordered = [
         'yourFeeling',
-        // 'yourFault',
         'yourRemorse',
         'yourEmpthay',
         'theirFeelings',
@@ -100,6 +97,26 @@ export default () => {
             console.log('FORM', form);
         }, 2000);
     };
+
+    const remorseOptions = [
+        'Negligible',
+        'Limited',
+        'Partial',
+        'Genuine',
+        'Sincere',
+        'Profound',
+        'Overwhelming',
+    ];
+
+    const empathyOptions = [
+        'Limited',
+        'Partial',
+        'Basic',
+        'Moderate',
+        'High',
+        'Deep',
+        'Exceptional'
+    ];
 
     const stepTemplates = {
         reason: {
@@ -131,7 +148,7 @@ export default () => {
         noApology: {
             body: NoApology.bind(null, { value: form.noApology, onChange: updateForm.bind(null, 'noApology')}),
             description: 'Designed to manipulate or deflect responsibility rather than genuinely express remorse. ',
-            title: 'Fake Apologies',
+            title: 'How would you like to frame your apology?',
         },
         generating: {
             body: Generating,
@@ -143,73 +160,62 @@ export default () => {
             description: '',
             title: 'How Are You Feeling?',
         },
-        // yourFault: {
-        //     body: Scale.bind(null, { value: form.yourFault, onClick: updateForm.bind(null, 'yourFault')}),
-        //     description: 'sfsf',
-        //     title: 'How Much is you fault?',
-        // },
         yourRemorse: {
-            body: Scale.bind(null, { value: form.yourRemorse, onClick: updateForm.bind(null, 'yourRemorse')}),
-            description: '1 is remorseless, 7 is so remoreseful. So remorseful.',
-            title: 'Rate your REMORSE',
+            body: Scale.bind(null, { options: remorseOptions, value: form.yourRemorse, onClick: updateForm.bind(null, 'yourRemorse')}),
+            description: '',
+            title: 'Estimate your level of REMORSE',
         },
         yourEmpthay: {
-            body: Scale.bind(null, { value: form.yourEmpthay, onClick: updateForm.bind(null, 'yourEmpthay')}),
-            description: "1 is you're in  empathy deficit, 7 is you have an empathy surplus.",
-            title: 'Rate your EMPATHY',
+            body: Scale.bind(null, { options: empathyOptions, value: form.yourEmpthay, onClick: updateForm.bind(null, 'yourEmpthay')}),
+            description: '',
+            title: 'Estimate your level of EMPATHY',
         },
         theirFeelings: {
             body: Feelings.bind(null, { value: form.theirFeelings, onClick: updateForm.bind(null, 'theirFeelings')}),
-            description: '',
-            title: 'How Do You They Feel?',
+            description: 'The outside is a reflection of the inside',
+            title: 'How Do You Think They Felt?',
         },
         theirRightFeel: {
-            body: Feelings.bind(null, { value: form.theirRightFeel, onClick: updateForm.bind(null, 'theirRightFeel')}),
-            description: 'sfsf',
-            title: 'Do they have the right to feel that way?',
+            body: Bool.bind(null, { value: form.theirRightFeel, onClick: updateForm.bind(null, 'theirRightFeel')}),
+            description: 'Did they properly navigate the seas of emtion?',
+            title: 'Was their response proportionate to the event?',
         },
         willingToChange: {
-            body: Scale.bind(null, { value: form.willingToChange, onClick: updateForm.bind(null, 'willingToChange')}),
-            description: 'sfsf',
-            title: 'Are you willing to change?',
+            body: Bool.bind(null, { value: form.willingToChange, onClick: updateForm.bind(null, 'willingToChange')}),
+            description: 'Facilitation of growth',
+            title: 'Do You Want To Change?',
         },
         willChange: {
-            body: Scale.bind(null, { value: form.willChange, onClick: updateForm.bind(null, 'willChange')}),
-            description: 'sfsf',
-            title: 'Will you change?',
+            body: Bool.bind(null, { value: form.willChange, onClick: updateForm.bind(null, 'willChange')}),
+            description: 'Facilitation of reconciliation',
+            title: 'Are You Willing To Change?',
         },
         willDo: {
-            body: Scale.bind(null, { value: form.willDo, onClick: updateForm.bind(null, 'willDo')}),
-            description: 'sfsf',
-            title: 'What will you do?',
+            body: WillDo.bind(null, { value: form.willDo, onChange: updateForm.bind(null, 'willDo')}),
+            description: 'To ensure this does not happen ever again',
+            title: 'What Changes Will You Implement?',
         },
         whenChange: {
-            body: Scale.bind(null, { value: form.whenChange, onClick: updateForm.bind(null, 'whenChange')}),
-            description: 'sfsf',
-            title: 'When will you change?',
+            body: WhenChange.bind(null, { value: form.whenChange, onChange: updateForm.bind(null, 'whenChange')}),
+            description: 'Let them know a rough timeline on when they can expect a new and improved you',
+            title: 'When Can They Expect To See Results?',
         },
         
     };
 
-    const toTypeChoice = () => {
-        if (getCurrentStep() !== 'reason') {
-            return null;
-        }
-        const disabled = !reason.trim().length;
-
-        const onClick = () => {
-            updateSteps('type');
+    const icon = () => {
+        const mapping = {
+            '0%': Devil,
+            '50%': Pleading,
+            '100%': Angel,
         };
+        console.log('icon type', type);
 
-        return (                        
-            <button
-                disabled={disabled}
-                type="button"
-                className="disabled:bg-gray-200 inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2"
-                onClick={onClick}
-            >
-                Next
-            </button>
+        const src = mapping[type] || Diagonal;
+        return (
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full">
+                <img src={src} className="h-12 w-12 text-green-600" aria-hidden="true" />
+            </div>
         );
     };
 
@@ -226,7 +232,7 @@ export default () => {
         return (                        
             <button
                 type="button"
-                className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
+                className="w-full sm:w-fit mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 border border-primary/90 hover:border-primary text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:col-start-1 sm:mt-0"
                 onClick={onClick}
             >
                 Previous
@@ -234,8 +240,7 @@ export default () => {
         );
     };
 
-    const current = stepTemplates[getCurrentStep()];
-
+    
     const progress = () => {
         const currentStep = getCurrentStep();
 
@@ -246,16 +251,45 @@ export default () => {
             generating: '100%',
         };
 
-        if (Object.hasOwn(mapping, currentStep)) {
-            return mapping[currentStep];
+        let percentage = mapping[currentStep];
+
+        if (!percentage) {
+            const currentOrderIndex = ordered.indexOf(currentStep);
+            const percentageOfOrdered = (currentOrderIndex + 1)/ordered.length;
+            const additional = (percentageOfOrdered * 0.74) * 100 + 25;
+            percentage = `${additional}%`;
         }
 
-        const currentOrderIndex = ordered.indexOf(currentStep);
-        const percentageOfOrdered = (currentOrderIndex + 1)/ordered.length;
-        console.log('percentageOfOrdered', percentageOfOrdered);
-        const additional = (percentageOfOrdered * 0.74) * 100 + 25;
-        return `${additional}%`;
+        return (
+            <div className="overflow-hidden rounded-full bg-gray-200">
+                <div className="h-2 rounded-full animate-blinking-bg" style={{ maxWidth: percentage }} />
+            </div>   
+        );        
     };
+
+    const toTypeChoice = () => {
+        if (getCurrentStep() !== 'reason') {
+            return null;
+        }
+        const disabled = !reason.trim().length;
+
+        const onClick = () => {
+            updateSteps('type');
+        };
+
+        return (                        
+            <button
+                disabled={disabled}
+                type="button"
+                className="w-full sm:w-3/12 sm:absolute sm:right-0 disabled:bg-gray-200 inline-flex w-full justify-center rounded-md bg-primary/90 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:col-start-2"
+                onClick={onClick}
+            >
+                Next
+            </button>
+        );
+    };
+
+    const current = stepTemplates[getCurrentStep()];
 
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -285,9 +319,7 @@ export default () => {
                     >
                     <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg md:max-w-3xl sm:p-6">                                                
                         <div>
-                            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full">
-                                <img src={ Diagonal } className="h-12 w-12 text-green-600" aria-hidden="true" />
-                            </div>
+                            { icon() }
                         </div>
 
                         <div>
@@ -302,15 +334,13 @@ export default () => {
                             </div>
                         </div>
 
-                        <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+                        <div className="mt-5 sm:flex relative h-8">
                          { toTypeChoice() }
                          { previous() }                    
                         </div>
 
                         <div className="mt-6" aria-hidden="true">
-                            <div className="overflow-hidden rounded-full bg-gray-200">
-                                <div className="h-2 rounded-full animate-blinking-bg" style={{ width: progress() }} />
-                            </div>                            
+                            { progress() }                         
                         </div>
                     </Dialog.Panel>
                     </Transition.Child>

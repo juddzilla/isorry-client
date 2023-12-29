@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import App from './App.jsx';
 import Anatomy from './views/Anatomy.jsx';
+import Attributions from './views/Attributions.jsx';
 import Contact from './views/Contact.jsx';
 import Create from './views/Create.jsx';
 import Detail from './views/Detail.jsx';
@@ -15,6 +16,7 @@ const routes = {
   element: <App />,
   children: [
     Anatomy,
+    Attributions,
     Contact,
     Create,
     Detail,

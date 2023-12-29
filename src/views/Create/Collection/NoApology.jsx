@@ -48,10 +48,6 @@ export default ({ value, onChange }) => {
 
     return (
       <RadioGroup value={value} onChange={onChange}>
-        <RadioGroup.Label className="text-base font-semibold leading-6 text-gray-900">
-          How would you like to frame your apology?
-        </RadioGroup.Label>
-      
         <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4">
           {types.map((type) => (
             <RadioGroup.Option
@@ -59,8 +55,8 @@ export default ({ value, onChange }) => {
               value={type.name}
                 className={({ active }) =>
                     classNames(
-                      active ? 'border-indigo-600 ring-2 ring-indigo-600' : 'border-gray-300',
-                      'relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none'
+                      active ? 'border-primary ring-2 ring-secondary' : 'border-gray-300',
+                      'relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none  hover:border-primary hover:shadow-xl'
                     )
                   }
                 >
@@ -81,13 +77,13 @@ export default ({ value, onChange }) => {
                         </span>
                       </span>
                       <CheckCircleIcon
-                        className={classNames(!checked ? 'invisible' : '', 'h-5 w-5 text-indigo-600')}
+                        className={classNames(!checked ? 'invisible' : '', 'h-5 w-5 text-primary')}
                         aria-hidden="true"
                       />
                       <span
                         className={classNames(
                           active ? 'border' : 'border-2',
-                          checked ? 'border-indigo-600' : 'border-transparent',
+                          checked ? 'border-primary' : 'border-transparent',
                           'pointer-events-none absolute -inset-px rounded-lg'
                         )}
                         aria-hidden="true"

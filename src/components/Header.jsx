@@ -1,7 +1,9 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { PlusIcon } from '@heroicons/react/20/solid'
+import { PlusIcon } from '@heroicons/react/20/solid';
+
+import Logo from '../images/noun-tilde-1125364.svg';
 
 const user = {
   name: 'Tom Cook',
@@ -11,7 +13,7 @@ const user = {
 }
 const navigation = [
   { name: 'Apology Anatomy', href: '/anatomy', current: true },
-  { name: 'So Sorry, Not', href: '#', current: false },
+  { name: 'Sorry Not Sorry', href: '#', current: false },
 ]
 
 const userNavigation = [
@@ -26,7 +28,7 @@ function classNames(...classes) {
 
 export default function Example() {
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-secondary">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -46,9 +48,9 @@ export default function Example() {
                 </div>
                 <div className="flex flex-shrink-0 items-center">
                   <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
+                    className="h-10 w-auto"
+                    src={Logo}
+                    alt="iSorry.lol"
                   />
                 </div>
                 <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
@@ -69,13 +71,13 @@ export default function Example() {
               </div>
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <button
-                    type="button"
-                    className="relative inline-flex items-center gap-x-1.5 rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                  <a
+                    href='/create'
+                    className="relative inline-flex items-center gap-x-1.5 rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                   >
                     <PlusIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" />
                     Apologize
-                  </button>
+                  </a>
                 </div>
                 <div className="hidden md:ml-4 md:flex md:flex-shrink-0 md:items-center">
                   <button

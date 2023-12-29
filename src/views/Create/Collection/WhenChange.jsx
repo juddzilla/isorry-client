@@ -5,17 +5,17 @@ import { CheckIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
 export default ({ value, onChange }) => {
     const types = [
         {
-            description: "to make sure it doesn't happen again",
-            name: 'Everything You Can',
+            description: "I'll be a different person",
+            name: 'Before They Know It',
         },
         {
-            description: 'to never do it again',
-            name: 'Your Best',
+            description: "I already feel like an entire new person",
+            name: 'Immediately',
         },
         {
-            description: "aka thoughts and prayers",
-            name: 'Positive Thinking and Meditation',
-        },        
+            description: "I'll be a whole new person",
+            name: 'Tomorrow',
+        },
     ];
 
     return (
@@ -41,7 +41,7 @@ export default ({ value, onChange }) => {
                           </RadioGroup.Label>
                           <RadioGroup.Description as="span" className="mt-1 flex items-center text-sm text-gray-500">
                             {type.description}
-                          </RadioGroup.Description>                          
+                          </RadioGroup.Description>
                         </span>
                       </span>
                       <CheckCircleIcon

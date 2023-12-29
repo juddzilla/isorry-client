@@ -1,4 +1,4 @@
-import { Dialog, RadioGroup, Transition } from '@headlessui/react';
+import { RadioGroup } from '@headlessui/react';
 import { classNames } from '../Collection';
 
 import Grimacing from '../../../images/emoji/grimacing-face_1f62c.png';
@@ -52,8 +52,7 @@ export default ({ value, onClick, onChange }) => {
             <div className="rounded-md">
                 <RadioGroup value={value} className="mt-2">
                     <RadioGroup.Label className="sr-only">Choose a memory option</RadioGroup.Label>
-                    <div className="md:flex md:justify-between">
-                    {/* <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4"> */}
+                    <div className="md:flex md:justify-between">                
                         {emotions.map((option) => (
                             <RadioGroup.Option
                                 key={option.display}
@@ -62,23 +61,18 @@ export default ({ value, onClick, onChange }) => {
                                 value={option.display}
                                 className={({ active, checked }) =>
                                     classNames(
-                                        active ? 'ring-2 ring-indigo-600 ring-offset-2' : '',
                                         checked
-                                            ? 'bg-indigo-600 text-white hover:bg-indigo-500'
-                                            : 'ring-1 ring-inset ring-gray-300 bg-white text-gray-900 hover:bg-gray-50',
-                                        'group-option flex flex-col items-center justify-center rounded-md py-4 px-2 text-sm font-semibold uppercase sm:flex-1 mr-2 last:mr-0'
+                                            ? 'text-white hover:bg-secondary border-primary'
+                                            : 'ring-1 ring-inset ring-gray-300 bg-white text-gray-900 hover:bg-gray-50 border-transparent',
+                                        'group-option cursor-pointer flex flex-col items-center border justify-center rounded-md py-4 px-2 text-sm font-semibold uppercase sm:flex-1 mr-2 last:mr-0 hover:border-primary hover:shadow-xl'
                                     )
                                 }
                             >
                                 <span className="flex flex-1">
                                     <span className="flex flex-col">
                                         <RadioGroup.Label as="span" className='flex flex-col justify-center items-center'>
-                                            <img src={option.icon} className="h-8 w-8" aria-hidden="true" />
-                                            {/* <span>{option.display}</span> */}
+                                            <img src={option.icon} className="h-8 w-8" aria-hidden="true" />                                            
                                         </RadioGroup.Label>
-                                        {/* <RadioGroup.Description as="span" className="mt-2 flex items-center text-sm text-gray-500">
-                                            type.description
-                                        </RadioGroup.Description> */}
                                     </span>
                                 </span>
                             </RadioGroup.Option>
