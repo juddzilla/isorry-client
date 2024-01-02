@@ -1,5 +1,5 @@
 
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 
 import Angel from '../../images/emoji/smiling-face-with-halo_1f607.png';
@@ -21,9 +21,8 @@ export const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ')
 };
 
-export default () => {
+export default ({open, setApology, setOpen}) => {
     const initialStage = 'reason';
-    const [open, setOpen] = useState(true);
     const [reason, setReason] = useState('');
     const [type, setType] = useState('');
     const [steps, setSteps] = useState([initialStage]);
@@ -49,10 +48,13 @@ export default () => {
 
     function updateSteps(nextStep) {
         setSteps([...steps, nextStep]);
+        if (nextStep === 'generating') {
+            console.log('g form', form, reason, type, );
+        }
     }
 
     function updateType() {
-        if (type === '0%') {
+        if (type === 'None') {
             updateSteps('noApology');
         } else {
             updateSteps(ordered[0]);
@@ -80,8 +82,9 @@ export default () => {
     ];
     
     const updateForm = (key, newValue) => {
-        console.log('key', key, newValue);
-        setForm({...form, [key]: newValue});
+        const newForm = {...form, [key]: newValue};
+        console.log('newForm', newForm);
+        setForm(newForm);
 
         const currentStep = getCurrentStep();
         let nextStep = '';
@@ -92,10 +95,6 @@ export default () => {
             nextStep = ordered[currentIndex + 1];
         }
         updateSteps(nextStep);
-
-        setTimeout(() => {
-            console.log('FORM', form);
-        }, 2000);
     };
 
     const remorseOptions = [
@@ -205,11 +204,10 @@ export default () => {
 
     const icon = () => {
         const mapping = {
-            '0%': Devil,
-            '50%': Pleading,
-            '100%': Angel,
+            'None': Devil,
+            'Half': Pleading,
+            'Full': Angel,
         };
-        console.log('icon type', type);
 
         const src = mapping[type] || Diagonal;
         return (

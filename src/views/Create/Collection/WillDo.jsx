@@ -1,6 +1,5 @@
-import { Dialog, RadioGroup, Transition } from '@headlessui/react';
+import { RadioGroup } from '@headlessui/react';
 import { classNames } from '../Collection';
-import { CheckIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
 
 export default ({ value, onChange }) => {
     const types = [
@@ -44,10 +43,6 @@ export default ({ value, onChange }) => {
                           </RadioGroup.Description>                          
                         </span>
                       </span>
-                      <CheckCircleIcon
-                        className={classNames(!checked ? 'invisible' : '', 'h-5 w-5 text-primary')}
-                        aria-hidden="true"
-                      />
                       <span
                         className={classNames(
                           active ? 'border' : 'border-2',
