@@ -44,12 +44,34 @@ export default ({open, setApology, setOpen}) => {
         whenChange: '',
     });
 
+    const API = document.querySelector("meta[name='api']").getAttribute("content");
+    console.log('API', API);
+
+
     const cancelButtonRef = useRef(null);
 
     function updateSteps(nextStep) {
         setSteps([...steps, nextStep]);
         if (nextStep === 'generating') {
             console.log('g form', form, reason, type, );
+            const data = {
+                reason,
+                type,
+                parameters: form,
+            };
+            fetch(`${API}/apology/`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                  },
+                body: JSON.stringify(data),
+            })
+            .then(res => {
+                console.log('POST RES', res);
+            })
+            .catch(err => {
+                console.log('POST CATCH', err);
+            })
         }
     }
 
