@@ -8,7 +8,7 @@ const Component = () => {
 
 const Route = {
     element: <Component />,
-    path: "/detail",
+    path: "/sorry/:id",
 };
   
 export default Route;

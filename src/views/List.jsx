@@ -8,7 +8,7 @@ const Component = () => {
 
 const Route = {
     element: <Component />,
-    path: "/list",
+    path: "/sorries",
 };
   
 export default Route;
