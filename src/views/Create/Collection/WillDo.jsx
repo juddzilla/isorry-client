@@ -5,11 +5,11 @@ export default ({ value, onChange }) => {
     const types = [
         {
             description: "to make sure it doesn't happen again",
-            name: 'Everything You Can',
+            name: 'Everything I Can',
         },
         {
             description: 'to never do it again',
-            name: 'Your Best',
+            name: 'My Best',
         },
         {
             description: "aka thoughts and prayers",

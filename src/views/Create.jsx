@@ -1,5 +1,6 @@
 
 import { Fragment, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Heading from './Create/Heading';
 import Collection, { classNames } from './Create/Collection';
 import Empty from './Create/Empty';
@@ -27,7 +28,7 @@ const Component = () => {
 
 const Route = {
     element: <Component />,
-    path: "/create",
+    path: "/apologize",
 };
 
 export default Route;

@@ -1,6 +1,6 @@
-import { Dialog, RadioGroup, Transition } from '@headlessui/react';
+import { RadioGroup } from '@headlessui/react';
 import { classNames } from '../Collection';
-import { CheckIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
+import { CheckCircleIcon } from '@heroicons/react/24/outline'
 
 export default ({ value, onChange }) => {
     const types = [

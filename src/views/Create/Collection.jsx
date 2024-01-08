@@ -1,5 +1,6 @@
 
 import { Fragment, useEffect, useRef, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { Dialog, Transition } from '@headlessui/react';
 
 import Angel from '../../images/emoji/smiling-face-with-halo_1f607.png';
@@ -33,9 +34,8 @@ export default ({open, setApology, setOpen}) => {
         noApology: '',
 
         yourFeeling: '',
-        yourFault: '',
         yourRemorse: '',
-        yourEmpthay: '',
+        yourEmpathy: '',
         theirFeelings: '',
         theirRightFeel: '',
         willingToChange: '',
@@ -43,36 +43,44 @@ export default ({open, setApology, setOpen}) => {
         willDo: '',
         whenChange: '',
     });
+    const navigate = useNavigate();
 
     const API = document.querySelector("meta[name='api']").getAttribute("content");
-    console.log('API', API);
-
 
     const cancelButtonRef = useRef(null);
 
     function updateSteps(nextStep) {
-        setSteps([...steps, nextStep]);
-        if (nextStep === 'generating') {
-            console.log('g form', form, reason, type, );
-            const data = {
-                reason,
-                type,
-                parameters: form,
-            };
-            fetch(`${API}/apology/`, {
+        setSteps([...steps, nextStep]);        
+    }
+
+    function submit(parameters) {
+        const data = {
+            reason,
+            type,
+            parameters,
+        };
+
+        async function getApology() {
+            const url = `${API}/apologize/`;
+            const res = await fetch(url, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                   },
                 body: JSON.stringify(data),
-            })
-            .then(res => {
-                console.log('POST RES', res);
-            })
-            .catch(err => {
-                console.log('POST CATCH', err);
-            })
+            });
+            return res.json();
         }
+
+
+        getApology().then(res => {
+            if (res.uuid) {
+                navigate(`/apology/${res.uuid}`);
+            }
+        })
+        .catch(err => {
+            console.log('POST CATCH', err);
+        });
     }
 
     function updateType() {
@@ -94,7 +102,7 @@ export default ({open, setApology, setOpen}) => {
     const ordered = [
         'yourFeeling',
         'yourRemorse',
-        'yourEmpthay',
+        'yourEmpathy',
         'theirFeelings',
         'theirRightFeel',
         'willingToChange',
@@ -104,10 +112,6 @@ export default ({open, setApology, setOpen}) => {
     ];
     
     const updateForm = (key, newValue) => {
-        const newForm = {...form, [key]: newValue};
-        console.log('newForm', newForm);
-        setForm(newForm);
-
         const currentStep = getCurrentStep();
         let nextStep = '';
         if (['noApology', ordered[ordered.length - 1]].includes(currentStep)) {
@@ -117,6 +121,14 @@ export default ({open, setApology, setOpen}) => {
             nextStep = ordered[currentIndex + 1];
         }
         updateSteps(nextStep);
+        
+        const newForm = {...form, [key]: newValue};
+        
+        setForm(newForm);
+
+        if (nextStep === 'generating') {
+            submit(newForm);
+        }
     };
 
     const remorseOptions = [
@@ -186,8 +198,8 @@ export default ({open, setApology, setOpen}) => {
             description: '',
             title: 'Estimate your level of REMORSE',
         },
-        yourEmpthay: {
-            body: Scale.bind(null, { options: empathyOptions, value: form.yourEmpthay, onClick: updateForm.bind(null, 'yourEmpthay')}),
+        yourEmpathy: {
+            body: Scale.bind(null, { options: empathyOptions, value: form.yourEmpathy, onClick: updateForm.bind(null, 'yourEmpathy')}),
             description: '',
             title: 'Estimate your level of EMPATHY',
         },
