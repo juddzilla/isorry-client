@@ -39,11 +39,13 @@ export default function Header() {
                   </Disclosure.Button>
                 </div>
                 <div className="flex flex-shrink-0 items-center">
-                  <img
-                    className="h-10 w-auto"
-                    src={Logo}
-                    alt="iSorry.lol"
-                  />
+                  <a href='/'>
+                    <img
+                      className="h-10 w-auto"
+                      src={Logo}
+                      alt="iSorry.lol"
+                    />
+                  </a>
                 </div>
                 <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
                   {navigation.map((item) => (

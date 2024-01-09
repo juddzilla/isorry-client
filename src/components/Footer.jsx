@@ -1,5 +1,6 @@
 export default () => {
     const links = [
+        { name: 'Attributions', href: '/attributions' },
         { name: 'Privacy', href: '/privacy' },
         { name: 'Terms', href: '/terms' },
         { name: 'Contact', href: '/contact' },

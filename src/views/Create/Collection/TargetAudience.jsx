@@ -3,14 +3,23 @@ import { HandThumbDownIcon, HandThumbUpIcon } from '@heroicons/react/24/outline'
 import { RadioGroup } from '@headlessui/react';
 import { classNames } from '../Collection';
 
-export default ({ value, onClick }) => {    
+export default ({ value, onClick }) => {   
+    const targets = [
+        'Family',
+        'Friend',
+        'Coworker',
+        'Neighbor',
+        'Child',
+        'Pet',
+        'Acquaintance',
+        'Other',
+    ] 
     return (
         <div className="rounded-md">
             <RadioGroup value={value} className="mt-2">
                 <RadioGroup.Label className="sr-only">Choose a memory option</RadioGroup.Label>
                 <div className="flex justify-center">
-                    { [true, false].map(opt => {
-                        const Icon = opt ? HandThumbUpIcon : HandThumbDownIcon;
+                    { targets.map(opt => {                        
                         return (
                             <RadioGroup.Option
                                 key={opt}
@@ -23,8 +32,8 @@ export default ({ value, onClick }) => {
                                     'group-option cursor-pointer flex items-center justify-center border rounded-md py-4 px-2 text-sm font-semibold uppercase w-3/12 mr-4 last:mr-0 hover:border-primary hover:shadow-xl'
                                 )}
                             >
-                                <RadioGroup.Label as="span" className='flex flex-col justify-center items-center'>                                
-                                    <Icon className='h-10 w-auto' />
+                                <RadioGroup.Label as="span" className='flex flex-col justify-center items-center text-xs'>                                
+                                    {opt}
                                 </RadioGroup.Label>
                             </RadioGroup.Option>
                         )

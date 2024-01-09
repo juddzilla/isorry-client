@@ -17,12 +17,15 @@ import Scale from './Collection/Scale';
 import Type from './Collection/Type';
 import WillDo from './Collection/WillDo';
 import WhenChange from './Collection/WhenChange';
+import TargetAudience from './Collection/TargetAudience';
+
+import Store from '../../store';
 
 export const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ')
 };
 
-export default ({open, setApology, setOpen}) => {
+export default ({open, setApology, setOpen}) => {    
     const initialStage = 'reason';
     const [reason, setReason] = useState('');
     const [type, setType] = useState('');
@@ -73,6 +76,7 @@ export default ({open, setApology, setOpen}) => {
 
         getApology().then(res => {
             if (res.uuid) {
+                Store.set({ apology: res.message, uuid: res.uuid});
                 navigate(`/apology/${res.uuid}`);
             }
         })
@@ -112,12 +116,12 @@ export default ({open, setApology, setOpen}) => {
         'reason',
         'yourFeeling',
         'theirFeelings',
+        'targetAudience',
         'type',
         'yourRemorse',
         'yourEmpathy',
-        'theirRightFeel',
+        'wantToChange',
         'willingToChange',
-        'willChange',
         'willDo',
         'whenChange',
     ];
@@ -171,8 +175,8 @@ export default ({open, setApology, setOpen}) => {
 
                 setReason(target.value);
             }}),
-            description: 'Let it all go. Hold nothing back. 1000 character limit',
-            title: 'What would you like to apologize for?',
+            description: 'The more context provided, the better apology we can write for you. Let it all go. Hold nothing back (1000 character limit).',
+            title: 'Tell us what happened',
 
         },
         type: {
@@ -189,6 +193,11 @@ export default ({open, setApology, setOpen}) => {
             description: "Are you apologzing for something that wasn't on you? Or maybe y'all should split blame? Or was this all your bad? Be honest.",
             title: 'What percentage of this is your fault?',
         },
+        targetAudience: {
+            body: TargetAudience.bind(null, { value: form.targetAudience, onClick: updateForm.bind(null, 'targetAudience')}),
+            description: 'We will cater your apology for who will be the target audience.',
+            title: 'Who is this apology for?',
+        },
         noApology: {
             body: NoApology.bind(null, { value: form.noApology, onChange: updateForm.bind(null, 'noApology')}),
             description: 'Designed to manipulate or deflect responsibility rather than genuinely express remorse. ',
@@ -196,22 +205,22 @@ export default ({open, setApology, setOpen}) => {
         },
         generating: {
             body: Generating,
-            description: 'This may take a minute',
-            title: 'Generating',
+            description: "",
+            title: 'Creating your personalized apology',
         },
         yourFeeling: {
             body: Feelings.bind(null, { value: form.yourFeeling, onClick: updateForm.bind(null, 'yourFeeling')}),
             description: '',
-            title: 'How Are You Feeling?',
+            title: 'How does make you feel? ',
         },
         yourRemorse: {
             body: Scale.bind(null, { options: remorseOptions, value: form.yourRemorse, onClick: updateForm.bind(null, 'yourRemorse')}),
-            description: '',
+            description: "Regret and sorrow for one's actions",
             title: 'Estimate your level of REMORSE',
         },
         yourEmpathy: {
             body: Scale.bind(null, { options: empathyOptions, value: form.yourEmpathy, onClick: updateForm.bind(null, 'yourEmpathy')}),
-            description: '',
+            description: "Understanding and sharing others' feelings.",
             title: 'Estimate your level of EMPATHY',
         },
         theirFeelings: {
@@ -219,29 +228,24 @@ export default ({open, setApology, setOpen}) => {
             description: 'The outside is a reflection of the inside',
             title: 'How Do You Think They Felt?',
         },
-        theirRightFeel: {
-            body: Bool.bind(null, { value: form.theirRightFeel, onClick: updateForm.bind(null, 'theirRightFeel')}),
-            description: 'Did they properly navigate the seas of emtion?',
-            title: 'Was their response proportionate to the event?',
-        },
-        willingToChange: {
-            body: Bool.bind(null, { value: form.willingToChange, onClick: updateForm.bind(null, 'willingToChange')}),
+        wantToChange: {
+            body: Bool.bind(null, { value: form.wantToChange, onClick: updateForm.bind(null, 'wantToChange')}),
             description: 'Facilitation of growth',
             title: 'Do You Want To Change?',
         },
-        willChange: {
-            body: Bool.bind(null, { value: form.willChange, onClick: updateForm.bind(null, 'willChange')}),
+        willingToChange: {
+            body: Bool.bind(null, { value: form.willingToChange, onClick: updateForm.bind(null, 'willingToChange')}),
             description: 'Facilitation of reconciliation',
             title: 'Are You Willing To Change?',
         },
         willDo: {
             body: WillDo.bind(null, { value: form.willDo, onChange: updateForm.bind(null, 'willDo')}),
-            description: 'To ensure this does not happen ever again',
+            description: 'Ensure this does not happen ever again',
             title: 'What Changes Will You Implement?',
         },
         whenChange: {
             body: WhenChange.bind(null, { value: form.whenChange, onChange: updateForm.bind(null, 'whenChange')}),
-            description: 'Let them know a rough timeline on when they can expect a new and improved you',
+            description: 'Set expectations as to when they can expect a new and improved you',
             title: 'When Can They Expect To See Results?',
         },
         
@@ -263,7 +267,7 @@ export default ({open, setApology, setOpen}) => {
     };
 
     const previous = () => {        
-        if (getCurrentStep() === 'reason') {
+        if (['reason', 'generating'].includes(getCurrentStep())) {
             return null;
         }
 
@@ -314,15 +318,10 @@ export default ({open, setApology, setOpen}) => {
         if (getCurrentStep() !== 'reason') {
             return null;
         }
-        const disabled = !reason.trim().length;
-
-        // const onClick = () => {
-        //     updateSteps('type');        
-        // };
 
         return (                        
             <button
-                disabled={disabled}
+                disabled={!reason.trim().length}
                 type="button"
                 className="w-full sm:w-3/12 sm:absolute sm:right-0 disabled:bg-gray-200 inline-flex w-full justify-center rounded-md bg-primary/90 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:col-start-2"
                 onClick={toNextStep}
@@ -369,7 +368,7 @@ export default ({open, setApology, setOpen}) => {
                             <Dialog.Title as="h3" className="mt-3 text-center text-base font-semibold leading-6 text-gray-900">
                                 { current.title }
                             </Dialog.Title>
-                            <Dialog.Description as="h2" className="mt-2 text-center text-sm text-gray-500">
+                            <Dialog.Description as="h2" className="mt-2 px-32 text-center text-sm text-gray-500">
                                 { current.description }
                             </Dialog.Description>
                             <div className="mt-4">

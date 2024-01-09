@@ -4,6 +4,8 @@ import { Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 
+import Store from '../store';
+
 const Component = () => {
     const [apology, setApology] = useState(null);  
     const [copied, setCopied] = useState(false);  
@@ -12,19 +14,24 @@ const Component = () => {
     const API = document.querySelector("meta[name='api']").getAttribute("content");
 
     useEffect(() => {
-        fetch(`${API}/apology/${uuid}`)
-        .then(res => res.json())
-        .then(res => {
-            // console.log
-            if (res.message) {                
-                setApology(res.message);
-            } else if (res.error) {
-                console.log('RES ERR', res.error);
-            }
-        })
-        .catch(err => {
-            console.log('ERR', err);
-        })
+        const stored = Store.get();
+
+        if (stored.uuid === uuid && stored.apology) {
+            setApology(stored.apology);
+        } else {
+            fetch(`${API}/apology/${uuid}`)
+            .then(res => res.json())
+            .then(res => {
+                if (res.message) {                
+                    setApology(res.message);
+                } else if (res.error) {
+                    console.log('RES ERR', res.error);
+                }
+            })
+            .catch(err => {
+                console.log('ERR', err);
+            })
+        }
     }, [])
 
     async function toClipboard() {

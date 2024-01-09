@@ -1,28 +1,22 @@
-import './App.css';
+import React, { createContext } from 'react';
+import { Outlet } from "react-router-dom";
+
 import Footer from './components/Footer';
 import Header from './components/Header';
-import { Outlet } from "react-router-dom";
+
+import './App.css';
+
+export const ApologyContext = createContext({ uuid: null, apology: null });
+
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <Outlet />
-      <Footer />
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-    </div>
+      <div className="App">
+        <ApologyContext.Provider value={{ uuid: null, apology: null }}>
+          <Header />
+          <Outlet />
+          <Footer />
+        </ApologyContext.Provider>
+      </div>
   );
 }
 

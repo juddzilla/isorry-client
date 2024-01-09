@@ -12,15 +12,9 @@ const Component = () => {
 
     return (
         <>        
-            <Collection open={open} setOpen={setOpen} setApology={setApology} />
-            <Heading />
-            { !open && 
-                apology ? (
-                    <Result apology={apology} />
-                ) : (
-                    <Empty setOpen={setOpen} />
-                )
-            }
+            <Collection open={open} setOpen={setOpen} />
+            <Heading open={open} setOpen={setOpen}/>
+            <Empty />
         </>
 
     )

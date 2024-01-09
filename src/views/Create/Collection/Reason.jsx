@@ -1,7 +1,12 @@
 import { Dialog, RadioGroup, Transition } from '@headlessui/react';
 
 export default ({ onChange, value}) => {
-    const remainingColor = value.length >= 900 ? 'text-red-600' : 'text-black';
+    let remainingColor = 'text-gray-300';
+    
+    if (value.length) {
+        remainingColor = value.length >= 900 ? 'text-red-600' : 'text-gray-900';        
+    }
+    
     return (
         <div className='flex flex-col'>
             <textarea        
@@ -13,7 +18,7 @@ export default ({ onChange, value}) => {
                 value={ value }
                 onChange={ onChange }
             />
-            <span className={`py-1 w-full text-right text-sm ${remainingColor}`}>{value.length}/1000</span>
+            <span className={`py-1 px-2 w-full text-right text-sm ${remainingColor}`}>{value.length}/1000</span>            
         </div>
     );
 }
