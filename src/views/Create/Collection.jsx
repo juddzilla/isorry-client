@@ -28,9 +28,7 @@ export default ({open, setApology, setOpen}) => {
     const [type, setType] = useState('');
     const [steps, setSteps] = useState([initialStage]);
     const [form, setForm] = useState({
-        generating: '',
-        reason: '',
-        type: '',
+        generating: '',        
         noApology: '',
 
         yourFeeling: '',
@@ -83,11 +81,22 @@ export default ({open, setApology, setOpen}) => {
         });
     }
 
+    function toNextStep() {
+        const index = steps.indexOf(getCurrentStep());    
+        const next = ordered[index + 1];
+        if (next) {
+            updateSteps(next);
+        } else {
+            updateSteps('generating');
+        }
+    }
+
     function updateType() {
         if (type === 'None') {
             updateSteps('noApology');
         } else {
-            updateSteps(ordered[0]);
+            const index = ordered.indexOf('type');
+            updateSteps(ordered[index + 1]);
         }
     }
 
@@ -100,10 +109,12 @@ export default ({open, setApology, setOpen}) => {
     const getCurrentStep = () => steps[steps.length - 1];
 
     const ordered = [
+        'reason',
         'yourFeeling',
+        'theirFeelings',
+        'type',
         'yourRemorse',
         'yourEmpathy',
-        'theirFeelings',
         'theirRightFeel',
         'willingToChange',
         'willChange',
@@ -299,22 +310,22 @@ export default ({open, setApology, setOpen}) => {
         );        
     };
 
-    const toTypeChoice = () => {
+    const next = () => {
         if (getCurrentStep() !== 'reason') {
             return null;
         }
         const disabled = !reason.trim().length;
 
-        const onClick = () => {
-            updateSteps('type');
-        };
+        // const onClick = () => {
+        //     updateSteps('type');        
+        // };
 
         return (                        
             <button
                 disabled={disabled}
                 type="button"
                 className="w-full sm:w-3/12 sm:absolute sm:right-0 disabled:bg-gray-200 inline-flex w-full justify-center rounded-md bg-primary/90 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:col-start-2"
-                onClick={onClick}
+                onClick={toNextStep}
             >
                 Next
             </button>
@@ -367,7 +378,7 @@ export default ({open, setApology, setOpen}) => {
                         </div>
 
                         <div className="mt-5 sm:flex relative h-8">
-                         { toTypeChoice() }
+                         { next() }
                          { previous() }                    
                         </div>
 
