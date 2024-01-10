@@ -51,7 +51,7 @@ const faqs = [
         <Hero />
         <div className="bg-gray-900" id="parts">
       <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8">
-        <h2 className="text-2xl font-bold leading-10 tracking-tight text-white">Frequently asked questions</h2>
+        <h2 className="text-2xl font-bold leading-10 tracking-tight text-white">The Components of an Effective Apology</h2>
         <p className="mt-6 max-w-2xl text-base leading-7 text-gray-300">
             Writing an apology effectively requires understanding the context of the situation and the dynamics between you and the other person. To craft a sincere and meaningful apology, answer for yourself some key questions.
         </p>
