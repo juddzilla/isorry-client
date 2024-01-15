@@ -19,7 +19,7 @@ const Component = () => {
         if (stored.uuid === uuid && stored.apology) {
             setApology(stored.apology);
         } else {
-            fetch(`${API}/apology/${uuid}`)
+            fetch(`${API}/apology/${uuid}`, { credentials: 'include', })
             .then(res => res.json())
             .then(res => {
                 if (res.message) {                
@@ -30,7 +30,7 @@ const Component = () => {
             })
             .catch(err => {
                 console.log('ERR', err);
-            })
+            });
         }
     }, [])
 

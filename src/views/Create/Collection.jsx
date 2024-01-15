@@ -64,6 +64,7 @@ export default ({open, setApology, setOpen}) => {
         async function getApology() {
             const url = `${API}/apologize/`;
             const res = await fetch(url, {
+                credentials: 'include',
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",

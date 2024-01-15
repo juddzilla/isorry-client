@@ -10,7 +10,7 @@ export const ApologyContext = createContext({ uuid: null, apology: null });
 
 function App() {
   return (
-      <div className="App">
+      <div className="App h-full flex flex-col">
         <ApologyContext.Provider value={{ uuid: null, apology: null }}>
           <Header />
           <Outlet />

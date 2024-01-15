@@ -5,13 +5,16 @@ import { PlusIcon, UserCircleIcon } from '@heroicons/react/20/solid';
 
 import Logo from '../images/noun-tilde-1125364.svg';
 
+// import store from '../store';
+
 const navigation = [
   { name: 'Apology Anatomy', href: '/anatomy', current: true },
 ]
 
 const userNavigation = [
   { name: 'Your Apologies', href: '/sorries' },
-  { name: 'Sign out', href: '/signout' },
+  { name: 'Login', href: '/login' },
+  { name: 'Log out', href: '/logout' },
 ]
 
 function classNames(...classes) {

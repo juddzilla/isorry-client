@@ -2,11 +2,11 @@ class Store {
     constructor() {
         this.apology = null;
         this.uuid = null;
+        this.loggedIn = false;
     }
 
-    set({ uuid, apology }) {
-        this.apology = apology;
-        this.uuid = uuid;
+    authed() {
+        return this.loggedIn;
     }
 
     get() {
@@ -16,9 +16,23 @@ class Store {
         }
     }
 
+    login() {
+        this.loggedIn = true;
+    }
+
+    logout() {
+        this.loggedIn = false;
+    }
+
     reset() {
         this.apology = null;
         this.uuid = null;
+    }
+
+
+    set({ uuid, apology }) {
+        this.apology = apology;
+        this.uuid = uuid;
     }
 }
 

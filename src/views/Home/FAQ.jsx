@@ -17,7 +17,7 @@ const faqs = [
     {
       question: "Can I use an iSorry.lol generated apology commercially?",
       answer:
-        "Only if ChatGPT's license says you can.  We claim no wonship over what is generated.",
+        "Only if ChatGPT's license says you can.  We claim no ownership over what is generated.",
     },
   ]
   
