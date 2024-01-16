@@ -1,20 +1,14 @@
-import { Fragment } from 'react'
+import { Fragment, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { PlusIcon, UserCircleIcon } from '@heroicons/react/20/solid';
+import { AuthContext } from '../App';
 
 import Logo from '../images/noun-tilde-1125364.svg';
 
-// import store from '../store';
-
 const navigation = [
   { name: 'Apology Anatomy', href: '/anatomy', current: true },
-]
-
-const userNavigation = [
-  { name: 'Your Apologies', href: '/sorries' },
-  { name: 'Login', href: '/login' },
-  { name: 'Log out', href: '/logout' },
 ]
 
 function classNames(...classes) {
@@ -22,6 +16,17 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+  const { auth } = useContext(AuthContext);
+  const userNavigation = [
+    { name: 'Your Apologies', href: '/sorries' },
+  ]
+
+  if (auth) {
+    userNavigation.push({ name: 'Log out', href: '/logout' });
+  } else if (auth === false) {
+    userNavigation.push({ name: 'Login', href: '/login' });
+  }
+
   return (
     <Disclosure as="nav" className="bg-secondary">
       {({ open }) => (
@@ -42,19 +47,19 @@ export default function Header() {
                   </Disclosure.Button>
                 </div>
                 <div className="flex flex-shrink-0 items-center">
-                  <a href='/'>
+                  <Link to='/'>
                     <img
                       className="h-10 w-auto"
                       src={Logo}
                       alt="iSorry.lol"
                     />
-                  </a>
+                  </Link>
                 </div>
                 <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
                   {navigation.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
-                      href={item.href}
+                      to={item.href}
                       className={classNames(
                         item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                         'rounded-md px-3 py-2 text-sm font-medium'
@@ -62,19 +67,19 @@ export default function Header() {
                       aria-current={item.current ? 'page' : undefined}
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <a
-                    href='/apologize'
+                  <Link
+                    to='/apologize'
                     className="relative inline-flex items-center gap-x-1.5 rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                   >
                     <PlusIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" />
                     Go Get It
-                  </a>
+                  </Link>
                 </div>
                 <div className="hidden md:ml-4 md:flex md:flex-shrink-0 md:items-center">
                   {/* Profile dropdown */}
@@ -83,7 +88,6 @@ export default function Header() {
                       <Menu.Button className="relative flex rounded-full bg-secondary text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">Open user menu</span>
-                        {/* <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" /> */}
                         <UserCircleIcon  className="h-10 w-10" />
                       </Menu.Button>
                     </div>
@@ -100,18 +104,18 @@ export default function Header() {
                         {userNavigation.map((item) => (
                           <Menu.Item key={item.name}>
                             {({ active }) => (
-                              <a
-                                href={item.href}
+                              <Link
+                                to={item.href}
                                 className={classNames(
                                   active ? 'bg-gray-100' : '',
                                   'block px-4 py-2 text-sm text-gray-700'
                                 )}
                               >
                                 {item.name}
-                              </a>
+                              </Link>
                             )}
                           </Menu.Item>
-                        ))}
+                        ))}                       
                       </Menu.Items>
                     </Transition>
                   </Menu>

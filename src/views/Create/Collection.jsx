@@ -20,6 +20,7 @@ import WhenChange from './Collection/WhenChange';
 import TargetAudience from './Collection/TargetAudience';
 
 import Store from '../../store';
+import Fetch from '../../fetch';
 
 export const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ')
@@ -61,23 +62,24 @@ export default ({open, setApology, setOpen}) => {
             parameters,
         };
 
-        async function getApology() {
-            const url = `${API}/apologize/`;
-            const res = await fetch(url, {
-                credentials: 'include',
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                  },
-                body: JSON.stringify(data),
-            });
-            return res.json();
+        async function getApology() {            
+            const res = await Fetch.post('apologize/', data);
+            console.log('res', res);
+            return res;
         }
 
 
-        getApology().then(res => {
+        getApology().then(response => {
+            const [err, res] = response;
+            console.log('RESP', res);
             if (res.uuid) {
-                Store.set({ apology: res.message, uuid: res.uuid});
+                Store.set({
+                    createdAt: res.created_at,
+                    message: res.message, 
+                    model: res.model,
+                    reason: res.reason, 
+                    uuid: res.uuid
+                });
                 navigate(`/apology/${res.uuid}`);
             }
         })

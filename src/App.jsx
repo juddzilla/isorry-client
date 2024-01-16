@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, useState } from 'react';
 import { Outlet } from "react-router-dom";
 
 import Footer from './components/Footer';
@@ -6,16 +6,18 @@ import Header from './components/Header';
 
 import './App.css';
 
-export const ApologyContext = createContext({ uuid: null, apology: null });
+export const AuthContext = createContext(false);
 
 function App() {
+  const [auth, setAuth] = useState(null);
+  console.log(111);
   return (
       <div className="App h-full flex flex-col">
-        <ApologyContext.Provider value={{ uuid: null, apology: null }}>
+        <AuthContext.Provider value={{ auth, setAuth }}>
           <Header />
           <Outlet />
           <Footer />
-        </ApologyContext.Provider>
+        </AuthContext.Provider>
       </div>
   );
 }

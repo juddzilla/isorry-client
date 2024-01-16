@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Fetch from '../fetch';
 import { ChevronRightIcon } from '@heroicons/react/20/solid';
 
@@ -7,17 +7,26 @@ import Devil from '../images/emoji/smiling-face-with-horns_1f608.png';
 import Diagonal from '../images/emoji/face-with-diagonal-mouth_1fae4.png';
 import Pleading from '../images/emoji/pleading-face_1f97a.png';
 
+import { AuthContext } from '../App';
+
 const Component = () => {
     const [list, setList] = useState(null);
     const [error, setError] = useState(null);
+    const {auth, setAuth} = useContext(AuthContext);
 
     useEffect(() => {
         Fetch.get('apologize/list')
         .then(res => {
             const [err, apologies] = res;
+            if (err) {
+                console.log('ERR', err);
+                setError(err);
+            } else {
+                console.log('apologies', apologies);
+                setList(apologies);
+                setAuth(true);
+            }
 
-            console.log('resp', apologies);
-            setList(apologies);
         });
     }, [])
 
@@ -36,6 +45,8 @@ const Component = () => {
         );
     };
 
+    const Loading = () => (<div>Loading</div>)
+
 
     return (
         <div className='flex flex-col flex-1'>
@@ -48,36 +59,17 @@ const Component = () => {
                 </div>
             </div>
             <div className="mx-auto max-w-7xl px-4 flex flex-col flex-1 py-8">
-                {
-                    list === null ? (
-                        <div>Loading</div>
-                    ) : (
-                        <div>
+                { error ? (
+                    <div>Login and see your apologies.</div>
+                ) : (
+                    <div>
+                        { list === null ? (
+                            <>{ Loading() }</>
+                        ) : (
+                            <div>
                             <ul role="list" className="divide-y divide-gray-100">
                             {list.map((item) => (
-                                <>
-                                    <li key={item.uuid} className="relative flex justify-between gap-x-6 py-5">
-                                        <div className="flex min-w-0 gap-x-4">                                    
-                                            { icon(item.type) }
-                                            <div className="min-w-0 flex-auto">
-                                            <p className="text-sm font-semibold leading-6 text-gray-900">
-                                                <a href={`/apology/${item.uuid}`}>
-                                                <span className="absolute inset-x-0 -top-px bottom-0" />
-                                                    {item.reason} ...
-                                                </a>
-                                            </p>
-                                            <p className="mt-1 flex text-xs leading-5 text-gray-500">
-                                                <a href={`/apology/${item.uuid}`} className="relative truncate hover:underline">
-                                                {item.created_at}
-                                                </a>
-                                            </p>
-                                            </div>
-                                        </div>
-                                        <div className="flex shrink-0 items-center gap-x-4">                                    
-                                            <ChevronRightIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
-                                        </div>
-                                    </li>    
-                                    <li key={item.uuid} className="relative flex justify-between gap-x-6 py-5">
+                                <li key={item.uuid} className="relative flex justify-between gap-x-6 py-5">
                                     <div className="flex min-w-0 gap-x-4">                                    
                                         { icon(item.type) }
                                         <div className="min-w-0 flex-auto">
@@ -97,13 +89,13 @@ const Component = () => {
                                     <div className="flex shrink-0 items-center gap-x-4">                                    
                                         <ChevronRightIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
                                     </div>
-                                </li>                            
-                                </>
+                                </li>                                                                                  
                             ))}
                             </ul>                           
                         </div>
-                    )                 
-                }
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     )

@@ -7,8 +7,13 @@ import { XMarkIcon } from '@heroicons/react/20/solid';
 import Store from '../store';
 
 const Component = () => {
-    const [apology, setApology] = useState(null);  
-    const [copied, setCopied] = useState(false);  
+  
+    const [apology, setApology] = useState(null);
+    const [reason, setReason] = useState(null);
+    const [copied, setCopied] = useState(false);
+    const [title, setTitle] = useState('AI Generated');
+    const [description, setDescription] = useState('Engage with Genuine Amends: Tailored messages expressing regret and facilitating reconciliation on our unique apology platform.');
+    const [viewing, setViewing] = useState(null);
     let { uuid } = useParams();
 
     const API = document.querySelector("meta[name='api']").getAttribute("content");
@@ -16,14 +21,23 @@ const Component = () => {
     useEffect(() => {
         const stored = Store.get();
 
+        const setView = (data) => {
+          console.log('data', data);
+          setApology(data.message);
+          setReason(data.reason);
+          setViewing('apology');
+          setTitle(data.model.replaceAll('-', ' '));
+          setDescription(`Generated from your input on ${data.created_at}`)
+        }
+
         if (stored.uuid === uuid && stored.apology) {
-            setApology(stored.apology);
+            setView(stored);
         } else {
             fetch(`${API}/apology/${uuid}`, { credentials: 'include', })
             .then(res => res.json())
             .then(res => {
-                if (res.message) {                
-                    setApology(res.message);
+                if (res.message) {
+                  setView(res);                
                 } else if (res.error) {
                     console.log('RES ERR', res.error);
                 }
@@ -60,26 +74,55 @@ const Component = () => {
         )
     }
 
+    function tabs() {
+      return (
+        <div>
+          <nav className="flex space-x-2" aria-label="Tabs" role="tablist">
+            {
+              ['reason', 'apology'].map(key => {
+                let classList = 'capitalize py-3 px-4 inline-flex items-center gap-x-2 text-sm text-center text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:text-gray-400 dark:hover:text-gray-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 active';
+                if (viewing === key) {
+                  classList += ' bg-primary text-white font-bold '
+                } else {
+                  classList += ' bg-transparent hover:text-primary'
+                }
+                return (
+                  <button
+                    className={classList}
+                    key={key}
+                    onClick={ () => setViewing(key) }
+                    type="button">
+                      {key}
+                  </button>
+                )})
+            }
+          </nav>
+        </div>
+      )
+    }
+
     
     return (
         <>
             <div className="bg-white px-6 py-24 sm:py-32 lg:px-8">
                 <div className="mx-auto max-w-2xl text-center">
-                    <p className="text-base font-semibold leading-7 text-primary">AI Generated</p>
+                    <p className="text-base font-semibold leading-7 text-primary capitalize">{ title }</p>
                     <h2 className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">iSorry.lol</h2>
-                    <p className="mt-6 text-lg leading-8 text-gray-600">
-                    Engage with Genuine Amends: Tailored messages expressing regret and facilitating reconciliation on our unique apology platform.
-                    </p>
+                    <p className="mt-6 text-lg leading-8 text-gray-600">{ description }</p>
                 </div>
             </div>
-            <div className='flex flex-col justify-center'>
+            <div className='flex flex-col justify-center items-center'>
                 { apology && 
                     <>
-                        { copy() }
+                      <div className="max-w-2xl w-full flex justify-between">                        
+                          { tabs() }                      
+                          { viewing === 'apology' && copy() }
+                      </div>
+                        
                         <div className="mx-auto max-w-7xl px-6 lg:px-8 whitespace-pre-line">
                             <div className="mx-auto max-w-2xl lg:mx-0 pb-16">                    
                                 <p className="mt-6 text-lg leading-8">
-                                    {apology}
+                                    { viewing === 'apology' ? apology : reason }
                                 </p>
                             </div>
                         </div>

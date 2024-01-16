@@ -1,6 +1,9 @@
 class Store {
     constructor() {
-        this.apology = null;
+        this.createdAt = null;
+        this.reason = null;
+        this.message = null;
+        this.model = null;
         this.uuid = null;
         this.loggedIn = false;
     }
@@ -11,7 +14,10 @@ class Store {
 
     get() {
         return {
-            apology: this.apology,
+            createdAt: this.createdAt,
+            message: this.message,
+            model: this.model,
+            reason: this.reason,
             uuid: this.uuid,
         }
     }
@@ -25,13 +31,19 @@ class Store {
     }
 
     reset() {
-        this.apology = null;
+        this.createdAt = null;
+        this.message = null;
+        this.model = null;
+        this.reason = null;
         this.uuid = null;
     }
 
 
-    set({ uuid, apology }) {
-        this.apology = apology;
+    set({ message, createdAt, model, reason, uuid }) {
+        this.createdAt = createdAt;
+        this.message = message;
+        this.model = model;
+        this.reason = reason;
         this.uuid = uuid;
     }
 }
