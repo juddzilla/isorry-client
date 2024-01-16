@@ -1,13 +1,16 @@
 import { Fragment, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
 import { XMarkIcon } from '@heroicons/react/20/solid';
+import { ChevronRightIcon } from '@heroicons/react/20/solid';
+import { BookmarkSquareIcon, BookOpenIcon, QueueListIcon, LockClosedIcon } from '@heroicons/react/24/solid';
 
+import Fetch from '../fetch';
 import Store from '../store';
 
 const Component = () => {
-  
+
     const [apology, setApology] = useState(null);
     const [reason, setReason] = useState(null);
     const [copied, setCopied] = useState(false);
@@ -15,6 +18,28 @@ const Component = () => {
     const [description, setDescription] = useState('Engage with Genuine Amends: Tailored messages expressing regret and facilitating reconciliation on our unique apology platform.');
     const [viewing, setViewing] = useState(null);
     let { uuid } = useParams();
+
+    const links = [
+      {
+        name: 'Anatomy',
+        href: '/anatomy',
+        description: "Find out what's in a good apology",
+        icon: BookOpenIcon,
+      },
+      { name: 'Usage', href: '/usage', description: 'How can I use iSorry.lol generated apologies', icon: QueueListIcon },
+      {
+        name: 'My Apologies',
+        href: '/sorries',
+        description: 'View your previously generated apologies',
+        icon: BookmarkSquareIcon,
+      },     
+      {
+        name: 'Privacy',
+        href: '/privacy',
+        description: 'What we do with your apologies (hint: nothing)',
+        icon: LockClosedIcon,
+      },      
+    ];
 
     const API = document.querySelector("meta[name='api']").getAttribute("content");
 
@@ -28,25 +53,26 @@ const Component = () => {
           setViewing('apology');
           setTitle(data.model.replaceAll('-', ' '));
           setDescription(`Generated from your input on ${data.created_at}`)
-        }
+        };
 
         if (stored.uuid === uuid && stored.apology) {
             setView(stored);
         } else {
-            fetch(`${API}/apology/${uuid}`, { credentials: 'include', })
-            .then(res => res.json())
-            .then(res => {
-                if (res.message) {
-                  setView(res);                
-                } else if (res.error) {
-                    console.log('RES ERR', res.error);
+            Fetch.get(`apology/${uuid}`)            
+            .then(response => {
+              console.log('RRR', response);
+                const [error, apology] = response;
+                if (apology) {
+                  setView(apology);                
+                } else if (error) {
+                    console.log('RES ERR', error);
+                    setTitle('Not Found');
+                    setDescription('Sorry, we couldn’t find the page you’re looking for.')
+                    setViewing('empty');
                 }
-            })
-            .catch(err => {
-                console.log('ERR', err);
             });
         }
-    }, [])
+    }, []);
 
     async function toClipboard() {
         await navigator.clipboard.writeText(apology);
@@ -111,24 +137,63 @@ const Component = () => {
                     <p className="mt-6 text-lg leading-8 text-gray-600">{ description }</p>
                 </div>
             </div>
-            <div className='flex flex-col justify-center items-center'>
-                { apology && 
-                    <>
-                      <div className="max-w-2xl w-full flex justify-between">                        
-                          { tabs() }                      
-                          { viewing === 'apology' && copy() }
-                      </div>
-                        
-                        <div className="mx-auto max-w-7xl px-6 lg:px-8 whitespace-pre-line">
-                            <div className="mx-auto max-w-2xl lg:mx-0 pb-16">                    
-                                <p className="mt-6 text-lg leading-8">
-                                    { viewing === 'apology' ? apology : reason }
-                                </p>
-                            </div>
+            <div className="mx-auto max-w-7xl px-4 flex flex-col flex-1 py-8">
+              { viewing === 'empty' &&
+              <div className="md:-mt-24">
+                <div className="mx-auto flow-root max-w-lg">
+                  <h2 className="sr-only">Popular pages</h2>
+                  <ul role="list" className="-mt-6 divide-y divide-gray-900/5 border-b border-gray-900/5">
+                    {links.map((link, linkIdx) => (
+                      <li key={linkIdx} className="relative flex gap-x-6 py-6">
+                        <div className="flex h-10 w-10 flex-none items-center justify-center rounded-lg shadow-sm ring-1 ring-gray-900/10">
+                          <link.icon className="h-6 w-6 text-primary" aria-hidden="true" />
                         </div>
-                        { copy() }
-                    </>
-                }
+                        <div className="flex-auto">
+                          <h3 className="text-sm font-semibold leading-6 text-gray-900">
+                            <Link to={link.href}>
+                              <span className="absolute inset-0" aria-hidden="true" />
+                              {link.name}
+                            </Link>
+                          </h3>
+                          <p className="mt-2 text-sm leading-6 text-gray-600">{link.description}</p>
+                        </div>
+                        <div className="flex-none self-center">
+                          <ChevronRightIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="mt-10 flex items-center justify-center gap-x-6">
+                  <Link
+                    to="/apologize"
+                    className="rounded-md bg-primary/80 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                  >
+                    Create
+                    <span aria-hidden="true" className='inline-block ml-2'>&rarr;</span>
+                  </Link>                  
+                </div>
+              </div>
+              }
+
+              
+              { apology && 
+                  <div className='flex flex-col justify-center items-center'>
+                    <div className="max-w-2xl w-full flex justify-between">                        
+                        { tabs() }                      
+                        { viewing === 'apology' && copy() }
+                    </div>
+                      
+                      <div className="mx-auto max-w-7xl px-6 lg:px-8 whitespace-pre-line">
+                          <div className="mx-auto max-w-2xl lg:mx-0 pb-16">                    
+                              <p className="mt-6 text-lg leading-8">
+                                  { viewing === 'apology' ? apology : reason }
+                              </p>
+                          </div>
+                      </div>
+                      { copy() }
+                  </div>
+              }
             </div>
             <div
         aria-live="assertive"

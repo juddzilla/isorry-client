@@ -13,7 +13,7 @@ class Fetch {
         .then(async (res) => {
             console.log('res.s', res.status);
             if ([400, 401, 403, 404, 420].includes(res.status)) {
-                return [{ error: 'Not Authorized' }, null];
+                return [{ error: 'Not Authorized', statusCode: res.status }, null];
             }
             return [null, await res.json()];
         })   

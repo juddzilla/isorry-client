@@ -4,6 +4,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { PlusIcon, UserCircleIcon } from '@heroicons/react/20/solid';
 import { AuthContext } from '../App';
+import Fetch from '../fetch';
 
 import Logo from '../images/noun-tilde-1125364.svg';
 
@@ -21,14 +22,17 @@ export default function Header() {
     { name: 'Your Apologies', href: '/sorries' },
   ]
 
-  if (auth) {
-    userNavigation.push({ name: 'Log out', href: '/logout' });
-  } else if (auth === false) {
+  if (auth === false) {
     userNavigation.push({ name: 'Login', href: '/login' });
   }
 
+  async function logout() {
+     await Fetch.get('logout');
+     console.log('loggedout');
+  }
+
   return (
-    <Disclosure as="nav" className="bg-secondary">
+    <Disclosure as="nav" className="bg-secondary z-10">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -113,10 +117,19 @@ export default function Header() {
                               >
                                 {item.name}
                               </Link>
-                            )}
-                          </Menu.Item>
-                        ))}                       
-                      </Menu.Items>
+                            )}                            
+                          </Menu.Item>                          
+                        ))} 
+                        { auth &&
+                          <Menu.Item>
+                              <button
+                                className='block px-4 py-2 text-sm text-gray-700'
+                                onClick={ logout }>
+                                    Logout
+                              </button>
+                            </Menu.Item>            
+                        }          
+                        </Menu.Items>
                     </Transition>
                   </Menu>
                 </div>

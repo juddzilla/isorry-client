@@ -30,7 +30,7 @@ module.exports = {
     require('preline/plugin'),
   ],
   safelist: [{
-    pattern: /(bg|text|border|fill)-(primary|secondary)/
+    pattern: /(bg|text|border|outline|fill)-(primary|secondary)/
   }],
 }
 

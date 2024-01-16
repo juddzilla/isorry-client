@@ -12,17 +12,16 @@ import { AuthContext } from '../App';
 const Component = () => {
     const [list, setList] = useState(null);
     const [error, setError] = useState(null);
-    const {auth, setAuth} = useContext(AuthContext);
+    const {setAuth} = useContext(AuthContext);
 
     useEffect(() => {
         Fetch.get('apologize/list')
         .then(res => {
             const [err, apologies] = res;
             if (err) {
-                console.log('ERR', err);
                 setError(err);
+                setAuth(false);
             } else {
-                console.log('apologies', apologies);
                 setList(apologies);
                 setAuth(true);
             }
