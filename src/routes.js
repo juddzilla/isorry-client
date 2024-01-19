@@ -11,7 +11,6 @@ import List from './views/List.jsx';
 import Login from './views/Login.jsx';
 import Privacy from './views/Privacy.jsx';
 import Terms from './views/Terms.jsx';
-import Google from './views/o/google.jsx';
 
 const routes = {
   element: <App />,
@@ -21,7 +20,6 @@ const routes = {
     Contact,
     Create,
     Detail,
-    Google,
     Home,
     List,
     Login,

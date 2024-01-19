@@ -46,8 +46,7 @@ const Component = () => {
     useEffect(() => {
         const stored = Store.get();
 
-        const setView = (data) => {
-          console.log('data', data);
+        const setView = (data) => {          
           setApology(data.message);
           setReason(data.reason);
           setViewing('apology');
@@ -59,8 +58,7 @@ const Component = () => {
             setView(stored);
         } else {
             Fetch.get(`apology/${uuid}`)            
-            .then(response => {
-              console.log('RRR', response);
+            .then(response => {              
                 const [error, apology] = response;
                 if (apology) {
                   setView(apology);                

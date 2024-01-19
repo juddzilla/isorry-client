@@ -4,14 +4,30 @@ class Fetch {
         this.api = document.querySelector("meta[name='api']").getAttribute("content");
     }
 
+    getCSRFToken() {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, 10) == ('csrftoken' + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(10));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+
     async get(url) {
         return fetch(`${this.api}/${url}`, 
             { 
                 credentials: 'include',
+                'X-CSRFToken': this.getCSRFToken(),
             }
         )
-        .then(async (res) => {
-            console.log('res.s', res.status);
+        .then(async (res) => {            
             if ([400, 401, 403, 404, 420].includes(res.status)) {
                 return [{ error: 'Not Authorized', statusCode: res.status }, null];
             }
@@ -24,28 +40,13 @@ class Fetch {
     }
 
     async post(url, data) {        
-        function getCSRFToken() {
-            var cookieValue = null;
-            if (document.cookie && document.cookie != '') {
-                var cookies = document.cookie.split(';');
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = cookies[i].trim();
-                    if (cookie.substring(0, 10) == ('csrftoken' + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(10));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-
         return fetch(`${this.api}/${url}`, 
             { 
                 body: JSON.stringify(data),
                 credentials: 'include',
                 headers: {
                     "Content-Type": "application/json",
-                    'X-CSRFToken': getCSRFToken(document.cookie),
+                    'X-CSRFToken': this.getCSRFToken(),
                 },
                 method: 'POST',
             }

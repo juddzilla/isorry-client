@@ -70,8 +70,7 @@ export default ({open, setApology, setOpen}) => {
 
 
         getApology().then(response => {
-            const [err, res] = response;
-            console.log('RESP', res);
+            const [err, res] = response;            
             if (res.uuid) {
                 Store.set({
                     createdAt: res.created_at,

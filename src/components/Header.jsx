@@ -1,5 +1,5 @@
-import { Fragment, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Fragment, useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { PlusIcon, UserCircleIcon } from '@heroicons/react/20/solid';
@@ -17,18 +17,35 @@ function classNames(...classes) {
 }
 
 export default function Header() {
-  const { auth } = useContext(AuthContext);
+  const { auth, setAuth } = useContext(AuthContext);
+  const [isAuthed, setIsAuthed] = useState(auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    Fetch.get('u/check').then(resp => {
+      const [err] = resp;
+      setIsAuthed(!err);
+      setAuth(!err);      
+    });
+  }, []);
+
+  useEffect(() => {
+    setIsAuthed(auth);
+  }, [auth]);
+
   const userNavigation = [
     { name: 'Your Apologies', href: '/sorries' },
   ]
 
-  if (auth === false) {
+  if (!isAuthed) {
     userNavigation.push({ name: 'Login', href: '/login' });
   }
 
   async function logout() {
-     await Fetch.get('logout');
-     console.log('loggedout');
+     await Fetch.get('u/logout');
+     navigate('/');
+     setIsAuthed(false);
+     setAuth(false);   
   }
 
   return (
@@ -120,7 +137,7 @@ export default function Header() {
                             )}                            
                           </Menu.Item>                          
                         ))} 
-                        { auth &&
+                        { isAuthed &&
                           <Menu.Item>
                               <button
                                 className='block px-4 py-2 text-sm text-gray-700'

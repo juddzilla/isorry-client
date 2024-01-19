@@ -9,8 +9,7 @@ import './App.css';
 export const AuthContext = createContext(false);
 
 function App() {
-  const [auth, setAuth] = useState(null);
-  console.log(111);
+  const [auth, setAuth] = useState(null);  
   return (
       <div className="App h-full flex flex-col">
         <AuthContext.Provider value={{ auth, setAuth }}>
