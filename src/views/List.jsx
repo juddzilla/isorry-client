@@ -76,9 +76,7 @@ const Component = () => {
 
         const src = mapping[type] || Diagonal;
         return (
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full">
-                <img src={src} className="h-12 w-12 text-green-600" aria-hidden="true" />
-            </div>
+            <img src={src} className="h-12 w-12 text-green-600" aria-hidden="true" />            
         );
     };
 
@@ -103,7 +101,7 @@ const Component = () => {
                         { list === null ? (
                             <>{ Loading() }</>
                         ) : (
-                            <div>
+                            <div className="mx-auto max-w-2xl lg:mx-0 pb-16">  
                                 { !list.length ? (
                                     <div>
                                         <div>Nothing to see here</div>
@@ -136,17 +134,16 @@ const Component = () => {
                                             <div className="flex min-w-0 gap-x-4">                                    
                                                 { icon(item.type) }
                                                 <div className="min-w-0 flex-auto">
-                                                <p className="text-sm font-semibold leading-6 text-gray-900">
-                                                    <a href={`/apology/${item.uuid}`}>
-                                                    <span className="absolute inset-x-0 -top-px bottom-0" />
-                                                        {item.reason} ...
-                                                    </a>
-                                                </p>
-                                                <p className="mt-1 flex text-xs leading-5 text-gray-500">
-                                                    <a href={`/apology/${item.uuid}`} className="relative truncate hover:underline">
-                                                    {item.created_at}
-                                                    </a>
-                                                </p>
+                                                    <p className="text-sm font-semibold leading-6 text-gray-900">
+                                                        <a href={`/apology/${item.uuid}`}>                                                    
+                                                            {item.reason} ...
+                                                        </a>
+                                                    </p>
+                                                    <p className="mt-1 flex text-xs leading-5 text-gray-500">
+                                                        <a href={`/apology/${item.uuid}`} className="relative truncate hover:underline">
+                                                        {item.created_at}
+                                                        </a>
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div className="flex shrink-0 items-center gap-x-4">                                    

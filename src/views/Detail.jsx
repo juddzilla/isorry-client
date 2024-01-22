@@ -41,8 +41,6 @@ const Component = () => {
       },      
     ];
 
-    const API = document.querySelector("meta[name='api']").getAttribute("content");
-
     useEffect(() => {
         const stored = Store.get();
 
@@ -51,10 +49,10 @@ const Component = () => {
           setReason(data.reason);
           setViewing('apology');
           setTitle(data.model.replaceAll('-', ' '));
-          setDescription(`Generated from your input on ${data.created_at}`)
+          setDescription(`Generated from your input on ${data.createdAt || data.created_at}`)
         };
 
-        if (stored.uuid === uuid && stored.apology) {
+        if (stored.uuid === uuid && stored.message) {
             setView(stored);
         } else {
             Fetch.get(`apology/${uuid}`)            
@@ -197,8 +195,7 @@ const Component = () => {
         aria-live="assertive"
         className="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
       >
-        <div className="flex w-full flex-col items-center space-y-4 sm:items-end">
-          {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
+        <div className="flex w-full flex-col items-center space-y-4 sm:items-end">          
           <Transition
             show={copied}
             as={Fragment}
