@@ -2,6 +2,9 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 
+const primary = '#006D77';
+const secondary = '#83C5BE';
+
 module.exports = {
   content: ["./src/**/*.{html,js,jsx}",  'node_modules/preline/dist/*.js'],
   theme: {
@@ -11,26 +14,17 @@ module.exports = {
       },
       keyframes: {
         'blinking-bg': {
-            '0%, 100%': { backgroundColor: 'rgb(34,127,234)' },
-            '50%': { backgroundColor: 'rgb(192,211,238)' },
+            '0%, 100%': { backgroundColor: primary },
+            '50%': { backgroundColor: secondary },
         }
       },
       animation: {
           'blinking-bg': 'blinking-bg 3s ease-in-out infinite',
       },
       colors: {
-        primary: 'rgb(34,127,234)',
-        secondary: 'rgb(192,211,238)',
-        a1: '#FEC5BB',
-        a2: '#FCD5CE',
-        a3: '#FAE1DD',
-        a4: '#F8EDEB',
-        a5: '#E8E8E4',
-        a6: '#D8E2DC',
-        a7: '#ECE4DB',
-        a8: '#FFE5D9',
-        a9: '#FFD7BA',
-        a10: '#FEC89A',
+        primary,
+        secondary,        
+        tertiary: '#E29578',
       }
     },
   

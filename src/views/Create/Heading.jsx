@@ -42,7 +42,7 @@ export default function Heading({open, setOpen}) {
           <div className="mt-4 flex md:ml-4 md:mt-0">   
             { !open &&
               <button
-                className="ml-3 inline-flex items-center rounded-md bg-primary/90 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/80"
+                className="ml-3 inline-flex items-center rounded-md bg-tertiary/90 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-tertiary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/80"
                 onClick={() => setOpen(true)}
                 type="button"
                 >
