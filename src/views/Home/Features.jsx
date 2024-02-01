@@ -2,30 +2,26 @@ import { ArrowPathIcon, CloudArrowUpIcon, FingerPrintIcon, LockClosedIcon } from
 
 const features = [
   {
-    name: 'Minimal Input Needed',
-    description:
-      "Tell us what happened - who did what, when, and how.  Give us any important details you'd like us to include into your tailored apology, and we'll best find a way to incorporate it.",
+    name: "Effortless Apology Crafting",
+    description: "Just a few details and you're on your way. Share the essentials – who, what, when, and the pivotal moments. Enlighten us with specifics you want woven into your bespoke apology, and watch us skillfully blend them in.",
     icon: CloudArrowUpIcon,
   },
   {
-    name: 'Tell Us How You Feel',
-    description:
-      'A lot can happen in a little time.  Take a second to reflect, and see how you really felt.',
+    name: "Explore Your Emotions",
+    description: "In the whirlwind of events, emotions run deep. Pause for a moment, delve into your feelings, and share with us the essence of your experience.",
     icon: LockClosedIcon,
   },
   {
-    name: 'Tell Us How They Feel',
-    description:
-      "We will cater your words to fit how they responded.",
+    name: "Understand Their Perspective",
+    description: "Tailored words for heartfelt impact. Let us know their reaction, and we'll fine-tune your apology to resonate with their emotions.",
     icon: ArrowPathIcon,
   },
   {
-    name: "Convince Them That You'll Change",
-    description:
-      "It takes some change to make some change.",
+    name: "Pledge for Positive Change",
+    description: "Genuine change begins with a promise. Tell us how you plan to turn over a new leaf, and we'll help you convey a commitment that's both convincing and sincere.",
     icon: FingerPrintIcon,
-  },
-]
+  }
+];
 
 export default function Features() {
   return (

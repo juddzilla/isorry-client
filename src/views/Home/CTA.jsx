@@ -1,12 +1,10 @@
-import Image from '../../images/eric-ward-7KQe_8Meex8-unsplash.jpg';
-
 export default function CTA() {
     return (
       <div className="relative bg-gray-900">
         <div className="relative h-80 overflow-hidden bg-primary md:absolute md:left-0 md:h-full md:w-1/3 lg:w-1/2">
           <img
             className="h-full w-full object-cover"
-            src={ Image }
+            src='https://images.unsplash.com/photo-1515091110873-2a9680d5e323?q=80&w=3571&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
             alt=""
           />
           <svg

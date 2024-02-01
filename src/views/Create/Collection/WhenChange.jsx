@@ -14,7 +14,7 @@ export default ({ value, onChange }) => {
         },
         {
             description: "I'll be a whole new person",
-            name: 'Tomorrow',
+            name: "When I'm ready",
         },
     ];
 

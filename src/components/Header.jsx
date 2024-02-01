@@ -10,6 +10,7 @@ import Logo from '../images/noun-tilde-1125364.svg';
 
 const navigation = [
   { name: 'Apology Anatomy', href: '/anatomy', current: true },
+  { name: 'Fauxpologies', href: '/fauxpologies', current: true },
 ]
 
 function classNames(...classes) {
@@ -99,7 +100,7 @@ export default function Header() {
                     className="relative inline-flex items-center gap-x-1.5 rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                   >
                     <PlusIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" />
-                    Go Get It
+                    Genuine Gestures Guidance
                   </Link>
                 </div>
                 <div className="hidden md:ml-4 md:flex md:flex-shrink-0 md:items-center">

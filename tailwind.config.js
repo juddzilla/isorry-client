@@ -20,7 +20,17 @@ module.exports = {
       },
       colors: {
         primary: 'rgb(34,127,234)',
-        secondary: 'rgb(192,211,238)'
+        secondary: 'rgb(192,211,238)',
+        a1: '#FEC5BB',
+        a2: '#FCD5CE',
+        a3: '#FAE1DD',
+        a4: '#F8EDEB',
+        a5: '#E8E8E4',
+        a6: '#D8E2DC',
+        a7: '#ECE4DB',
+        a8: '#FFE5D9',
+        a9: '#FFD7BA',
+        a10: '#FEC89A',
       }
     },
   

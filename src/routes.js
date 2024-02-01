@@ -6,6 +6,7 @@ import Attributions from './views/Attributions.jsx';
 import Contact from './views/Contact.jsx';
 import Create from './views/Create.jsx';
 import Detail from './views/Detail.jsx';
+import Fauxpologies from './views/Faux.jsx';
 import Home from './views/Home.jsx';
 import List from './views/List.jsx';
 import Login from './views/Login.jsx';
@@ -20,6 +21,7 @@ const routes = {
     Contact,
     Create,
     Detail,
+    Fauxpologies,
     Home,
     List,
     Login,
