@@ -6,11 +6,11 @@ class Fetch {
 
     getCSRFToken() {
         var cookieValue = null;
-        if (document.cookie && document.cookie != '') {
+        if (document.cookie && document.cookie !== '') {
             var cookies = document.cookie.split(';');
             for (var i = 0; i < cookies.length; i++) {
                 var cookie = cookies[i].trim();
-                if (cookie.substring(0, 10) == ('csrftoken' + '=')) {
+                if (cookie.substring(0, 10) === ('csrftoken=')) {
                     cookieValue = decodeURIComponent(cookie.substring(10));
                     break;
                 }
@@ -60,4 +60,6 @@ class Fetch {
     }
 }
 
-export default new Fetch()
+const fetcher = new Fetch();
+
+export default fetcher;

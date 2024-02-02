@@ -1,7 +1,7 @@
 import Github from './github';
 import Google from './google';
 
-export default (params) => {
+const oauth = (params) => {
     if (!Object.hasOwn(params, 'provider')) {
         return null;
     }
@@ -16,7 +16,9 @@ export default (params) => {
     }
 
     return providers[params.provider](params);
-}
+};
+
+export default oauth;
 
 export const objectToUrlParams = (obj) => {
     const params = [];

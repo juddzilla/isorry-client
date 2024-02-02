@@ -17,7 +17,7 @@ export default () => {
                     </div>
                     <div className="px-6 lg:contents">
                     <div className="mx-auto max-w-2xl pb-24 pt-16 sm:pb-32 sm:pt-20 lg:ml-8 lg:mr-0 lg:w-full lg:max-w-lg lg:flex-none lg:pt-32 xl:w-1/2">
-                        <p className="text-base font-semibold leading-7 text-primary">iSorry.lol</p>
+                        <p className="text-base font-semibold leading-7 text-brand">iSorry.lol</p>
                         <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">A Good Apology</h1>
                         <p className="mt-6 text-xl leading-8 text-gray-700">
                         In the intricate process of formulating a truly sincere and effective apology, it is imperative to weave together a tapestry of nuanced elements that collectively convey not only genuine remorse but also an unwavering commitment to rectifying the transgression.

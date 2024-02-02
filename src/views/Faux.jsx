@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { CheckCircleIcon, InformationCircleIcon, XCircleIcon } from '@heroicons/react/20/solid'
+import { InformationCircleIcon, XCircleIcon } from '@heroicons/react/20/solid'
 import Smirking from '../images/emoji/smirking-face_1f60f.png';
-
+import Header from './Faux/Header';
 
 const Component = () => {
     const apologyScenarios = [
@@ -72,9 +72,10 @@ const Component = () => {
       
       
     return (
-        <div className="bg-white px-6 pt-16 pb-6 lg:px-8">
+        <div className="bg-white">
+          <Header />
           <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700">
-            <p className="text-base font-semibold leading-7 text-primary">iSorry.lol</p>
+            <p className="text-base font-semibold leading-7 text-brand">iSorry.lol</p>
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Fauxpologies</h1>
             <p className="mt-6 text-xl leading-8">
                 Have you ever encountered a 'Non-Apology Apology' aka 'fauxpology'? It’s an apology that, in essence, lacks sincerity and true remorse, often characterized by a subtle shifting of blame or a justification of the behavior that caused harm, rather than a straightforward admission of wrongdoing. This type of apology skirts around true accountability, leaving the real issue unresolved and potentially deepening the hurt feelings of those involved.
@@ -171,7 +172,7 @@ const Component = () => {
                     <div className="mt-10 flex items-center justify-center gap-x-6">
                         <Link
                         to="/apologize"
-                        className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                        className="rounded-md bg-brand px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-brand/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                         >
                         Get started
                         </Link>

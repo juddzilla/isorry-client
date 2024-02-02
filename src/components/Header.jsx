@@ -1,7 +1,7 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { PlusIcon, UserCircleIcon } from '@heroicons/react/20/solid';
 import { AuthContext } from '../App';
 import Fetch from '../fetch';
@@ -18,9 +18,11 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+  const location = useLocation();
   const { auth, setAuth } = useContext(AuthContext);
   const [isAuthed, setIsAuthed] = useState(auth);
   const navigate = useNavigate();
+  const [pages, setPages] = useState([]);
 
   useEffect(() => {
     Fetch.get('u/check').then(resp => {
@@ -33,6 +35,16 @@ export default function Header() {
   useEffect(() => {
     setIsAuthed(auth);
   }, [auth]);
+
+  useEffect(() => {    
+    const isCurrentCheck = (route) => ({
+      ...route,
+      current: location.pathname === route.href,
+    });
+
+    const checked = navigation.map(isCurrentCheck);    
+    setPages(checked);
+  }, [location]);
 
   const userNavigation = [
     { name: 'Your Apologies', href: '/sorries' },
@@ -50,7 +62,7 @@ export default function Header() {
   }
 
   return (
-    <Disclosure as="nav" className="bg-secondary z-10">
+    <Disclosure as="nav" className="bg-off-white z-10">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -58,7 +70,7 @@ export default function Header() {
               <div className="flex">
                 <div className="-ml-2 mr-2 flex items-center md:hidden">
                   {/* Mobile menu button */}
-                  <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                  <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                     <span className="absolute -inset-0.5" />
                     <span className="sr-only">Open main menu</span>
                     {open ? (
@@ -78,12 +90,12 @@ export default function Header() {
                   </Link>
                 </div>
                 <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
-                  {navigation.map((item) => (
+                  {pages.map((item) => (
                     <Link
                       key={item.name}
                       to={item.href}
                       className={classNames(
-                        item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        item.current ? 'bg-primary text-white' : 'bg-secondary text-gray-50 hover:text-white hover:bg-primary',
                         'rounded-md px-3 py-2 text-sm font-medium'
                       )}
                       aria-current={item.current ? 'page' : undefined}
@@ -97,7 +109,7 @@ export default function Header() {
                 <div className="flex-shrink-0">
                   <Link
                     to='/apologize'
-                    className="relative inline-flex items-center gap-x-1.5 rounded-md bg-primary/90 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                    className="relative inline-flex items-center gap-x-1.5 rounded-md bg-brand px-3 py-2 text-sm font-semibold shadow-sm hover:bg-brand/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                   >
                     <PlusIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" />
                     Genuine Gestures Guidance
@@ -107,7 +119,7 @@ export default function Header() {
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative ml-3">
                     <div>
-                      <Menu.Button className="relative flex rounded-full bg-secondary text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                      <Menu.Button className="relative flex rounded-fulltext-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">Open user menu</span>
                         <UserCircleIcon  className="h-10 w-10" />
@@ -157,7 +169,7 @@ export default function Header() {
 
           <Disclosure.Panel className="md:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-              {navigation.map((item) => (
+              {pages.map((item) => (
                 <Disclosure.Button
                   key={item.name}
                   as="a"
@@ -173,35 +185,26 @@ export default function Header() {
               ))}
             </div>
             <div className="border-t border-gray-700 pb-3 pt-4">
-              <div className="flex items-center px-5 sm:px-6">
-                <div className="flex-shrink-0">
-                  {/* <img className="h-10 w-10 rounded-full" src={user.imageUrl} alt="" /> */}
-                  <UserCircleIcon  className="h-10 w-10" />
-                </div>
-                <div className="ml-3">
-                  {/* <div className="text-base font-medium text-white">{user.name}</div>
-                  <div className="text-sm font-medium text-gray-400">{user.email}</div> */}
-                </div>
-                <button
-                  type="button"
-                  className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-              </div>
-              <div className="mt-3 space-y-1 px-2 sm:px-3">
+              <div className="space-y-1 px-2 sm:px-3">
                 {userNavigation.map((item) => (
                   <Disclosure.Button
                     key={item.name}
                     as="a"
                     href={item.href}
-                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                    className='bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium'
                   >
                     {item.name}
                   </Disclosure.Button>
                 ))}
+                { isAuthed &&
+                  <Disclosure.Button>
+                      <button
+                        className='bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium'
+                        onClick={ logout }>
+                            Logout
+                      </button>
+                    </Disclosure.Button>            
+                } 
               </div>
             </div>
           </Disclosure.Panel>

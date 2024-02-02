@@ -2,8 +2,14 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 
-const primary = '#006D77';
-const secondary = '#83C5BE';
+// const primary = '#006D77';
+// const secondary = '#83C5BE';
+// const tertiary = '#E29578';
+
+const primary = '#16697A';
+const secondary = '#82C0CC';
+const tertiary = '#FFA62B';
+const offWhite = '#EDE7E3';
 
 module.exports = {
   content: ["./src/**/*.{html,js,jsx}",  'node_modules/preline/dist/*.js'],
@@ -22,9 +28,11 @@ module.exports = {
           'blinking-bg': 'blinking-bg 3s ease-in-out infinite',
       },
       colors: {
+        brand: tertiary,
+        'off-white': offWhite,
         primary,
         secondary,        
-        tertiary: '#E29578',
+        tertiary,
       }
     },
   
