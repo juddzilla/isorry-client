@@ -33,7 +33,7 @@ export default function Heading({open, setOpen}) {
         <div className="mx-auto max-w-7xl px-6 lg:px-8 flex justify-between">
           <div className="mx-auto max-w-2xl lg:mx-0 flex">
             <div>
-              <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">For when you're really sorry <span className='text-2xl'>(but maybe not sorry really)</span></h2>
+              <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">Best Practices for Crafting the Apology You Want</h2>
               <p className="mt-6 text-lg leading-8 text-gray-300">
                 Put the I in apologize
               </p>

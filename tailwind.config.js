@@ -22,7 +22,7 @@ module.exports = {
         'blinking-bg': {
             '0%, 100%': { backgroundColor: primary },
             '50%': { backgroundColor: secondary },
-        }
+        },
       },
       animation: {
           'blinking-bg': 'blinking-bg 3s ease-in-out infinite',

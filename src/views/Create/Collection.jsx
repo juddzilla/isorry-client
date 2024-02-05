@@ -2,72 +2,67 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Dialog, Transition } from '@headlessui/react';
-
-import Angel from '../../images/emoji/smiling-face-with-halo_1f607.png';
-import Devil from '../../images/emoji/smiling-face-with-horns_1f608.png';
-import Diagonal from '../../images/emoji/face-with-diagonal-mouth_1fae4.png';
-import Pleading from '../../images/emoji/pleading-face_1f97a.png';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
 
 import Bool from './Collection/Bool';
 import Feelings from './Collection/Feelings';
-import Generating from './Collection/Generating';
 import NoApology from './Collection/NoApology';
 import Reason from './Collection/Reason';
-import Scale from './Collection/Scale';
 import Type from './Collection/Type';
 import WillDo from './Collection/WillDo';
 import WhenChange from './Collection/WhenChange';
-import TargetAudience from './Collection/TargetAudience';
+import Emoji from './Collection/Emoji';
+import Options from './Collection/Options';
+
+import Logo from '../../images/noun-tilde-1125364.svg';
 
 import Store from '../../store';
 import Fetch from '../../fetch';
 
-export const classNames = (...classes) => {
-    return classes.filter(Boolean).join(' ')
-};
+export default ({open, setOpen}) => {  
+    const initialMessages = [];  
+    const [messages, setMessages] = useState(initialMessages);
+    const [prompting, setPrompting] = useState('reason')
 
-export default ({open, setApology, setOpen}) => {    
-    const initialStage = 'reason';
-    const [reason, setReason] = useState('');
-    const [type, setType] = useState('');
-    const [steps, setSteps] = useState([initialStage]);
-    const [form, setForm] = useState({
-        generating: '',        
-        noApology: '',
-
-        yourFeeling: '',
-        yourRemorse: '',
-        yourEmpathy: '',
-        theirFeelings: '',
-        theirRightFeel: '',
-        willingToChange: '',
-        willChange: '',
-        willDo: '',
-        whenChange: '',
-    });
     const navigate = useNavigate();
-
-    const API = document.querySelector("meta[name='api']").getAttribute("content");
-
+    
     const cancelButtonRef = useRef(null);
+    const chatbox = useRef(null);
 
-    function updateSteps(nextStep) {
-        setSteps([...steps, nextStep]);        
-    }
+    const ordered = [
+        'reason',
+        'yourFeeling',
+        'theirFeelings',
+        'targetAudience',
+        'type',
+        'yourRemorse',
+        'yourEmpathy',
+        'wantToChange',
+        'willingToChange',
+        'willDo',
+        'whenChange',
+    ];
 
-    function submit(parameters) {
-        const data = {
-            reason,
-            type,
-            parameters,
-        };
+    function submit() {
+        const data = messages.reduce((acc, cur) => {
+            if (cur.type === 'user') {
+                if (Object.hasOwn(acc, cur.property)) {
+                    acc[cur.property] = cur.message;
+                } else {
+                    acc.parameters[cur.property] = cur.message;
+                }
+            }
+            return acc;
+        }, { reason: '', type: '', parameters: {}});
+
+        console.log('DATA', data);
+        return;
 
         async function getApology() {            
             const res = await Fetch.post('apologize/', data);
             console.log('res', res);
             return res;
         }
-
 
         getApology().then(response => {
             const [err, res] = response;            
@@ -87,65 +82,59 @@ export default ({open, setApology, setOpen}) => {
         });
     }
 
-    function toNextStep() {
-        const index = steps.indexOf(getCurrentStep());    
-        const next = ordered[index + 1];
-        if (next) {
-            updateSteps(next);
-        } else {
-            updateSteps('generating');
-        }
-    }
-
-    function updateType() {
-        if (type === 'None') {
-            updateSteps('noApology');
-        } else {
-            const index = ordered.indexOf('type');
-            updateSteps(ordered[index + 1]);
-        }
-    }
-
     useEffect(() => {
-        if (type) {
-            updateType();
-        }
-    }, [type]);
+        addSystemMessage('reason');
+    }, []);
 
-    const getCurrentStep = () => steps[steps.length - 1];
+    useEffect(() => {        
+        if (chatbox.current && messages) {                                
+            const generateAfter = ['noApology', ordered[ordered.length - 1]];
+            const latest = messages[messages.length -1];
 
-    const ordered = [
-        'reason',
-        'yourFeeling',
-        'theirFeelings',
-        'targetAudience',
-        'type',
-        'yourRemorse',
-        'yourEmpathy',
-        'wantToChange',
-        'willingToChange',
-        'willDo',
-        'whenChange',
-    ];
-    
-    const updateForm = (key, newValue) => {
-        const currentStep = getCurrentStep();
-        let nextStep = '';
-        if (['noApology', ordered[ordered.length - 1]].includes(currentStep)) {
-            nextStep = 'generating';
-        } else {
-            const currentIndex = ordered.indexOf(currentStep);
-            nextStep = ordered[currentIndex + 1];
+           if (latest.type === 'user') {
+                let property = null;
+                
+                if (generateAfter.includes(latest.property)) {
+                    property = 'generating';
+                    submit();
+                } else if (latest.property === 'type' && latest.message === 'None') {                    
+                    property = 'noApology';
+                } else {
+                    const currentIndex = ordered.indexOf(latest.property);
+                    property = ordered[currentIndex + 1];
+                }         
+                addSystemMessage(property);
+            }
+            setTimeout(() => {
+                chatbox.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+            }, 100);
         }
-        updateSteps(nextStep);
-        
-        const newForm = {...form, [key]: newValue};
-        
-        setForm(newForm);
+    }, [messages])
 
-        if (nextStep === 'generating') {
-            submit(newForm);
-        }
+    const prompts = {
+        generating: [            
+            { type: 'system', message: 'You will be directed to the apology when it has been generated.'},            
+            { type: 'system', message: 'Crafting a sincere and thoughtful apology takes time, as we want to ensure it reflects genuine remorse and a commitment to making amends.'},
+            { type: 'system', message: "We appreciate your understanding, and we're working diligently to provide you with an apology that addresses the situation appropriately."},
+            { type: 'system', message: 'Your patience is valued, and we aim to present to you a heartfelt message shortly.'},           
+            { type: 'system', message: '...'},
+        ],
+        reason: [
+            {type: 'system', message: "Let's get started with iSorry.lol"},
+            {type: 'system', message: 'Tell us what happened'},
+            {type: 'system', message: 'The more context provided, the better apology we can write for you. Let it all go. Hold nothing back (1000 character limit).'},
+        ],
+        yourFeeling: {type: 'system', message: 'How does this make you feel?'},
+        noApoloy: {type: 'system', message: 'noap'},
+        theirFeelings: {type: 'system', message: 'How do you think they felt?'},
+        targetAudience: {type: 'system', message: 'Who is this apology for?'},
+        type: {type: 'system', message: 'What percentage of this is your fault?'},
+        yourRemorse: {type: 'system', message: 'Estimate your level of REMORSE'},
+        yourEmpathy: {type: 'system', message: 'Estimate your level of EMPATHY'},
+        wantToChange: {type: 'system', message: 'Do You Want To Change?'},
+        willingToChange: {type: 'system', message: 'Are You Willing To Change?'},
+        willDo: {type: 'system', message: 'What Changes Will You Implement?'},
+        whenChange: {type: 'system', message: 'When Can They Expect To See Results?'}
     };
 
     const remorseOptions = [
@@ -168,131 +157,40 @@ export default ({open, setApology, setOpen}) => {
         'Exceptional'
     ];
 
+    const targetAudienceOptions = [
+        'Family',
+        'Friend',
+        'Coworker',
+        'Neighbor',
+        'Child',
+        'Pet',
+        'Acquaintance',
+        'Other',
+    ];
+
     const stepTemplates = {
-        reason: {
-            body: Reason.bind(null, { value: reason, onChange: ({ target }) => {
-                if (target.value.length >= 1000) {
-                    return;
-                }
-
-                setReason(target.value);
-            }}),
-            description: 'The more context provided, the better apology we can write for you. Let it all go. Hold nothing back (1000 character limit).',
-            title: 'Tell us what happened',
-
-        },
-        type: {
-            body: Type.bind(null, { value: type, onChange: ({ target }) => {
-                const group = target.closest('.type-group');
-                const value = group.getAttribute('data-value');
-
-                if (value === type) {
-                    updateType();
-                } else {
-                    setType(value);
-                }
-            } }),
-            description: "Are you apologzing for something that wasn't on you? Or maybe y'all should split blame? Or was this all your bad? Be honest.",
-            title: 'What percentage of this is your fault?',
-        },
-        targetAudience: {
-            body: TargetAudience.bind(null, { value: form.targetAudience, onClick: updateForm.bind(null, 'targetAudience')}),
-            description: 'We will cater your apology for who will be the target audience.',
-            title: 'Who is this apology for?',
-        },
-        noApology: {
-            body: NoApology.bind(null, { value: form.noApology, onChange: updateForm.bind(null, 'noApology')}),
-            description: 'Designed to manipulate or deflect responsibility rather than genuinely express remorse. ',
-            title: 'How would you like to frame your apology?',
-        },
-        generating: {
-            body: Generating,
-            description: "",
-            title: 'Creating your personalized apology',
-        },
-        yourFeeling: {
-            body: Feelings.bind(null, { value: form.yourFeeling, onClick: updateForm.bind(null, 'yourFeeling')}),
-            description: '',
-            title: 'How does make you feel? ',
-        },
-        yourRemorse: {
-            body: Scale.bind(null, { options: remorseOptions, value: form.yourRemorse, onClick: updateForm.bind(null, 'yourRemorse')}),
-            description: "Regret and sorrow for one's actions",
-            title: 'Estimate your level of REMORSE',
-        },
-        yourEmpathy: {
-            body: Scale.bind(null, { options: empathyOptions, value: form.yourEmpathy, onClick: updateForm.bind(null, 'yourEmpathy')}),
-            description: "Understanding and sharing others' feelings.",
-            title: 'Estimate your level of EMPATHY',
-        },
-        theirFeelings: {
-            body: Feelings.bind(null, { value: form.theirFeelings, onClick: updateForm.bind(null, 'theirFeelings')}),
-            description: 'The outside is a reflection of the inside',
-            title: 'How Do You Think They Felt?',
-        },
-        wantToChange: {
-            body: Bool.bind(null, { value: form.wantToChange, onClick: updateForm.bind(null, 'wantToChange')}),
-            description: 'Facilitation of growth',
-            title: 'Do You Want To Change?',
-        },
-        willingToChange: {
-            body: Bool.bind(null, { value: form.willingToChange, onClick: updateForm.bind(null, 'willingToChange')}),
-            description: 'Facilitation of reconciliation',
-            title: 'Are You Willing To Change?',
-        },
-        willDo: {
-            body: WillDo.bind(null, { value: form.willDo, onChange: updateForm.bind(null, 'willDo')}),
-            description: 'Ensure this does not happen ever again',
-            title: 'What Changes Will You Implement?',
-        },
-        whenChange: {
-            body: WhenChange.bind(null, { value: form.whenChange, onChange: updateForm.bind(null, 'whenChange')}),
-            description: 'Set expectations as to when they can expect a new and improved you',
-            title: 'When Can They Expect To See Results?',
-        },
-        
+        null: () => null,
+        reason: () => (<Reason onChange={(value) => updateForm('reason', value)} />),
+        type: () => (<Type onChange={updateForm.bind(null, 'type')} />),            
+        targetAudience: () => (<Options data={targetAudienceOptions} onClick={updateForm.bind(null, 'targetAudience')} />),
+        noApology: () => (<NoApology onChange={updateForm.bind(null, 'noApology')} />),        
+        generating:  () => null,        
+        yourFeeling: () => (<Feelings onClick={updateForm.bind(null, 'yourFeeling')} />),                    
+        yourRemorse: () => (<Options data={remorseOptions}  onClick={updateForm.bind(null, 'yourRemorse')} />),                    
+        yourEmpathy: () => (<Options data={empathyOptions}  onClick={updateForm.bind(null, 'yourEmpathy')} />),                                
+        theirFeelings: () => (<Feelings onClick={updateForm.bind(null, 'theirFeelings')} />),        
+        wantToChange: () => (<Bool onClick={updateForm.bind(null, 'wantToChange')} />),        
+        willingToChange: () => (<Bool onClick={updateForm.bind(null, 'willingToChange')} />),        
+        willDo:  () => (<WillDo onChange={updateForm.bind(null, 'willDo')} />),        
+        whenChange:  () => (<WhenChange onChange={updateForm.bind(null, 'whenChange')} />),                
     };
 
-    const icon = () => {
-        const mapping = {
-            'None': Devil,
-            'Half': Pleading,
-            'Full': Angel,
-        };
-
-        const src = mapping[type] || Diagonal;
-        return (
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full">
-                <img src={src} className="h-12 w-12 text-green-600" aria-hidden="true" />
-            </div>
-        );
+    const updateForm = (key, newValue) => {       
+        setPrompting(null);   
+        setMessages([...messages, {type: 'user', property: key, message: newValue}]);       
     };
-
-    const previous = () => {        
-        if (['reason', 'generating'].includes(getCurrentStep())) {
-            return null;
-        }
-
-        const onClick = () => {
-            steps.pop();
-            setSteps([...steps]);
-        };
-
-        return (                        
-            <button
-                type="button"
-                className="w-full sm:w-fit mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 border border-primary/90 hover:border-primary text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:col-start-1 sm:mt-0"
-                onClick={onClick}
-            >
-                Previous
-            </button>
-        );
-    };
-
     
     const progress = () => {
-        const currentStep = getCurrentStep();
-
         const mapping = {
             reason: '10%',
             type: '25%',
@@ -300,41 +198,134 @@ export default ({open, setApology, setOpen}) => {
             generating: '100%',
         };
 
-        let percentage = mapping[currentStep];
+        let percentage = mapping[prompting];
 
         if (!percentage) {
-            const currentOrderIndex = ordered.indexOf(currentStep);
+            const currentOrderIndex = ordered.indexOf(prompting);
             const percentageOfOrdered = (currentOrderIndex + 1)/ordered.length;
             const additional = (percentageOfOrdered * 0.74) * 100 + 25;
             percentage = `${additional}%`;
         }
 
         return (
-            <div className="overflow-hidden rounded-full bg-gray-200">
-                <div className="h-2 rounded-full animate-blinking-bg" style={{ maxWidth: percentage }} />
+            <div className="overflow-hidden bg-gray-200">
+                <div className="h-2 bg-brand" style={{ maxWidth: percentage }} />
             </div>   
         );        
     };
 
-    const next = () => {
-        if (getCurrentStep() !== 'reason') {
-            return null;
+    function addSystemMessage(property) {
+        let msgs = prompts[property];
+
+        if (!Array.isArray(msgs)) {
+            msgs = [msgs];
+        }
+        insertSystemMessage(msgs.map(m => ({ ...m, property})));
+    }
+
+    function insertSystemMessage(msgs) {             
+        const delay = 800;
+        let newMessages = msgs;
+        if (!Array.isArray(msgs)) {
+            newMessages = [msgs];
         }
 
-        return (                        
-            <button
-                disabled={!reason.trim().length}
-                type="button"
-                className="w-full sm:w-3/12 sm:absolute sm:right-0 disabled:bg-gray-200 inline-flex w-full justify-center rounded-md bg-primary/90 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:col-start-2"
-                onClick={toNextStep}
-            >
-                Next
-            </button>
-        );
+        const m = [...messages];
+        newMessages.forEach((msg, index) => {
+            setTimeout(() => {
+                setMessages([...m, msg]);
+                m.push(msg);
+                if (index === 0) {
+                    setPrompting(msg.property);
+                }
+            }, (index + 1) * delay);
+        });
+    }
+
+    function goToMessage(index) {        
+        const newMessages = messages.slice(0, index);        
+        setMessages(newMessages);
+        setPrompting(newMessages[newMessages.length -1].property);
+    }
+
+    const Message = (msg, i, arr) => {
+        const containerClassList = ['flex', 'relative', 'items-center'];
+        const messageClassList = ['rounded-full', 'inline-block', 'shadow-lg'];
+        const hasEmoji = ['yourFeeling', 'theirFeelings'];
+        const hasBool = ['wantToChange', 'willingToChange'];
+        
+        let display = msg.message;
+
+        if (msg.type === 'user') {
+            if (hasBool.includes(msg.property)) {
+                display = msg.message === true ? 'Yes' : 'No';
+            }
+            if (!hasEmoji.includes(msg.property)) {
+                messageClassList.push('bg-secondary', 'py-2', 'px-6')
+            }
+            containerClassList.push('justify-end');
+            messageClassList.push('ml-12');
+        }
+
+        if (msg.type === 'system') {
+            containerClassList.push('mr-6');
+            messageClassList.push('bg-white', 'mr-12', 'py-2', 'px-6');
+
+            if (display === '...') {
+                messageClassList.push('loading', 'min-w-16');
+                display = '';
+            }
+        }
+
+        if (i === 0 && display !== '') {
+            containerClassList.push('mt-auto');
+        }
+        if (i < arr.length - 1) {
+            containerClassList.push('mb-4');
+        }
+        return (
+            <div                
+                className={containerClassList.join(' ')}
+                key={msg.message}
+                >
+                    { msg.type === 'system' &&
+                        <>
+                            <img
+                                className="h-8 w-auto mr-2"
+                                src={Logo}
+                                alt="iSorry.lol"                                        
+                            />
+                            <span className={messageClassList.join(' ')}>{display}</span>                                                        
+                        </>
+                    }
+                    { msg.type === 'user' &&
+                        <>
+                            {hasEmoji.includes(msg.property) ? (
+                                Emoji(msg.message)
+                            ) : (
+                                <span className={messageClassList.join(' ')}>
+                                         {display}               
+                                </span>
+                            )                            
+                            }
+                            <div className='flex items-center ml-2 cursor-pointer' onClick={goToMessage.bind(null, i)}>
+                                <PencilSquareIcon className='h-4 w-4 text-gray-400 hover:text-gray-900' />
+                            </div>
+                        </>
+                    }
+                    { msg.type === 'choice' &&
+                        <div className='pt-2'>
+                            { msg.component() }
+                        </div>
+                    }
+            </div>
+        )
     };
 
-    const current = stepTemplates[getCurrentStep()];
+    const Loading = () => Message({type: 'system', message: '...'}, 0, []);
 
+    const current = stepTemplates[prompting];
+    console.log('curr', current);
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
@@ -351,44 +342,44 @@ export default ({open, setApology, setOpen}) => {
                 </Transition.Child>
 
                 <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-                <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                    <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    enterTo="opacity-100 translate-y-0 sm:scale-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                    leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    >
-                    <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg md:max-w-3xl sm:p-6">                                                
-                        <div>
-                            { icon() }
-                        </div>
+                    <div className="flex h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">                     
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            enterTo="opacity-100 translate-y-0 sm:scale-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        >
+                            <Dialog.Panel className="flex flex-col justify-end border bg-gray-100 border-gray-400 h-3/5 relative transform overflow-hidden rounded-lg bg-white text-left drop-shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg md:max-w-prose shadow-3xl">                                                
+                                <div className='z-10 w-full p-2 shadow-md flex justify-center'>  
+                                    Crafting an apology with
+                                    <strong className='inline-block ml-1'>iSorry.lol</strong>
+                                </div>
+                                <div className='overflow-scroll h-full flex flex-col bg-gray-100'>
+                                    <div className='px-4 py-4 flex-1 flex flex-col justify-end'>
+                                        <>
+                                            { messages.map(Message) }
+                                            { prompting === null && <Loading />}
+                                        </>
+                                    </div>
 
-                        <div>
-                            <Dialog.Title as="h3" className="mt-3 text-center text-base font-semibold leading-6 text-gray-900">
-                                { current.title }
-                            </Dialog.Title>
-                            <Dialog.Description as="h2" className="mt-2 px-32 text-center text-sm text-gray-500">
-                                { current.description }
-                            </Dialog.Description>
-                            <div className="mt-4">
-                                { current.body() }
-                            </div>
-                        </div>
+                                    
 
-                        <div className="mt-5 sm:flex relative h-8">
-                         { next() }
-                         { previous() }                    
-                        </div>
-
-                        <div className="mt-6" aria-hidden="true">
-                            { progress() }                         
-                        </div>
-                    </Dialog.Panel>
-                    </Transition.Child>
-                </div>
+                                    <div className="bg-gray-100 pr-12 pl-14 p-4 pb-6">
+                                        { current && current() }
+                                    </div>
+                                    <div className='h-1'  ref={chatbox}/>
+                                </div>
+                            
+                                <div aria-hidden="true">
+                                    { progress() }                         
+                                </div>
+                                
+                            </Dialog.Panel>
+                        </Transition.Child>
+                    </div>
                 </div>
             </Dialog>
         </Transition.Root>

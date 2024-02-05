@@ -1,14 +1,11 @@
 
-import { Fragment, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import Heading from './Create/Heading';
-import Collection, { classNames } from './Create/Collection';
+import Collection from './Create/Collection';
 import Empty from './Create/Empty';
-import Result from './Create/Result';
 
 const Component = () => {
     const [open, setOpen] = useState(true);
-    const [apology, setApology] = useState(null);
 
     return (
         <>        
@@ -16,7 +13,6 @@ const Component = () => {
             <Heading open={open} setOpen={setOpen}/>
             <Empty />
         </>
-
     )
 }
 
