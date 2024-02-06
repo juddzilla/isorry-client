@@ -1,3 +1,7 @@
+import { Link } from 'react-router-dom';
+
+import CreateTrigger from '../../components/Create/Trigger';
+
 export default function Hero() {
   return (
     <div className="bg-gray-900">
@@ -13,13 +17,13 @@ export default function Hero() {
         
         <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
           <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-            <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-white ring-1 ring-white/90 hover:ring-white/20">
+            <Link to='/best-practices' className="relative rounded-full px-3 py-1 text-sm leading-6 text-white ring-1 ring-white/90 hover:ring-white/20">
                 Turn Your Apology into Action{' '}
-              <a href="#" className="font-semibold text-white">
+              <span className="font-semibold text-white">
                 <span className="absolute inset-0" aria-hidden="true" />
                 Make Amends with the Perfect Apology <span aria-hidden="true">&rarr;</span>
-              </a>
-            </div>
+              </span>
+            </Link>
           </div>
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
@@ -29,15 +33,12 @@ export default function Hero() {
             Let Technology Help You Say Sorry: Use our AI-driven apology assistant to create an apology that truly expresses your remorse, blending empathy with the right tone for your situation.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a
-                href="#"
-                className="rounded-md bg-primary/90 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-              >
-                Get started
-              </a>
-              <a href="/anatomy" className="text-sm font-semibold leading-6 text-white">
+              <CreateTrigger>
+                Get Started
+              </CreateTrigger>
+              <Link to="/anatomy" className="text-sm font-semibold leading-6 text-white">
                 Learn more <span aria-hidden="true">→</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

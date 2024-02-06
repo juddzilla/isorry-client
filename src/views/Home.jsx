@@ -3,7 +3,6 @@ import FAQ from './Home/FAQ';
 import Features from './Home/Features';
 import Hero from './Home/Hero';
 
-
 const Component = () => {
     return (
         <div>

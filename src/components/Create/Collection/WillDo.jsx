@@ -1,7 +1,7 @@
 import { RadioGroup } from '@headlessui/react';
 import { pill } from './Options';
 
-export default ({ onChange }) => {
+export default function WillDo({ onChange }) {
     const types = [
         {
             description: "to make sure it doesn't happen again",

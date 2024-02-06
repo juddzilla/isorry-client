@@ -76,7 +76,7 @@ const Component = () => {
 
         const src = mapping[type] || Diagonal;
         return (
-            <img src={src} className="h-12 w-12 text-green-600" aria-hidden="true" />            
+            <img src={src} alt='type-emoji' className="h-12 w-12 text-green-600" aria-hidden="true" />            
         );
     };
 
@@ -128,21 +128,21 @@ const Component = () => {
                                         </button>
                                   </div>
                                 ) : (
-                                    <ul role="list" className="divide-y divide-gray-100">
+                                    <ul className="divide-y divide-gray-100">
                                     {list.map((item) => (
                                         <li key={item.uuid} className="relative flex justify-between gap-x-6 py-5">
                                             <div className="flex min-w-0 gap-x-4">                                    
                                                 { icon(item.type) }
                                                 <div className="min-w-0 flex-auto">
                                                     <p className="text-sm font-semibold leading-6 text-gray-900">
-                                                        <a href={`/apology/${item.uuid}`}>                                                    
+                                                        <Link to={`/apology/${item.uuid}`}>                                                    
                                                             {item.reason} ...
-                                                        </a>
+                                                        </Link>
                                                     </p>
                                                     <p className="mt-1 flex text-xs leading-5 text-gray-500">
-                                                        <a href={`/apology/${item.uuid}`} className="relative truncate hover:underline">
+                                                        <Link to={`/apology/${item.uuid}`} className="relative truncate hover:underline">
                                                         {item.created_at}
-                                                        </a>
+                                                        </Link>
                                                     </p>
                                                 </div>
                                             </div>

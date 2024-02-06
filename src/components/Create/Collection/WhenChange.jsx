@@ -1,7 +1,7 @@
 import { RadioGroup } from '@headlessui/react';
 import { pill } from './Options';
 
-export default ({ onChange }) => {
+export default function WhenChange({ onChange }) {
     const types = [
         {
             description: "I'll be a different person",

@@ -84,7 +84,7 @@ const Component = () => {
               <p>                
                 People typically resort to non-apology apologies in various situations, often when they wish to appear as though they are apologizing without admitting fault or changing their behavior. These situations include
               </p>
-              <ul role="list" className="mt-8 max-w-xl space-y-8 text-gray-600">
+              <ul className="mt-8 max-w-xl space-y-8 text-gray-600">
                 {
                     apologyScenarios.map((scenario) => (
                         <li className="flex gap-x-3">

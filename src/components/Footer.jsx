@@ -1,4 +1,4 @@
-export default () => {
+export default function Footer() {
     const links = [
         { name: 'Attributions', href: '/attributions' },
         { name: 'Privacy', href: '/privacy' },
@@ -23,5 +23,5 @@ export default () => {
                 </div>
             </div>
         </footer>
-    )
+    );
 }

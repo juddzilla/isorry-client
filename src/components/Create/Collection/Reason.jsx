@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline'
 
-export default ({ onChange}) => {
-    console.log('REAS');
+export default function Reason({ onChange}) {    
     const limit = 2000;
     const [reason, setReason] = useState('');
     

@@ -138,7 +138,7 @@ const Component = () => {
               <div className="md:-mt-24">
                 <div className="mx-auto flow-root max-w-lg">
                   <h2 className="sr-only">Popular pages</h2>
-                  <ul role="list" className="-mt-6 divide-y divide-gray-900/5 border-b border-gray-900/5">
+                  <ul className="-mt-6 divide-y divide-gray-900/5 border-b border-gray-900/5">
                     {links.map((link, linkIdx) => (
                       <li key={linkIdx} className="relative flex gap-x-6 py-6">
                         <div className="flex h-10 w-10 flex-none items-center justify-center rounded-lg shadow-sm ring-1 ring-gray-900/10">

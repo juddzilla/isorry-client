@@ -1,6 +1,3 @@
-import { PlusIcon } from '@heroicons/react/20/solid';
-import { ChatBubbleOvalLeftEllipsisIcon } from '@heroicons/react/24/outline';
-
 const Component = () => {
     return (
         <>
@@ -69,7 +66,7 @@ const Component = () => {
                             <p>
                             The issuance of a profound apology demands a meticulous consideration of the following essential facets:
                             </p>
-                            <ul role="list" className="mt-8 space-y-8 text-gray-600">
+                            <ul  className="mt-8 space-y-8 text-gray-600">
                                 <li className="flex gap-x-3">                            
                                     <span>
                                         <strong className="font-semibold text-gray-900">Acknowledgment of Wrongdoing</strong> A fundamental tenet involves assuming complete responsibility for one's actions without succumbing to the temptation of deflecting blame or proffering excuses. Embrace a clear acknowledgment of personal fault and an unwavering recognition of the resulting consequences.

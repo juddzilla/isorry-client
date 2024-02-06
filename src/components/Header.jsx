@@ -2,9 +2,9 @@ import { Fragment, useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { PlusIcon, UserCircleIcon } from '@heroicons/react/20/solid';
-import Create from './Create';
+import { UserCircleIcon } from '@heroicons/react/20/solid';
 import { AuthContext } from '../App';
+import CreateTrigger from '../components/Create/Trigger';
 import Fetch from '../fetch';
 
 import Logo from '../images/noun-tilde-1125364.svg';
@@ -116,7 +116,7 @@ export default function Header() {
                     <PlusIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" />
                     Genuine Gestures Guidance
                   </Link> */}
-                  <Create />
+                  <CreateTrigger>Create</CreateTrigger>
                 </div>
                 <div className="hidden md:ml-4 md:flex md:flex-shrink-0 md:items-center">
                   {/* Profile dropdown */}

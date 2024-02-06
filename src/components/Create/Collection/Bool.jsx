@@ -3,7 +3,7 @@ import { HandThumbDownIcon, HandThumbUpIcon } from '@heroicons/react/24/outline'
 import { RadioGroup } from '@headlessui/react';
 import { pill } from './Options';
 
-export default ({ onClick }) => {    
+export default function Bool({ onClick }) {    
     return (
         <RadioGroup>
             <RadioGroup.Label className="sr-only">Choose a memory option</RadioGroup.Label>

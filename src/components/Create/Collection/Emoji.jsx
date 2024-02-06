@@ -6,7 +6,7 @@ import Weary from '../../../images/emoji/weary-face_1f629.png';
 import WithoutMouth from '../../../images/emoji/face-without-mouth_1f636.png';
 import Woozy from '../../../images/emoji/woozy-face_1f974.png';
 
-export default (value) => {
+export default function Emoji(value) {
     const emotions = {
         Neutral: Neutral,
         Unease: Grimacing,
@@ -18,6 +18,6 @@ export default (value) => {
       };
 
     return (
-        <img src={emotions[value]} className="h-auto w-12" aria-hidden="true" />                                            
+        <img src={emotions[value]} alt={`emoji-${value}`} className="h-auto w-12" aria-hidden="true" />                                            
     )
 }

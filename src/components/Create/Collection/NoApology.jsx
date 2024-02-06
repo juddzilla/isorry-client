@@ -1,7 +1,7 @@
 import { RadioGroup } from '@headlessui/react';
 import { pill } from './Options';
 
-export default ({ onChange }) => {
+export default function NoApology({ onChange }) {
     const types = [
         {
             description: "Instead of apologizing for the action, shifts the blame to their sensitivity.",

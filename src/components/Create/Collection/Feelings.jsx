@@ -4,7 +4,7 @@ import Emoji from './Emoji';
 import { pill } from './Options';
 
 
-export default ({ onClick }) => {
+export default function Feelings({ onClick }) {
     const emotions = [
         {
             display: 'Neutral',

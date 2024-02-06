@@ -19,7 +19,7 @@ import Logo from '../../images/noun-tilde-1125364.svg';
 import Store from '../../store';
 import Fetch from '../../fetch';
 
-export default ({open, setOpen}) => {  
+const Collection = ({open, setOpen}) => {  
     const initialMessages = [];  
     const [messages, setMessages] = useState(initialMessages);
     const [prompting, setPrompting] = useState('reason')
@@ -75,6 +75,10 @@ export default ({open, setOpen}) => {
                     uuid: res.uuid
                 });
                 navigate(`/apology/${res.uuid}`);
+            }
+
+            if (err) {
+                console.warn(err);
             }
         })
         .catch(err => {
@@ -385,3 +389,5 @@ export default ({open, setOpen}) => {
         </Transition.Root>
     );
 }
+
+export default Collection;
