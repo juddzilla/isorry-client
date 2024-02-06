@@ -21,7 +21,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint . --fix",
+    "lint": "eslint src --ext .js,.jsx --fix",
     "dev:tailwind": "npx tailwindcss -i ./src/index.css -o ./public/output.css --watch"
   },
   "eslintConfig": {

@@ -46,7 +46,7 @@ export default ({ onClick }) => {
                             onClick={clicked}
                             data-value={option.display}
                             value={option.display}
-                            className={`${pill} justify-center px-0 !min-w-0 group-option`}
+                            className={`${pill} justify-center !px-0 !min-w-0 group-option`}
                         >
                             
                             <RadioGroup.Label as="span" className='flex flex-col justify-center items-center'>          
