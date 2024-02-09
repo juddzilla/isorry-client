@@ -45,7 +45,7 @@ const Component = () => {
                                         { assets[key].map(asset => {
                                             return (
                                                 <div key={asset.name} className='flex'>
-                                                    <Link to={asset.link} target='_blank' className='text-primary font-semibold mr-2'>{asset.name}</Link>
+                                                    <Link to={asset.link} target='_blank' rel="noreferrer" className='text-primary font-semibold mr-2'>{asset.name}</Link>
                                                     <div>{asset.creator}</div>                                                    
                                                 </div>
                                             )

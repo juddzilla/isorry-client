@@ -5,11 +5,6 @@ import Fetch from '../fetch';
 import OAuth from './o/index';
 import { ChevronRightIcon } from '@heroicons/react/20/solid';
 
-import Angel from '../images/emoji/smiling-face-with-halo_1f607.png';
-import Devil from '../images/emoji/smiling-face-with-horns_1f608.png';
-import Diagonal from '../images/emoji/face-with-diagonal-mouth_1fae4.png';
-import Pleading from '../images/emoji/pleading-face_1f97a.png';
-
 import { AuthContext } from '../App';
 
 const Component = () => {
@@ -66,23 +61,9 @@ const Component = () => {
         } else {
             getList();
         }
-    }, [])
-
-    const icon = (type) => {
-        const mapping = {
-            'None': Devil,
-            'Half': Pleading,
-            'Full': Angel,
-        };
-
-        const src = mapping[type] || Diagonal;
-        return (
-            <img src={src} alt='type-emoji' className="h-12 w-12 text-green-600" aria-hidden="true" />            
-        );
-    };
+    }, []);
 
     const Loading = () => (<div>Loading</div>)
-
 
     return (
         <div className='flex flex-col flex-1'>

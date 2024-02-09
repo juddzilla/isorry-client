@@ -9,7 +9,7 @@ export default function Footer() {
         <footer className='bg-gray-900 text-white'>
             <div className="px-6 py-8 lg:px-8">
                 <div className="mx-auto ">
-                    <div>
+                    <div className='flex items-center'>
                         { links.map(link => (
                             <a
                                 key={link.name}
@@ -19,6 +19,7 @@ export default function Footer() {
                                 {link.name}
                             </a>
                         ))}
+                        <div className='flex-1 flex justify-end text-xs'>&copy; Judd Hendrix</div>
                     </div>
                 </div>
             </div>

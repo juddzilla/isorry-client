@@ -87,7 +87,9 @@ const Collection = ({open, setOpen}) => {
 
     useEffect(() => {
         if (!open) {
-            setMessages(initialMessages);
+            setMessages(initialMessages);        
+            setPrompting('reason');
+            setProgress([1, ordered.length+1]);
         } else {
             addSystemMessage('reason');
             setPrompting('reason');
@@ -129,7 +131,11 @@ const Collection = ({open, setOpen}) => {
             } 
             
             setTimeout(() => {
-                chatbox.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+                try {
+                    chatbox.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+                } catch(e) {
+                    console.warn(e);
+                }
             }, 100);
         }
     }, [messages])
@@ -356,9 +362,15 @@ const Collection = ({open, setOpen}) => {
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
                             <Dialog.Panel className="flex flex-col justify-end bg-gray-100 h-3/5 relative transform overflow-hidden rounded-xl bg-white text-left drop-shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg md:max-w-prose shadow-3xl">                                                
-                                <div className='z-10 w-full p-2 shadow-md bg-gray-100 px-16'>  
-                                    <div className='text-sm text-gray-500'>Crafting an apology with</div>
-                                    <strong className='inline-block ml-1'>iSorry.lol</strong>
+                                <div className='z-10 w-full p-2 shadow-md bg-gray-100 px-16 flex items-center justify-between'>  
+                                    <div>
+                                        <div className='text-xs text-gray-500'>Crafting an apology with</div>
+                                        <strong className='inline-block'>iSorry.lol</strong>
+                                    </div>
+                                    <div className='text-xs text-gray-400'>
+                                        {progress[0]} / {progress[1]}
+                                    </div>
+                                
                                 </div>
                                 <div className='overflow-scroll h-full flex flex-col bg-gray-50'>
                                     <div className='px-4 py-4 flex-1 flex flex-col justify-end'>
