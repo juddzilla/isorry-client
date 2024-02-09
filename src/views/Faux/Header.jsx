@@ -1,6 +1,6 @@
 import { ChevronRightIcon } from '@heroicons/react/20/solid';
 import { Link } from 'react-router-dom';
-
+import Trigger from '../../components/Create/Trigger';
 
 function Header() {
     const title = "For when you're really sorry, but not sorry really";
@@ -47,12 +47,9 @@ function Header() {
             {subtitle}
           </p>
           <div className="mt-10 flex items-center gap-x-6">
-            <Link
-              to="/apologize"
-              className="rounded-md bg-brand px-3.5 py-2.5 text-sm font-semibold shadow-sm hover:bg-brand/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
-            >
+            <Trigger>
               Let's Do It
-            </Link>
+            </Trigger>
             <Link to="/anatomy" className="text-sm font-semibold leading-6 text-gray-900">
               Apology Anatomy <span aria-hidden="true">→</span>
             </Link>

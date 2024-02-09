@@ -18,17 +18,17 @@ export default function WhenChange({ onChange }) {
     ];
 
     return (
-      <RadioGroup onChange={onChange}>
+      <RadioGroup onChange={onChange} className='flex justify-center flex-wrap bg-gray-100 overflow-hidden pb-6 pl-9'>
         {types.map((type) => (
           <RadioGroup.Option
               key={type.name}
               value={type.name}
-              className={pill}
+              className={`${pill} !block !px-0 flex-1 mr-4 last:mr-0 overflow-hidden`}
             >
-              <RadioGroup.Label as="div">
-                {type.name}
-                <span className="ml-1 text-gray-500">{type.description}</span>
-              </RadioGroup.Label>                      
+              <RadioGroup.Label as="div" className='px-3 pt-3  pb-2 bg-white pb-1'>
+                <div className=''>{type.name}</div>
+                <span className="text-gray-500 text-sm">{type.description}</span>
+              </RadioGroup.Label>
             </RadioGroup.Option>
           ))}
         </RadioGroup>

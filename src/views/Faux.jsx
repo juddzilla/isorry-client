@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { InformationCircleIcon, XCircleIcon } from '@heroicons/react/20/solid'
 import Smirking from '../images/emoji/smirking-face_1f60f.png';
 import Header from './Faux/Header';
+import Trigger from '../components/Create/Trigger';
 
 const Component = () => {
     const apologyScenarios = [
@@ -170,13 +171,10 @@ const Component = () => {
                         Learn how to apologize sincerely. Click for helpful resources on writing meaningful apologies.
                     </p>
                     <div className="mt-10 flex items-center justify-center gap-x-6">
-                        <Link
-                        to="/apologize"
-                        className="rounded-md bg-brand px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-brand/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                        >
-                        Get started
-                        </Link>
-                        <Link to="/anatomy" className="text-sm font-semibold leading-6 text-white">
+                        <Trigger>
+                          Get Started
+                        </Trigger>
+                        <Link to="/best-practices" className="text-sm font-semibold leading-6 text-white">
                         Learn more <span aria-hidden="true">→</span>
                         </Link>
                     </div>

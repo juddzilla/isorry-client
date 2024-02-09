@@ -16,6 +16,8 @@ code {
     monospace;
 }
 
+textarea { resize: none; }
+
 .loading:after {
   overflow: hidden;
   display: inline-block;

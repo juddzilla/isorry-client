@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Trigger from '../../components/Create/Trigger';
 export default function CTA() {
     return (
       <div className="bg-secondary">
@@ -10,13 +11,10 @@ export default function CTA() {
               Just get it over with
             </h2>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Link
-                to="/apologize"
-                className="rounded-md bg-tertiary/80 px-3.5 py-2.5 text-sm font-semibold shadow-sm hover:bg-tertiary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
+              <Trigger>
                 Contrition Go Away
-              </Link>
-              <Link to="/apologize" className="text-sm font-semibold leading-6 ">
+              </Trigger>
+              <Link to="/fauxpologies" className="text-sm font-semibold leading-6 ">
                 What's the Non-Apology Apology? <span aria-hidden="true">→</span>
               </Link>
             </div>

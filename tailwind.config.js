@@ -6,8 +6,10 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 // const secondary = '#83C5BE';
 // const tertiary = '#E29578';
 
-const primary = '#16697A';
-const secondary = '#82C0CC';
+// const primary = '#16697A';
+// const secondary = '#82C0CC';
+const primary = '#293BFF';
+const secondary = '#29C9FF';
 const tertiary = '#FFA62B';
 const offWhite = '#EDE7E3';
 

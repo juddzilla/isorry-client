@@ -10,9 +10,9 @@ import Fetch from '../fetch';
 import Logo from '../images/noun-tilde-1125364.svg';
 
 const navigation = [
-  { name: 'Apology Anatomy', href: '/anatomy', current: true },
-  { name: 'Fauxpologies', href: '/fauxpologies', current: true },
-  { name: 'Best Practices', href: '/best-practices', current: true },
+  { name: 'Apology Anatomy', href: '/anatomy'},
+  { name: 'Fauxpologies', href: '/fauxpologies'},
+  { name: 'Best Practices', href: '/best-practices'},
 ]
 
 function classNames(...classes) {
@@ -97,7 +97,7 @@ export default function Header() {
                       key={item.name}
                       to={item.href}
                       className={classNames(
-                        item.current ? 'bg-primary text-white' : 'bg-secondary text-gray-50 hover:text-white hover:bg-primary',
+                        item.current ? 'bg-primary text-white' : 'hover:text-white hover:bg-secondary',
                         'rounded-md px-3 py-2 text-sm font-medium'
                       )}
                       aria-current={item.current ? 'page' : undefined}
@@ -109,14 +109,7 @@ export default function Header() {
               </div>
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  {/* <Link
-                    to='/apologize'
-                    className="relative inline-flex items-center gap-x-1.5 rounded-md bg-brand px-3 py-2 text-sm font-semibold shadow-sm hover:bg-brand/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                  >
-                    <PlusIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" />
-                    Genuine Gestures Guidance
-                  </Link> */}
-                  <CreateTrigger>Create</CreateTrigger>
+                  <CreateTrigger>Get Started</CreateTrigger>
                 </div>
                 <div className="hidden md:ml-4 md:flex md:flex-shrink-0 md:items-center">
                   {/* Profile dropdown */}

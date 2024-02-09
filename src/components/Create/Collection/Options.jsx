@@ -1,16 +1,16 @@
 import { RadioGroup } from '@headlessui/react';
 
-export const pill = 'drop-shadow-xl hover:shadow-md min-w-16 min-h-10 flex justify-center cursor-pointer relative px-4 hover:font-bold rounded-full mb-4 items-center bg-white/60 hover:bg-white mr-4';
+export const pill = 'border border-gray-300 hover:border-primary drop-shadow-xl hover:shadow-md min-w-4 min-h-10 flex justify-center cursor-pointer text-md relative px-4 rounded-xl mb-4 items-center bg-white/90 hover:bg-white mr-4';
 
-const Options = ({ data, onClick }) => {   
+const Options = ({ data, id, onClick }) => {   
     return (
-        <RadioGroup>
+        <RadioGroup className=''>
             <RadioGroup.Label className="sr-only">Choose a memory option</RadioGroup.Label>
-            <div className="flex justify-center flex-wrap ">
+            <div className="flex flex-wrap px-10">
                 { data.map(opt => {                        
                     return (
                         <RadioGroup.Option
-                            key={opt}
+                            key={`${id}-${opt}`}                            
                             onClick={ () => onClick(opt) }                                                                             
                             className={pill}
                         >                                

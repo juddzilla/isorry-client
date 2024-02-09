@@ -21,7 +21,7 @@ export default function Type({ onChange }) {
     }
 
     return (      
-      <RadioGroup>
+      <RadioGroup className='flex'>
         <RadioGroup.Label className="sr-only text-base font-semibold leading-6 text-gray-900">
           About how much responsibility are you willing to own up to?
         </RadioGroup.Label>
@@ -32,11 +32,11 @@ export default function Type({ onChange }) {
               data-value={type.name}
               onClick={onChoice}
               value={type.name}
-              className={`${pill} py-2 px-6 type-group`}
+              className={`${pill} text-sm py-2 type-group flex-1 mr-4 last:mr-0 !justify-start !items-start`}
             >
               <RadioGroup.Label as="span">
-                {type.name}
-                <span className="ml-1 text-gray-500">{type.description}</span>
+                <div>{type.name}</div>
+                <span className="text-gray-500">{type.description}</span>
               </RadioGroup.Label>                              
           </RadioGroup.Option>
         ))}

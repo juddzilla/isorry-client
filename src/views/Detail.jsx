@@ -6,8 +6,12 @@ import { XMarkIcon } from '@heroicons/react/20/solid';
 import { ChevronRightIcon } from '@heroicons/react/20/solid';
 import { BookmarkSquareIcon, BookOpenIcon, QueueListIcon, LockClosedIcon } from '@heroicons/react/24/solid';
 
+import Logo from '../images/noun-tilde-1125364.svg';
+
 import Fetch from '../fetch';
 import Store from '../store';
+
+import CreateTrigger from '../components/Create/Trigger';
 
 const Component = () => {
 
@@ -16,7 +20,7 @@ const Component = () => {
     const [copied, setCopied] = useState(false);
     const [title, setTitle] = useState('AI Generated');
     const [description, setDescription] = useState('Engage with Genuine Amends: Tailored messages expressing regret and facilitating reconciliation on our unique apology platform.');
-    const [viewing, setViewing] = useState(null);
+    const [viewing, setViewing] = useState('loading');
     let { uuid } = useParams();
 
     const links = [
@@ -24,6 +28,18 @@ const Component = () => {
         name: 'Anatomy',
         href: '/anatomy',
         description: "Find out what's in a good apology",
+        icon: BookOpenIcon,
+      },
+      {
+        name: 'Fauxpology',
+        href: '/fauxpologies',
+        description: "It's not an apology, but it reads like one",
+        icon: BookOpenIcon,
+      },
+      {
+        name: 'Best Practices',
+        href: '/best-practices',
+        description: "Apologize Effectively",
         icon: BookOpenIcon,
       },
       { name: 'Usage', href: '/usage', description: 'How can I use iSorry.lol generated apologies', icon: QueueListIcon },
@@ -44,12 +60,14 @@ const Component = () => {
     useEffect(() => {
         const stored = Store.get();
 
-        const setView = (data) => {          
-          setApology(data.message);
-          setReason(data.reason);
-          setViewing('apology');
-          setTitle(data.model.replaceAll('-', ' '));
-          setDescription(`Generated from your input on ${data.createdAt || data.created_at}`)
+        const setView = (data) => {
+          setTimeout(() => {
+            setApology(data.message);
+            setReason(data.reason);
+            setViewing('apology');
+            setTitle(`AI Generated with ${data.model.replaceAll('-', ' ')}`);
+            setDescription(`Generated from your input on ${data.createdAt || data.created_at}`)
+          }, 300);
         };
 
         if (stored.uuid === uuid && stored.message) {
@@ -76,8 +94,11 @@ const Component = () => {
     }
 
     function copy() {
+        if (viewing !== 'apology') {
+          return null;
+        }
         return (
-            <div className="bg-white px-6 mb-8 lg:px-8">
+            <div className="">
                 <div className="mx-auto max-w-2xl flex justify-end">
                     <button
                         className="rounded-md w-24 flex items-center justify-center bg-primary/90 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
@@ -102,7 +123,7 @@ const Component = () => {
           <nav className="flex space-x-2" aria-label="Tabs" role="tablist">
             {
               ['reason', 'apology'].map(key => {
-                let classList = 'capitalize py-3 px-4 inline-flex items-center gap-x-2 text-sm text-center text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:text-gray-400 dark:hover:text-gray-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 active';
+                let classList = 'capitalize py-3 px-4 inline-flex items-center gap-x-2 text-sm text-center text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none active';
                 if (viewing === key) {
                   classList += ' bg-primary text-white font-bold '
                 } else {
@@ -125,62 +146,63 @@ const Component = () => {
 
     
     return (
-        <>
-            <div className="bg-white px-6 py-24 sm:py-32 lg:px-8">
+        <div className='bg-gray-100 flex-1'>
+            <div className="bg-primary text-white px-6 py-24 sm:py-32 lg:px-8">
                 <div className="mx-auto max-w-2xl text-center">
-                    <p className="text-base font-semibold leading-7 text-primary capitalize">{ title }</p>
-                    <h2 className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">iSorry.lol</h2>
-                    <p className="mt-6 text-lg leading-8 text-gray-600">{ description }</p>
+                    <p className="text-base font-semibold leading-7 capitalize text-gray-300 ">{ title }</p>
+                    <h2 className="mt-2 text-4xl font-bold tracking-tight sm:text-6xl">iSorry.lol</h2>
+                    <p className="mt-6 text-lg text-gray-300 leading-8">{ description }</p>
                 </div>
             </div>
             <div className="mx-auto max-w-7xl px-4 flex flex-col flex-1 py-8">
               { viewing === 'empty' &&
-              <div className="md:-mt-24">
-                <div className="mx-auto flow-root max-w-lg">
-                  <h2 className="sr-only">Popular pages</h2>
-                  <ul className="-mt-6 divide-y divide-gray-900/5 border-b border-gray-900/5">
-                    {links.map((link, linkIdx) => (
-                      <li key={linkIdx} className="relative flex gap-x-6 py-6">
-                        <div className="flex h-10 w-10 flex-none items-center justify-center rounded-lg shadow-sm ring-1 ring-gray-900/10">
-                          <link.icon className="h-6 w-6 text-primary" aria-hidden="true" />
-                        </div>
-                        <div className="flex-auto">
-                          <h3 className="text-sm font-semibold leading-6 text-gray-900">
-                            <Link to={link.href}>
-                              <span className="absolute inset-0" aria-hidden="true" />
-                              {link.name}
-                            </Link>
-                          </h3>
-                          <p className="mt-2 text-sm leading-6 text-gray-600">{link.description}</p>
-                        </div>
-                        <div className="flex-none self-center">
-                          <ChevronRightIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
+                <div className="">
+                  <div className="mx-auto flow-root max-w-lg">
+                    <h2 className="sr-only">Popular pages</h2>
+                    <ul className="divide-y divide-gray-900/5 border-b border-gray-900/5">
+                      {links.map((link, linkIdx) => (
+                        <li key={linkIdx} className="relative flex gap-x-6 py-6 bg-white px-4">
+                          <div className="flex h-10 w-10 flex-none items-center justify-center rounded-lg shadow-sm ring-1 ring-gray-900/10">
+                            <link.icon className="h-6 w-6 text-primary" aria-hidden="true" />
+                          </div>
+                          <div className="flex-auto">
+                            <h3 className="text-sm font-semibold leading-6 text-gray-900">
+                              <Link to={link.href}>
+                                <span className="absolute inset-0" aria-hidden="true" />
+                                {link.name}
+                              </Link>
+                            </h3>
+                            <p className="mt-2 text-sm leading-6 text-gray-600">{link.description}</p>
+                          </div>
+                          <div className="flex-none self-center">
+                            <ChevronRightIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="mt-10 flex items-center justify-center gap-x-6">
+                    <CreateTrigger>
+                      Create
+                      <span aria-hidden="true" className='inline-block ml-2'>&rarr;</span>
+                    </CreateTrigger>                  
+                  </div>
                 </div>
-                <div className="mt-10 flex items-center justify-center gap-x-6">
-                  <Link
-                    to="/apologize"
-                    className="rounded-md bg-primary/80 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-                  >
-                    Create
-                    <span aria-hidden="true" className='inline-block ml-2'>&rarr;</span>
-                  </Link>                  
-                </div>
-              </div>
               }
 
               
               { apology && 
                   <div className='flex flex-col justify-center items-center'>
-                    <div className="max-w-2xl w-full flex justify-between">                        
-                        { tabs() }                      
-                        { viewing === 'apology' && copy() }
+                    <div className="flex justify-center w-full">
+                      <div className="max-w-3xl w-full flex justify-between mb-8 ">                        
+                          { tabs() }      
+                          <div>
+                            { copy() }
+                          </div>                
+                      </div>
                     </div>
                       
-                      <div className="mx-auto max-w-7xl px-6 lg:px-8 whitespace-pre-line">
+                      <div className="mb-10 rounded-lg shadow-2xl bg-white mx-auto max-w-7xl px-6 lg:px-16 lg:py-8 whitespace-pre-line">
                           <div className="mx-auto max-w-2xl lg:mx-0 pb-16">                    
                               <p className="mt-6 text-lg leading-8">
                                   { viewing === 'apology' ? apology : reason }
@@ -190,10 +212,23 @@ const Component = () => {
                       { copy() }
                   </div>
               }
-            </div>
+
+              { viewing === 'loading' &&
+                <div className="w-full flex justify-center mb-8 ">
+                  <div className='h-64 flex justify-center items-center w-64'>                    
+                    <img
+                        className="h-16 w-auto animate-bouncing"
+                        src={Logo}
+                        alt="iSorry.lol"                                        
+                    />
+                    <div className='ml-4 rounded-xl bg-white p-4 shadow-xl'>Loading Apology<span className='loading'></span></div>
+                  </div>
+                </div>
+              }
+              </div>
             <div
         aria-live="assertive"
-        className="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
+        className="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:p-6"
       >
         <div className="flex w-full flex-col items-center space-y-4 sm:items-end">          
           <Transition
@@ -206,25 +241,25 @@ const Component = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+            <div className="pointer-events-auto z-100 mt-16 w-full max-w-sm overflow-hidden rounded-lg bg-primary shadow-lg ring-1 ring-black ring-opacity-5">
               <div className="p-4">
-                <div className="flex items-start">
+                <div className="flex items-start text-white">
                   <div className="flex-shrink-0">
-                    <CheckCircleIcon className="h-6 w-6 text-green-400" aria-hidden="true" />
+                    <CheckCircleIcon className="h-6 w-6" aria-hidden="true" />
                   </div>
                   <div className="ml-3 w-0 flex-1 pt-0.5">
-                    <p className="text-sm font-medium text-gray-900">Successfully copied!</p>
+                    <p className="text-sm font-medium">Successfully copied!</p>
                   </div>
                   <div className="ml-4 flex flex-shrink-0">
                     <button
                       type="button"
-                      className="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                      className="inline-flex rounded-md bg-white"
                       onClick={() => {
                         setCopied(false)
                       }}
                     >
                       <span className="sr-only">Close</span>
-                      <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+                      <XMarkIcon className="h-5 w-5 text-primary" aria-hidden="true" />
                     </button>
                   </div>
                 </div>
@@ -233,7 +268,7 @@ const Component = () => {
           </Transition>
         </div>
       </div>
-        </>
+        </div>
     )
 }
 
