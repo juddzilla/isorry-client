@@ -57,17 +57,13 @@ const Collection = ({open, setOpen}) => {
             return acc;
         }, { reason: '', type: '', parameters: {}});
 
-        console.log('DATA', data);
-        // return;
-
         async function getApology() {            
             const res = await Fetch.post('apologize/', data);            
             return res;
         }
 
         getApology().then(response => {
-            const [err, res] = response;            
-            console.log('getapology res', res);
+            const [err, res] = response;                        
             if (res.uuid) {
                 Store.set({
                     createdAt: res.created_at,

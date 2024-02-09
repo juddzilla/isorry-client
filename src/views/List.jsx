@@ -131,9 +131,9 @@ const Component = () => {
                                 ) : (
                                     <ul className="divide-y divide-gray-100">
                                     {list.map((item, index) => (
-                                        <li key={item.uuid} className="relative flex justify-between gap-x-6 py-5">
-                                            <div className='font-semibold'>{ index + 1}</div>
-                                            <div className="flex min-w-0 gap-x-4">                                    
+                                        <li key={item.uuid} className="relative flex justify-between py-5">
+                                            <div className='font-semibold mr-4'>{ index + 1}</div>
+                                            <div className="flex min-w-0 w-full">                                    
                                                 
                                                 <div className="min-w-0 flex-auto">
                                                     <p className="text-sm font-semibold leading-6 text-gray-900">

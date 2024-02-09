@@ -18,8 +18,9 @@ const Component = () => {
     const [apology, setApology] = useState(null);
     const [reason, setReason] = useState(null);
     const [copied, setCopied] = useState(false);
+    const [headline, setHeadline] = useState('iSorry.lol');
     const [title, setTitle] = useState('AI Generated');
-    const [description, setDescription] = useState('Engage with Genuine Amends: Tailored messages expressing regret and facilitating reconciliation on our unique apology platform.');
+    const [description, setDescription] = useState('Engage with Genuine Amends: Tailored messages expressing regret and facilitating reconciliation on our unique apology platform.');    
     const [viewing, setViewing] = useState('loading');
     let { uuid } = useParams();
 
@@ -62,18 +63,25 @@ const Component = () => {
 
         const setView = (data) => {
           setTimeout(() => {
-            const date = data.createdAt || data.created_at;
-            const formattedDate = moment(date).format('LLLL');
-            // 
-            setApology(data.message);
-            setReason(data.reason);
-            setViewing('apology');
-            setTitle(`AI Generated with ${data.model.replaceAll('-', ' ')}`);
-            setDescription(`Generated from your input on ${formattedDate}`)
+            if (data.message === 'Not Possible') {
+              setViewing('empty');
+              setHeadline('Not Found');
+              setTitle('iSorry.lol');
+            } else {
+              const date = data.createdAt || data.created_at;
+              const formattedDate = moment(date).format('LLLL');
+              // 
+              setApology(data.message);
+              setDescription(`Generated from your input on ${formattedDate}`)
+              setHeadline('iSorry.lol');            
+              setReason(data.reason);
+              setTitle(`AI Generated with ${data.model.replaceAll('-', ' ')}`);
+              setViewing('apology');
+            }            
           }, 300);
         };
 
-        if (stored.uuid === uuid && stored.message) {
+        if (stored.uuid === uuid && stored.message) {            
             setView(stored);
         } else {
             Fetch.get(`apology/${uuid}`)            
@@ -152,9 +160,9 @@ const Component = () => {
         <div className='bg-gray-100 flex-1'>
             <div className="bg-primary text-white px-6 py-24 sm:py-32 lg:px-8">
                 <div className="mx-auto max-w-2xl text-center">
-                    <p className="text-base font-semibold leading-7 capitalize text-gray-300 ">{ title }</p>
-                    <h2 className="mt-2 text-4xl font-bold tracking-tight sm:text-6xl">iSorry.lol</h2>
-                    <p className="mt-6 text-lg text-gray-300 leading-8">{ description }</p>
+                    <p className="text-base font-semibold leading-7 text-gray-300 ">{title}</p>
+                    <h2 className="mt-2 text-4xl font-bold tracking-tight sm:text-6xl">{headline}</h2>
+                    <p className="mt-6 text-lg text-gray-300 leading-8">{description}</p>
                 </div>
             </div>
             <div className="mx-auto max-w-7xl px-4 flex flex-col flex-1 py-8">
@@ -162,6 +170,10 @@ const Component = () => {
                 <div className="">
                   <div className="mx-auto flow-root max-w-lg">
                     <h2 className="sr-only">Popular pages</h2>
+                    <div className='mb-12 pt-2'>                    
+                      <h2 className='text-2xl mb-2 text-center font-bold'>Learn More</h2>
+                      <p className="text-lg text-gray-800 text-center px-2leading-8">Gain more understanding into apologies</p>
+                    </div>
                     <ul className="divide-y divide-gray-900/5 border-b border-gray-900/5">
                       {links.map((link, linkIdx) => (
                         <li key={linkIdx} className="relative flex gap-x-6 py-6 bg-white px-4">
