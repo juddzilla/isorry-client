@@ -2,9 +2,9 @@ import { Fragment, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
-import { XMarkIcon } from '@heroicons/react/20/solid';
-import { ChevronRightIcon } from '@heroicons/react/20/solid';
+import { ChevronRightIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { BookmarkSquareIcon, BookOpenIcon, QueueListIcon, LockClosedIcon } from '@heroicons/react/24/solid';
+import moment from 'moment';
 
 import Logo from '../images/noun-tilde-1125364.svg';
 
@@ -62,11 +62,14 @@ const Component = () => {
 
         const setView = (data) => {
           setTimeout(() => {
+            const date = data.createdAt || data.created_at;
+            const formattedDate = moment(date).format('LLLL');
+            // 
             setApology(data.message);
             setReason(data.reason);
             setViewing('apology');
             setTitle(`AI Generated with ${data.model.replaceAll('-', ' ')}`);
-            setDescription(`Generated from your input on ${data.createdAt || data.created_at}`)
+            setDescription(`Generated from your input on ${formattedDate}`)
           }, 300);
         };
 

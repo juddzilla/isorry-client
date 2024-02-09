@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import moment from 'moment';
 import Fetch from '../fetch';
 import OAuth from './o/index';
 import { ChevronRightIcon } from '@heroicons/react/20/solid';
@@ -129,10 +130,11 @@ const Component = () => {
                                   </div>
                                 ) : (
                                     <ul className="divide-y divide-gray-100">
-                                    {list.map((item) => (
+                                    {list.map((item, index) => (
                                         <li key={item.uuid} className="relative flex justify-between gap-x-6 py-5">
+                                            <div className='font-semibold'>{ index + 1}</div>
                                             <div className="flex min-w-0 gap-x-4">                                    
-                                                { icon(item.type) }
+                                                
                                                 <div className="min-w-0 flex-auto">
                                                     <p className="text-sm font-semibold leading-6 text-gray-900">
                                                         <Link to={`/apology/${item.uuid}`}>                                                    
@@ -141,13 +143,15 @@ const Component = () => {
                                                     </p>
                                                     <p className="mt-1 flex text-xs leading-5 text-gray-500">
                                                         <Link to={`/apology/${item.uuid}`} className="relative truncate hover:underline">
-                                                        {item.created_at}
+                                                        {moment(item.created_at).format('LLLL')}
                                                         </Link>
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div className="flex shrink-0 items-center gap-x-4">                                    
-                                                <ChevronRightIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
+                                            <div className="flex shrink-0 items-center gap-x-4">   
+                                                <Link to={`/apology/${item.uuid}`}>
+                                                    <ChevronRightIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
+                                                </Link>                                 
                                             </div>
                                         </li>                                                                                  
                                     ))}
