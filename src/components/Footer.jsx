@@ -19,7 +19,7 @@ export default function Footer() {
                                 {link.name}
                             </a>
                         ))}
-                        <div className='flex-1 flex justify-end text-xs'>&copy; Judd Hendrix</div>
+                        <div className='flex-1 flex justify-end text-xs'>&copy; Copyright {new Date().getFullYear()} Judd Hendrix</div>
                     </div>
                 </div>
             </div>
