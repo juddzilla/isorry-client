@@ -1,4 +1,3 @@
-
 import { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Dialog, Transition } from '@headlessui/react';
@@ -37,15 +36,12 @@ const Collection = ({open, setOpen}) => {
     const initialMessages = [];  
     const [messages, setMessages] = useState(initialMessages);
     const [prompting, setPrompting] = useState(order[0]);
-    
     const [progress, setProgress]  = useState([1, order.length+1]);
     
-
     const navigate = useNavigate();
     
     const cancelButtonRef = useRef(null);
     const chatbox = useRef(null);
-
 
     function submit() {
         const initialValue = { reason: '', type: 'Full', parameters: {}};
@@ -204,7 +200,7 @@ const Collection = ({open, setOpen}) => {
         if (msg.message === null) {
             return null;
         }
-        const containerClassList = ['flex', 'relative', 'text-sm' , 'last:text-base', 'drop-shadow-sm', 'last:drop-shadow-xl'];
+        const containerClassList = ['flex', 'relative', 'text-sm' , 'last:text-base', 'drop-shadow-sm', 'last:drop-shadow-xl', 'mb-4'];
         const messageClassList = ['rounded-lg', 'bg-white', 'inline-block', 'py-2'];
         const hasEmoji = ['yourFeeling', 'theirFeelings'];
         const hasBool = ['wantToChange', 'willingToChange'];
@@ -218,12 +214,12 @@ const Collection = ({open, setOpen}) => {
             if (!hasEmoji.includes(msg.property)) {
                 messageClassList.push('py-2', 'px-6')
             }
-            containerClassList.push('justify-end', 'items-center', 'mb-6');
+            containerClassList.push('justify-end', 'items-center');
             messageClassList.push('ml-2', 'rounded-br-none', 'max-w-lg');
         }
 
         if (msg.type === 'system') {
-            containerClassList.push('mr-6', 'items-end', 'mb-4');
+            containerClassList.push('mr-6', 'items-end');
             messageClassList.push('mr-12', 'px-3', 'rounded-bl-none',);
 
             if (display === '...') {
@@ -318,16 +314,19 @@ const Collection = ({open, setOpen}) => {
                                 
                                 </div>
                                 <div className='overflow-scroll h-full flex flex-col bg-gray-50'>
-                                    <div className='px-4 py-4 flex-1 flex flex-col justify-end'>
+                                    <div className='px-4 pt-4 flex-1 flex flex-col justify-end'>
                                         <>
                                             { initialPrompts.map(Message) }
                                             { messages.map(Message) }
                                         </>
                                     </div>
-                                    <div>
-                                        { prompting === null && <Loading />}
-                                    </div>
-                        
+                                    
+                                    { prompting === null && 
+                                        <div className='px-4'>
+                                            <Loading />
+                                        </div>
+                                    }
+                                                            
                                     <div className="bg-gray-100 p-4 pb-2">
                                         { template && template() }
                                     </div>
