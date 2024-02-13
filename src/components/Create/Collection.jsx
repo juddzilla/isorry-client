@@ -1,8 +1,18 @@
 
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Dialog, Transition } from '@headlessui/react';
 import { PencilIcon } from '@heroicons/react/24/outline';
+
+import {
+    empathyOptions,
+    getOrder,
+    getPrompts,
+    remorseOptions,
+    targetAudienceOptions,
+} from './Collection/prompts';
+
+import { AuthContext } from '../../App';
 
 import Bool from './Collection/Bool';
 import Feelings from './Collection/Feelings';
@@ -20,32 +30,29 @@ import Store from '../../store';
 import Fetch from '../../fetch';
 
 const Collection = ({open, setOpen}) => {  
+    const { auth } = useContext(AuthContext);
+    const [isAuthed, setIsAuthed] = useState(auth);
+    const order = getOrder(isAuthed);
+    const prompts = getPrompts();
     const initialMessages = [];  
     const [messages, setMessages] = useState(initialMessages);
-    const [prompting, setPrompting] = useState('reason');
+    const [prompting, setPrompting] = useState(order[0]);
     
+    const [progress, setProgress]  = useState([1, order.length+1]);
+    
+
     const navigate = useNavigate();
     
     const cancelButtonRef = useRef(null);
     const chatbox = useRef(null);
 
-    const ordered = [
-        'reason',
-        'yourFeeling',
-        'theirFeelings',
-        'targetAudience',
-        'type',
-        'yourRemorse',
-        'yourEmpathy',
-        'wantToChange',
-        'willingToChange',
-        'willDo',
-        'whenChange',
-    ];
-
-    const [progress, setProgress]  = useState([1, ordered.length+1]);
 
     function submit() {
+        const initialValue = { reason: '', type: 'Full', parameters: {}};
+
+        if (!isAuthed) {
+            initialValue.type = 'Full';
+        }
         const data = messages.reduce((acc, cur) => {
             if (cur.type === 'user') {
                 if (Object.hasOwn(acc, cur.property)) {
@@ -55,7 +62,7 @@ const Collection = ({open, setOpen}) => {
                 }
             }
             return acc;
-        }, { reason: '', type: '', parameters: {}});
+        }, initialValue);
 
         async function getApology() {            
             const res = await Fetch.post('apologize/', data);            
@@ -86,33 +93,36 @@ const Collection = ({open, setOpen}) => {
     }
 
     useEffect(() => {
+        setIsAuthed(auth);
+      }, [auth]);
+
+    useEffect(() => {
         if (!open) {
             setMessages(initialMessages);        
-            setPrompting('reason');
-            setProgress([1, ordered.length+1]);
+            setPrompting(order[0]);
+            setProgress([1, order.length+1]);
         } else {
-            addSystemMessage('reason');
-            setPrompting('reason');
+            addSystemMessage(order[0]);
         }
     }, [open]);
 
     useEffect(() => {
         if (prompting !== null) {            
             if (prompting === 'noApology') {
-                const totalLength = ordered.indexOf('type');
+                const totalLength = order.indexOf('type');
                 setProgress([totalLength+2,totalLength+2]);
             } else if (prompting === 'generating') {
                 setProgress(null);
             } else {
-                const currentIndex = ordered.indexOf(prompting);            
-                setProgress([currentIndex+1,ordered.length+1]);
+                const currentIndex = order.indexOf(prompting);            
+                setProgress([currentIndex+1,order.length+1]);
             }
         }
     }, [prompting]);
 
-    useEffect(() => {        
+    useEffect(() => {                
         if (chatbox.current && messages.length) {              
-            const generateAfter = ['noApology', ordered[ordered.length - 1]];
+            const generateAfter = ['noApology', order[order.length - 1]];
             const latest = messages[messages.length -1];
             
             if (latest.type === 'user') {
@@ -121,81 +131,22 @@ const Collection = ({open, setOpen}) => {
                 if (generateAfter.includes(latest.property)) {
                     property = 'generating';
                     submit();                    
-                } else if (latest.property === 'type' && latest.message === 'None') {                    
+                } else if (latest.property === 'type' && latest.message === 'Fauxpology') {                    
                     property = 'noApology';                    
                 } else {
-                    const currentIndex = ordered.indexOf(latest.property);
-                    property = ordered[currentIndex + 1];
+                    const currentIndex = order.indexOf(latest.property);
+                    property = order[currentIndex + 1];
                 }         
                 addSystemMessage(property);
             } 
             
             setTimeout(() => {
-                try {
+                if (chatbox.current) {
                     chatbox.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
-                } catch(e) {
-                    console.warn(e);
-                }
+                }    
             }, 100);
         }
     }, [messages])
-
-    const prompts = {
-        generating: [            
-            { type: 'system', message: 'You will be directed to the apology when it has been generated.'},            
-            { type: 'system', message: 'Crafting a sincere and thoughtful apology takes time, as we want to ensure it reflects genuine remorse and a commitment to making amends.'},
-            { type: 'system', message: "We appreciate your understanding, and we're working diligently to provide you with an apology that addresses the situation appropriately."},
-            { type: 'system', message: 'Your patience is valued, and we aim to present to you a heartfelt message shortly.'},           
-            { type: 'system', message: '...'},
-        ],
-        reason: [
-            {type: 'system', message: "Let's get started with iSorry.lol"},
-            {type: 'system', message: 'Tell us what happened'},
-            {type: 'system', message: 'The more context provided, the better apology we can write for you. Let it all go. Hold nothing back (1000 character limit).'},
-        ],
-        yourFeeling: {type: 'system', message: 'How does this make you feel?'},
-        noApology: {type: 'system', message: 'Select the type you want us to generate'},
-        theirFeelings: {type: 'system', message: 'How do you think they felt?'},
-        targetAudience: {type: 'system', message: 'Who is this apology for?'},
-        type: {type: 'system', message: 'What percentage of this is your fault?'},
-        yourRemorse: {type: 'system', message: 'Estimate your level of REMORSE'},
-        yourEmpathy: {type: 'system', message: 'Estimate your level of EMPATHY'},
-        wantToChange: {type: 'system', message: 'Do You Want To Change?'},
-        willingToChange: {type: 'system', message: 'Are You Willing To Change?'},
-        willDo: {type: 'system', message: 'What Changes Will You Implement?'},
-        whenChange: {type: 'system', message: 'When Can They Expect To See Results?'}
-    };
-
-    const remorseOptions = [
-        'Negligible',
-        'Limited',
-        'Partial',
-        'Genuine',
-        'Sincere',
-        'Profound',
-        'Overwhelming',
-    ];
-
-    const empathyOptions = [
-        'Limited',
-        'Partial',
-        'Basic',
-        'Moderate',
-        'High',
-        'Deep',
-        'Exceptional'
-    ];
-
-    const targetAudienceOptions = [
-        'Family',
-        'Friend',
-        'Coworker',
-        'Neighbor',
-        'Child',
-        'Pet',
-        'Acquaintance',
-        'Other',
-    ];
 
     const promptTemplates = {
         null: () => null,
@@ -244,7 +195,7 @@ const Collection = ({open, setOpen}) => {
         if (prompting === 'generating') {
             return;
         }
-        const newMessages = messages.slice(0, index);        
+        const newMessages = messages.slice(0, index);      
         setMessages(newMessages);
         setPrompting(newMessages[newMessages.length -1].property);
     }
@@ -253,8 +204,8 @@ const Collection = ({open, setOpen}) => {
         if (msg.message === null) {
             return null;
         }
-        const containerClassList = ['flex', 'relative'];
-        const messageClassList = ['rounded-lg', 'bg-white', 'inline-block'];
+        const containerClassList = ['flex', 'relative', 'text-sm' , 'last:text-base', 'drop-shadow-sm', 'last:drop-shadow-xl'];
+        const messageClassList = ['rounded-lg', 'bg-white', 'inline-block', 'py-2'];
         const hasEmoji = ['yourFeeling', 'theirFeelings'];
         const hasBool = ['wantToChange', 'willingToChange'];
 
@@ -267,12 +218,12 @@ const Collection = ({open, setOpen}) => {
             if (!hasEmoji.includes(msg.property)) {
                 messageClassList.push('py-2', 'px-6')
             }
-            containerClassList.push('justify-end', 'items-center');
+            containerClassList.push('justify-end', 'items-center', 'mb-6');
             messageClassList.push('ml-2', 'rounded-br-none', 'max-w-lg');
         }
 
         if (msg.type === 'system') {
-            containerClassList.push('mr-6', 'items-end');
+            containerClassList.push('mr-6', 'items-end', 'mb-4');
             messageClassList.push('mr-12', 'px-3', 'rounded-bl-none',);
 
             if (display === '...') {
@@ -281,20 +232,6 @@ const Collection = ({open, setOpen}) => {
             }
         }
 
-        if (i === 0 && display !== '') {
-            containerClassList.push('mt-auto');
-        }
-        
-        if (i < arr.length - 1) {            
-            if (i === arr.length - 2) {                
-                containerClassList.push('mb-8');
-            } else {                
-                containerClassList.push('mb-6');
-            }
-            messageClassList.push('shadow-sm', 'py-2', 'text-sm');
-        } else {
-            messageClassList.push('shadow-lg', 'py-3');
-        }
         return (
             <div                
                 className={containerClassList.join(' ')}
@@ -317,13 +254,13 @@ const Collection = ({open, setOpen}) => {
                                     <PencilIcon className='h-4 w-auto text-gray-300 hover:text-gray-500' />
                                 </div>
                             }
-                            {hasEmoji.includes(msg.property) ? (
+                            { hasEmoji.includes(msg.property) ? (
                                 <div className='mx-4'>{ Emoji(msg.message) }</div>
-                            ) : (
+                              ) : (
                                 <span className={messageClassList.join(' ')}>
                                     {display}               
                                 </span>
-                            )                            
+                              )                            
                             }                            
                         </>
                     }
@@ -334,6 +271,10 @@ const Collection = ({open, setOpen}) => {
     const Loading = () => Message({type: 'system', message: '...'}, 0, []);
 
     const template = promptTemplates[prompting];
+
+    const initialPrompts = [
+        {classList: 'mt-auto', type: 'system', message: "Let's get started with the iSorry.lol AI apology generator."},
+    ];
     
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -368,16 +309,23 @@ const Collection = ({open, setOpen}) => {
                                         <strong className='inline-block'>iSorry.lol</strong>
                                     </div>
                                     <div className='text-xs text-gray-400'>
-                                        {progress[0]} / {progress[1]}
+                                        { progress && 
+                                            <>
+                                                {progress[0]} / {progress[1]}
+                                            </>
+                                        }
                                     </div>
                                 
                                 </div>
                                 <div className='overflow-scroll h-full flex flex-col bg-gray-50'>
                                     <div className='px-4 py-4 flex-1 flex flex-col justify-end'>
                                         <>
+                                            { initialPrompts.map(Message) }
                                             { messages.map(Message) }
-                                            { prompting === null && <Loading />}
                                         </>
+                                    </div>
+                                    <div>
+                                        { prompting === null && <Loading />}
                                     </div>
                         
                                     <div className="bg-gray-100 p-4 pb-2">
@@ -385,13 +333,6 @@ const Collection = ({open, setOpen}) => {
                                     </div>
                                     <div className=''  ref={chatbox}/>
                                 </div>
-
-                                {/* <div >
-                                    { progress && 
-                                        // `${progress[0]}/${progress[1]}` 
-                                        PromptProgress()
-                                    }
-                                </div>                                                         */}
                             </Dialog.Panel>
                         </Transition.Child>
                     </div>

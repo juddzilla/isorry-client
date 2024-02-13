@@ -4,13 +4,13 @@ import { pill } from './Options';
 export default function Type({ onChange }) {
     const types = [
         {
-            name: 'None',
+            name: 'Fauxpology',
             description: 'For when you HAVE to apologize, but not WANT to apologize.'
         },
 
         {
-            name: 'Full',
-            description: 'This is on me.'
+            name: 'Classic',
+            description: "A heartfelt expression of remorse for one's actions or words."
         }
     ];
 
@@ -21,7 +21,7 @@ export default function Type({ onChange }) {
     }
 
     return (      
-      <RadioGroup className='flex'>
+      <RadioGroup className='flex justify-center flex-wrap  bg-gray-100 overflow-hidden'>
         <RadioGroup.Label className="sr-only text-base font-semibold leading-6 text-gray-900">
           About how much responsibility are you willing to own up to?
         </RadioGroup.Label>
@@ -32,11 +32,11 @@ export default function Type({ onChange }) {
               data-value={type.name}
               onClick={onChoice}
               value={type.name}
-              className={`${pill} text-sm py-2 type-group flex-1 mr-4 last:mr-0 !justify-start !items-start`}
+              className={`${pill} type-group !px-0 w-5/12 mr-4 overflow-hidden`}
             >
-              <RadioGroup.Label as="span">
+              <RadioGroup.Label as="span" className='px-3 py-2 bg-white'>
                 <div>{type.name}</div>
-                <span className="text-gray-500">{type.description}</span>
+                <span className="text-sm text-gray-500">{type.description}</span>
               </RadioGroup.Label>                              
           </RadioGroup.Option>
         ))}

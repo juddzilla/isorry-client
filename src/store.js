@@ -8,10 +8,6 @@ class Store {
         this.loggedIn = false;
     }
 
-    authed() {
-        return this.loggedIn;
-    }
-
     get() {
         return {
             createdAt: this.createdAt,
@@ -21,15 +17,7 @@ class Store {
             uuid: this.uuid,
         }
     }
-
-    login() {
-        this.loggedIn = true;
-    }
-
-    logout() {
-        this.loggedIn = false;
-    }
-
+    
     reset() {
         this.createdAt = null;
         this.message = null;

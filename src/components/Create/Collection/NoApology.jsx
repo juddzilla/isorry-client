@@ -4,7 +4,7 @@ import { pill } from './Options';
 export default function NoApology({ onChange }) {
     const types = [
         {
-            description: "Instead of apologizing for the action, shifts the blame to their sensitivity.",
+            description: "Redirect and shift the blame to their sensitivity.",
             example: "I'm sorry if you were offended.",
             name: 'Non-Apology',
         },
@@ -19,7 +19,7 @@ export default function NoApology({ onChange }) {
             name: 'Blame-Shift Apology',
         },
         {
-            description: "Put conditions on the apology, making it contingent on their actions.",
+            description: "Set conditions making the apology contingent on their actions.",
             example: "I'm sorry if you'll just forgive me.",
             name: 'Conditional Apology',
         },

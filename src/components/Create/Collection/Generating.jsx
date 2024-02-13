@@ -1,4 +1,4 @@
-export default () => {
+export default function Generating() {
     return (
         <div className='px-8'>
             <div className='mb-8'>
