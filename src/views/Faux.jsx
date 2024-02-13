@@ -78,10 +78,10 @@ const Component = () => {
           <LoggedIn />
           <div className="bg-white">
             <Header />
-            <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700">
+            <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700  px-2 md:px-0">
               <p className="text-base font-semibold leading-7 text-brand">iSorry.lol</p>
               <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Fauxpologies</h1>
-              <p className="mt-6 text-xl leading-8">
+              <p className="mt-6 text-xl leading-8 ">
                   Have you ever encountered a 'Non-Apology Apology' aka 'fauxpology'? It’s an apology that, in essence, lacks sincerity and true remorse, often characterized by a subtle shifting of blame or a justification of the behavior that caused harm, rather than a straightforward admission of wrongdoing. This type of apology skirts around true accountability, leaving the real issue unresolved and potentially deepening the hurt feelings of those involved.
               </p>
               <div className="mt-10 max-w-2xl">
@@ -153,7 +153,7 @@ const Component = () => {
                   To some it's just a game
                 </figcaption>
               </figure>
-              <div className="mt-16 max-w-2xl pb-20">
+              <div className="mt-16 max-w-2xl pb-2 px-2 md:px-0">
                 <h2 className="text-2xl font-bold tracking-tight text-gray-900">Recognize the Insincerity in Apologies</h2>
                 <p className="mt-6">
                 In the realm of interpersonal dynamics, the phenomenon of fauxpologies presents a curious but unfortunately common occurrence. These insincere apologies often stem from a reluctance to fully embrace responsibility, acting as a shield to protect one's ego from the discomfort of admitting fault. At times, they are driven by the fear of facing serious consequences, whether these are legal, professional, or related to personal reputation. Rooted in a lack of genuine empathy, fauxpologies can also surface due to social or cultural pressures to conform to expected norms of apology, without the apologizer truly feeling remorseful. In scenarios marked by power imbalances, such superficial apologies may be tactically employed to maintain control or assert dominance. This is compounded by a lack of self-awareness or a state of denial about one's role in the hurtful situation. In some cases, fauxpologies are even wielded as tools of manipulation, strategically used to gloss over issues without real resolution. Ultimately, these half-hearted apologies tend to serve the interests of the apologizer more than providing any real solace or validation to the aggrieved party, bypassing the genuine vulnerability, honesty, and transformation inherent in a heartfelt apology.

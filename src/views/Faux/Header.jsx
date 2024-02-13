@@ -29,7 +29,7 @@ function Header() {
       
       <div className="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-24">
         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8">
-          <div className="mt-24 sm:mt-32 lg:mt-16 flex items-center">            
+          <div className="mt-0 sm:mt-32 lg:mt-16 flex items-center">            
             <span className="mr-8 rounded-full bg-secondary/10 px-3 py-1 text-sm font-semibold leading-6 text-primary ring-1 ring-inset ring-primary">
             Learning
             </span>

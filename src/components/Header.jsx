@@ -2,7 +2,7 @@ import { Fragment, useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { UserCircleIcon } from '@heroicons/react/20/solid';
+import { LockClosedIcon, UserCircleIcon } from '@heroicons/react/20/solid';
 import { AuthContext } from '../App';
 import CreateTrigger from '../components/Create/Trigger';
 import Fetch from '../fetch';
@@ -11,8 +11,8 @@ import Logo from '../images/noun-tilde-1125364.svg';
 
 const navigation = [
   { name: 'Apology Anatomy', href: '/anatomy'},
-  { name: 'Fauxpologies', href: '/fauxpologies'},
   { name: 'Best Practices', href: '/best-practices'},
+  { name: 'Fauxpologies', href: '/fauxpologies', icon: LockClosedIcon},
 ]
 
 function classNames(...classes) {
@@ -91,20 +91,28 @@ export default function Header() {
                     />
                   </Link>
                 </div>
-                <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
-                  {pages.map((item) => (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className={classNames(
-                        item.current ? 'bg-primary text-white' : 'hover:text-white hover:bg-secondary',
-                        'rounded-md px-3 py-2 text-sm font-medium'
-                      )}
-                      aria-current={item.current ? 'page' : undefined}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
+                <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">                  
+                  {pages.map((item) => {
+                    const classList = ['rounded-md px-3 py-2 text-sm font-medium flex items-center'];
+
+                    if (item.current) {
+                      classList.push('bg-primary text-white');
+                    } else {
+                      classList.push('hover:text-white hover:bg-secondary');
+                    }
+                    return (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className={classList.join(' ')}
+                        aria-current={item.current ? 'page' : undefined}
+                      >
+                        {item.name}
+                        { (item.icon && !isAuthed) &&
+                          <item.icon className='h-4 w-4 ml-1'/>
+                        }
+                      </Link>
+                  )})}
                 </div>
               </div>
               <div className="flex items-center">
@@ -176,7 +184,7 @@ export default function Header() {
                   )}
                   aria-current={item.current ? 'page' : undefined}
                 >
-                  {item.name}
+                  {item.name}                  
                 </Disclosure.Button>
               ))}
             </div>

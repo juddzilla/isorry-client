@@ -10,7 +10,7 @@ export default function LoggedIn() {
         setIsAuthed(auth);
       }, [auth]);
 
-    if (!isAuthed) {
+    if (isAuthed) {
         return null;
     }
     
