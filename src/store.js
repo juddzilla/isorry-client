@@ -5,7 +5,6 @@ class Store {
         this.message = null;
         this.model = null;
         this.uuid = null;
-        this.loggedIn = false;
     }
 
     get() {

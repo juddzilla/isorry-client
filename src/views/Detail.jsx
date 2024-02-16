@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useLocation, Link, useParams } from 'react-router-dom';
 import { Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
 import { ChevronRightIcon, XMarkIcon } from '@heroicons/react/20/solid';
@@ -23,6 +23,7 @@ const Component = () => {
     const [description, setDescription] = useState('Engage with Genuine Amends: Tailored messages expressing regret and facilitating reconciliation on our unique apology platform.');    
     const [viewing, setViewing] = useState('loading');
     let { uuid } = useParams();
+    const location = useLocation();
 
     const links = [
       {
@@ -59,32 +60,8 @@ const Component = () => {
     ];
 
     useEffect(() => {
-        const stored = Store.get();
-
-        const setView = (data) => {
-          setTimeout(() => {
-            if (data.message === 'Not Possible') {
-              setViewing('empty');
-              setHeadline('Not Found');
-              setTitle('iSorry.lol');
-            } else {
-              const date = data.createdAt || data.created_at;
-              const formattedDate = moment(date).format('LLLL');
-              // 
-              setApology(data.message);
-              setDescription(`Generated from your input on ${formattedDate}`)
-              setHeadline('iSorry.lol');            
-              setReason(data.reason);
-              setTitle(`AI Generated with ${data.model.replaceAll('-', ' ')}`);
-              setViewing('apology');
-            }            
-          }, 300);
-        };
-
-        if (stored.uuid === uuid && stored.message) {            
-            setView(stored);
-        } else {
-            Fetch.get(`apology/${uuid}`)            
+        if (!checkStore()) {                                
+          Fetch.get(`apology/${uuid}`)            
             .then(response => {              
                 const [error, apology] = response;
                 if (apology) {
@@ -98,6 +75,41 @@ const Component = () => {
             });
         }
     }, []);
+
+    useEffect(() => {
+      checkStore();
+    }, [location]);
+
+    function checkStore() {
+      const stored = Store.get();
+
+      if (stored.uuid) {            
+          setView(stored);
+          return true;
+      } else {
+        return false;
+      }
+    }
+
+    const setView = (data) => {
+      setTimeout(() => {
+        if (data.message === 'Not Possible') {
+          setViewing('empty');
+          setHeadline('Not Found');
+          setTitle('iSorry.lol');
+        } else {
+          const date = data.createdAt || data.created_at;
+          const formattedDate = moment(date).format('LLLL');
+          // 
+          setApology(data.message);
+          setDescription(`Generated from your input on ${formattedDate}`)
+          setHeadline('iSorry.lol');            
+          setReason(data.reason);
+          setTitle(`AI Generated with ${data.model.replaceAll('-', ' ')}`);
+          setViewing('apology');
+        }            
+      }, 300);
+    };
 
     async function toClipboard() {
         await navigator.clipboard.writeText(apology);
