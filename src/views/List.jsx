@@ -6,6 +6,7 @@ import OAuth from './o/index';
 import { ChevronRightIcon } from '@heroicons/react/20/solid';
 
 import { AuthContext } from '../App';
+import Trigger from '../components/Create/Trigger';
 
 const Component = () => {
     const [list, setList] = useState(null);
@@ -85,30 +86,10 @@ const Component = () => {
                         ) : (
                             <div className="mx-auto max-w-2xl lg:mx-0 pb-16">  
                                 { !list.length ? (
-                                    <div>
-                                        <div>Nothing to see here</div>
-                                        <button
-                                            type="button"
-                                            className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                        >
-                                            <svg
-                                            className="mx-auto h-12 w-12 text-gray-400"
-                                            stroke="currentColor"
-                                            fill="none"
-                                            viewBox="0 0 48 48"
-                                            aria-hidden="true"
-                                            >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M8 14v20c0 4.418 7.163 8 16 8 1.381 0 2.721-.087 4-.252M8 14c0 4.418 7.163 8 16 8s16-3.582 16-8M8 14c0-4.418 7.163-8 16-8s16 3.582 16 8m0 0v14m0-4c0 4.418-7.163 8-16 8S8 28.418 8 24m32 10v6m0 0v6m0-6h6m-6 0h-6"
-                                            />
-                                            </svg>
-                                            <span>&#2639 </span>
-                                            <span className="mt-2 block text-sm font-semibold text-gray-900">Create a new database</span>
-                                        </button>
-                                  </div>
+                                    <div className='flex flex-col items-center'>
+                                        <div className='text-xl text-center my-8'>This is more deserted than a party without cake. Bake your first Apology and sweeten the deal!</div>
+                                        <Trigger>Create Your First</Trigger>
+                                    </div>
                                 ) : (
                                     <ul className="divide-y divide-gray-100">
                                     {list.map((item, index) => (
