@@ -8,6 +8,7 @@ import Contact from './views/Contact.jsx';
 import Detail from './views/Detail.jsx';
 import Fauxpologies from './views/Faux.jsx';
 import Home from './views/Home.jsx';
+import How from './views/How.jsx';
 import List from './views/List.jsx';
 import Login from './views/Login.jsx';
 import Privacy from './views/Privacy.jsx';
@@ -23,6 +24,7 @@ const routes = {
     Detail,
     Fauxpologies,
     Home,
+    How,
     List,
     Login,
     Privacy,

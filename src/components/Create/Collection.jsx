@@ -33,8 +33,7 @@ const Collection = ({open, setOpen}) => {
     const [isAuthed, setIsAuthed] = useState(auth);
     const order = getOrder(isAuthed);
     const prompts = getPrompts();
-    const initialMessages = [];  
-    const [messages, setMessages] = useState(initialMessages);
+    const [messages, setMessages] = useState([]);
     const [prompting, setPrompting] = useState(order[0]);
     const [progress, setProgress]  = useState([1, order.length+1]);
     
@@ -94,11 +93,28 @@ const Collection = ({open, setOpen}) => {
 
     useEffect(() => {
         if (!open) {
-            setMessages(initialMessages);        
+            // setMessages(initialMessages);        
+            // setPrompting(order[0]);
+            // setProgress([1, order.length+1]);
+            setMessages([]);
+        } else {
+            const initialMessages = [
+                {type: 'system', messages: `Let's get started with the iSorry.lol AI apology generator.`, property: null},
+                prompts[order[0]],
+            ];  
             setPrompting(order[0]);
             setProgress([1, order.length+1]);
-        } else {
-            addSystemMessage(order[0]);
+            // addSystemMessage(order[0]);
+
+            const newMessages = []
+            initialMessages.forEach((m,i) => {
+                const delay = 2000;
+                setTimeout(() => {                    
+                    newMessages.push(m);
+                    console.log('M', newMessages);
+                    setMessages([...newMessages]);
+                }, delay*i);
+            })
         }
     }, [open]);
 
@@ -116,7 +132,7 @@ const Collection = ({open, setOpen}) => {
         }
     }, [prompting]);
 
-    useEffect(() => {                
+    useEffect(() => {
         if (chatbox.current && messages.length) {              
             const generateAfter = ['noApology', order[order.length - 1]];
             const latest = messages[messages.length -1];
@@ -163,28 +179,14 @@ const Collection = ({open, setOpen}) => {
 
     const addUserMessage = (property, message) => {       
         setPrompting(null);   
-        setMessages([...messages, {type: 'user', property, message}]);       
+        setMessages([...messages, {type: 'user', property, messages: [message]}]);       
     };
     
     function addSystemMessage(property) {
-        const delay = 800;
-        const delayedMessages = [...messages];
-        let msgs = prompts[property];        
+        let prompt = prompts[property];
 
-        if (!Array.isArray(msgs)) {
-            msgs = [msgs];
-        }
-        
-        msgs.forEach((m, index) => {
-            const msg = {...m, property};
-            setTimeout(() => {
-                setMessages([...delayedMessages, msg]);
-                delayedMessages.push(msg);                
-                if (index === 0) {
-                    setPrompting(msg.property);
-                }
-            }, (index + 1) * delay);
-        });
+        setMessages([...messages, prompt]);
+        setPrompting(prompt.property);
     }
 
     function goToMessage(index) {
@@ -196,80 +198,87 @@ const Collection = ({open, setOpen}) => {
         setPrompting(newMessages[newMessages.length -1].property);
     }
 
-    const Message = (msg, i, arr) => {
-        if (msg.message === null) {
-            return null;
-        }
-        const containerClassList = ['flex', 'relative', 'text-sm' , 'last:text-base', 'drop-shadow-sm', 'last:drop-shadow-xl', 'mb-4'];
-        const messageClassList = ['rounded-lg', 'bg-white', 'inline-block', 'py-2'];
+    const MessageBlock = (message, i) => {                
+        console.log('MB', message);
+        let display = message.messages;
+        let containerClassList = 'flex relative mb-4';
+        let iconClassList = 'h-6 w-6';
+        let messagesClassList = 'flex-1 pl-1.5';
+        let messageClassList = 'b-2 px-0.5 whitespace-pre-line';
+
+        const style = {};
+
         const hasEmoji = ['yourFeeling', 'theirFeelings'];
         const hasBool = ['wantToChange', 'willingToChange'];
 
-        let display = msg.message;
+        const target = message.type === 'system' ? 'Apology Assistant' : 'You';
 
-        if (msg.type === 'user') {            
-            if (hasBool.includes(msg.property)) {                
-                display = msg.message === true ? 'Yes' : 'No';
+        
+        const icon = () => {
+            if (message.type === 'system') {
+                return (<img
+                    className={`${iconClassList} w-auto mr-2`}
+                    src={Logo}
+                    alt="iSorry.lol"                                        
+                />);
             }
-            if (!hasEmoji.includes(msg.property)) {
-                messageClassList.push('py-2', 'px-6')
-            }
-            containerClassList.push('justify-end', 'items-center');
-            messageClassList.push('ml-2', 'rounded-br-none', 'max-w-lg');
+            return (<div className={`${iconClassList} rounded-full bg-gray-400 flex justify-center items-center`}>U</div>)
         }
 
-        if (msg.type === 'system') {
-            containerClassList.push('mr-6', 'items-end');
-            messageClassList.push('mr-12', 'px-3', 'rounded-bl-none',);
+        if (message.type === 'user') {
+            containerClassList += ' flex-row-reverse';
+            messageClassList += ' flex justify-end text-right';
+            messagesClassList += ' flex flex-col items-end pr-2 pl-10';
 
-            if (display === '...') {
-                messageClassList.push('loading', 'min-w-7');
-                display = '';
+            if (hasBool.includes(message.property)) {
+                display = display === true ? 'Yes' : 'No';                                    
             }
-        }
+        } else {
+            messagesClassList += ' pr-10';
+            messageClassList += ' reveal';
+            const initialDelay = '100ms';
+            const max = 1200;
+            const count = display.length;
+            
+            const vailTime = Math.min(count * 10, max);
+            const unvailDelay = Math.min(count*10+100, max+100);
 
+            style.animation =  `vail ${vailTime}ms ${initialDelay} both, unvailed ${vailTime}ms ${unvailDelay}ms both`;
+        }
         return (
-            <div                
-                className={containerClassList.join(' ')}
-                key={`${msg.type}-${msg.property}-${i}`}
-                >
-                    { msg.type === 'system' &&
-                        <>
-                            <img
-                                className="h-8 w-auto mr-2 mb-0.5"
-                                src={Logo}
-                                alt="iSorry.lol"                                        
-                            />
-                            <span className={messageClassList.join(' ')}>{display}</span>                                                        
-                        </>
+            <div className={containerClassList}>
+                <div className='w-8'>
+                    {icon()}
+                    { (message.type === 'user' && prompting !== 'generating') &&
+                        <div className='flex items-center h-6 mt-0.5 justify-center w-6 cursor-pointer' onClick={goToMessage.bind(null, i)}>
+                            <PencilIcon className='h-4 w-auto text-gray-300 hover:text-gray-500' />
+                        </div>
                     }
-                    { msg.type === 'user' &&
-                        <>
-                            { prompting !== 'generating' &&
-                                <div className='flex items-center ml-2 cursor-pointer' onClick={goToMessage.bind(null, i)}>
-                                    <PencilIcon className='h-4 w-auto text-gray-300 hover:text-gray-500' />
-                                </div>
-                            }
-                            { hasEmoji.includes(msg.property) ? (
-                                <div className='mx-4'>{ Emoji(msg.message) }</div>
-                              ) : (
-                                <span className={messageClassList.join(' ')}>
-                                    {display}               
-                                </span>
-                              )                            
-                            }                            
-                        </>
-                    }
+                </div>
+                <div className={messagesClassList}>
+                    <h3 className='font-bold mb-1'>{target}</h3>
+                    { (message.type === 'user' && hasEmoji.includes(message.property)) ? (
+                        <span>
+                            { Emoji(display) }
+                        </span>
+                    ) : (
+                        <span
+                            className={`${messageClassList}`}                            
+                            dangerouslySetInnerHTML={{ __html: display }}
+                            style={style}
+                        />                
+                    )}                  
+                </div>
             </div>
         )
     };
 
-    const Loading = () => Message({type: 'system', message: '...'}, 0, []);
+    const Loading = () => MessageBlock({type: 'system', messages: ['...']}, 0, []);
 
     const template = promptTemplates[prompting];
 
     const initialPrompts = [
-        {classList: 'mt-auto', type: 'system', message: "Let's get started with the iSorry.lol AI apology generator."},
+        {type: 'system', messages: `Let's get started with the iSorry.lol AI apology generator.`},
     ];
     
     return (
@@ -298,13 +307,10 @@ const Collection = ({open, setOpen}) => {
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <Dialog.Panel className="flex flex-col justify-end bg-gray-100 h-3/5 relative transform overflow-hidden rounded-xl bg-white text-left drop-shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg md:max-w-prose shadow-3xl">                                                
-                                <div className='z-10 w-full p-2 shadow-md bg-gray-100 px-16 flex items-center justify-between'>  
-                                    <div>
-                                        <div className='text-xs text-gray-500'>Crafting an apology with</div>
-                                        <strong className='inline-block'>iSorry.lol</strong>
-                                    </div>
-                                    <div className='text-xs text-gray-400'>
+                            <Dialog.Panel className="flex flex-col justify-end bg-gray-100 h-3/5 relative transform overflow-hidden rounded-sm bg-white text-left drop-shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg md:max-w-prose shadow-3xl">                                                
+                                <div className='z-10 w-full p-2 border-b-1 border-x-0 border-t-0 border-gray-800  shadow-sm border flex items-center justify-center relative'>  
+                                    <strong className='inline-block mr-4'>iSorry.lol</strong>
+                                    <div className='text-xs text-gray-400 absolute right-0 pr-6'>
                                         { progress && 
                                             <>
                                                 {progress[0]} / {progress[1]}
@@ -313,11 +319,11 @@ const Collection = ({open, setOpen}) => {
                                     </div>
                                 
                                 </div>
-                                <div className='overflow-scroll h-full flex flex-col bg-gray-50'>
+                                <div className='overflow-scroll h-full flex flex-col'>
                                     <div className='px-4 pt-4 flex-1 flex flex-col justify-end'>
                                         <>
-                                            { initialPrompts.map(Message) }
-                                            { messages.map(Message) }
+                                            {/* { initialPrompts.map(MessageBlock) } */}
+                                            { messages.map(MessageBlock) }
                                         </>
                                     </div>
                                     
@@ -327,7 +333,7 @@ const Collection = ({open, setOpen}) => {
                                         </div>
                                     }
                                                             
-                                    <div className="bg-gray-100 p-4 pb-2">
+                                    <div className="px-14 pt-4 pb-2">
                                         { template && template() }
                                     </div>
                                     <div className=''  ref={chatbox}/>

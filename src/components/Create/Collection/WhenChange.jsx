@@ -18,7 +18,7 @@ export default function WhenChange({ onChange }) {
     ];
 
     return (
-      <RadioGroup onChange={onChange} className='flex justify-center flex-wrap bg-gray-100 overflow-hidden pb-6 pl-9'>
+      <RadioGroup onChange={onChange} className='flex justify-center flex-wrap bg-gray-100 overflow-hidden pb-6'>
         {types.map((type) => (
           <RadioGroup.Option
               key={type.name}

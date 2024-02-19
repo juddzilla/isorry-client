@@ -8,7 +8,7 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale; 
 }
 
 code {
@@ -38,4 +38,24 @@ textarea { resize: none; }
   to {
     width: 1.25em;    
   }
+}
+
+.reveal {
+  color: #0000;
+  background: 
+    linear-gradient(#fff 0 0) no-repeat,
+    linear-gradient(#000 0 0) no-repeat;
+  background-size: 0% 100%; /* we start at 0% 100% */
+  -webkit-background-clip: padding-box,text;
+          background-clip: padding-box,text;
+  /* animation: 
+    vail 1.2s .5s both,
+    unvailed 1.2s 1.3s both; we run the second animation after the first one is done */
+}
+
+@keyframes vail{
+  to {background-size: 150% 100%} /* we animate to 150% instead of 100%*/
+}
+@keyframes unvailed{
+  to {background-position:-200% 0,0 0} /* we update the position of only the first layer */
 }

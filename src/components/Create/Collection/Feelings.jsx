@@ -37,7 +37,7 @@ export default function Feelings({ id, onClick }) {
     }
         
         return (
-            <RadioGroup className="relative px-10">
+            <RadioGroup className="relative">
                 <RadioGroup.Label className="sr-only">Choose a feeling</RadioGroup.Label>
                 <div className="md:flex md:justify-between overflow-visible">                
                     {emotions.map((option) => (

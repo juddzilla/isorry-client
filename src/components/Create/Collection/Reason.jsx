@@ -31,19 +31,19 @@ export default function Reason({ onChange}) {
     }
     
     return (
-        <div className='pl-16'>
-            <form className="flex items-end bg-white rounded-xl border-0 relative shadow-lg " onSubmit={setChange}>                
+        <div className=''>
+            <form className="flex border-0 relative" onSubmit={setChange}>                
                 <textarea
                     id="reason"
                     maxLength={limit}
                     name="reason"
                     ref={textareaRef}
-                    className="inline-block border border-gray-300 flex-1 p-3 pr-11 rounded-xl text-gray-900 focus:ring-transparent outline-0 border-0 max-h-40 overflow-scroll placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                    className="inline-block border border-gray-800 flex-1 p-3 pr-11 mr-2 rounded-xl text-gray-900 focus:ring-transparent outline-0 max-h-40 overflow-scroll placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     value={ reason }
                     onChange={change}
                 />
                 <button
-                    className='absolute right-0 bottom-0 h-10 w-10 mr-1 mb-1 flex justify-center items-center bg-primary rounded-full text-white disabled:bg-transparent disabled:text-gray-200'
+                    className='w-10 absolute h-full -right-10 flex justify-center items-center bg-primary text-white disabled:bg-transparent disabled:text-gray-200'
                     disabled={!reason.length}                        
                     type='submit'
                 >
