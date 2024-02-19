@@ -26,8 +26,8 @@ export default function Reason({ onChange}) {
 
     let remainingColor = 'text-gray-300';
     
-    if (reason.length) {
-        remainingColor = reason.length >= (limit-100) ? 'text-red-600' : 'text-secondary';        
+    if (reason.length) {        
+        remainingColor = reason.length >= (limit-100) ? 'text-red-600' : 'text-gray-500';        
     }
     
     return (
@@ -43,7 +43,7 @@ export default function Reason({ onChange}) {
                     onChange={change}
                 />
                 <button
-                    className='w-10 absolute h-full -right-10 flex justify-center items-center bg-primary text-white disabled:bg-transparent disabled:text-gray-200'
+                    className='w-10 absolute h-full -right-10 flex rounded-xl justify-center items-center bg-primary/80 hover:bg-primary text-white disabled:bg-primary/10'
                     disabled={!reason.length}                        
                     type='submit'
                 >

@@ -18,7 +18,7 @@ export default function WillDo({ onChange }) {
     ];
 
     return (
-      <RadioGroup onChange={onChange} className='flex justify-center flex-wrap bg-gray-100 overflow-hidden pb-6'>
+      <RadioGroup onChange={onChange} className='flex justify-center flex-wrap'>
         {types.map((type) => (
           <RadioGroup.Option
             key={type.name}

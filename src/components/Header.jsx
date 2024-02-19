@@ -11,8 +11,9 @@ import Logo from '../images/noun-tilde-1125364.svg';
 
 const navigation = [
   { name: 'Apology Anatomy', href: '/anatomy'},
-  { name: 'Best Practices', href: '/best-practices'},
   { name: 'Fauxpologies', href: '/fauxpologies', icon: LockClosedIcon},
+  { name: 'Best Practices', href: '/best-practices'},
+  { name: 'How It Works', href: '/how-it-works'},
 ]
 
 function classNames(...classes) {

@@ -18,7 +18,7 @@ export default function Bool({ id, onClick }) {
                             className={`${pill} px-6 py-2`}
                         >
                             <RadioGroup.Label as="span" className='flex flex-col justify-center items-center'>                                
-                                <Icon className='h-10 w-auto' />
+                                <Icon className='h-8 w-auto' />
                             </RadioGroup.Label>
                         </RadioGroup.Option>
                     )

@@ -93,9 +93,6 @@ const Collection = ({open, setOpen}) => {
 
     useEffect(() => {
         if (!open) {
-            // setMessages(initialMessages);        
-            // setPrompting(order[0]);
-            // setProgress([1, order.length+1]);
             setMessages([]);
         } else {
             const initialMessages = [
@@ -103,15 +100,13 @@ const Collection = ({open, setOpen}) => {
                 prompts[order[0]],
             ];  
             setPrompting(order[0]);
-            setProgress([1, order.length+1]);
-            // addSystemMessage(order[0]);
+            setProgress([1, order.length+1]);            
 
-            const newMessages = []
+            const newMessages = [];
             initialMessages.forEach((m,i) => {
                 const delay = 2000;
                 setTimeout(() => {                    
                     newMessages.push(m);
-                    console.log('M', newMessages);
                     setMessages([...newMessages]);
                 }, delay*i);
             })
@@ -198,8 +193,7 @@ const Collection = ({open, setOpen}) => {
         setPrompting(newMessages[newMessages.length -1].property);
     }
 
-    const MessageBlock = (message, i) => {                
-        console.log('MB', message);
+    const MessageBlock = (message, i) => {        
         let display = message.messages;
         let containerClassList = 'flex relative mb-4';
         let iconClassList = 'h-6 w-6';
@@ -237,7 +231,7 @@ const Collection = ({open, setOpen}) => {
             messagesClassList += ' pr-10';
             messageClassList += ' reveal';
             const initialDelay = '100ms';
-            const max = 1200;
+            const max = 600;
             const count = display.length;
             
             const vailTime = Math.min(count * 10, max);
@@ -246,7 +240,7 @@ const Collection = ({open, setOpen}) => {
             style.animation =  `vail ${vailTime}ms ${initialDelay} both, unvailed ${vailTime}ms ${unvailDelay}ms both`;
         }
         return (
-            <div className={containerClassList}>
+            <div className={containerClassList} key={`${message.type}-${i}`}>
                 <div className='w-8'>
                     {icon()}
                     { (message.type === 'user' && prompting !== 'generating') &&
@@ -277,10 +271,6 @@ const Collection = ({open, setOpen}) => {
 
     const template = promptTemplates[prompting];
 
-    const initialPrompts = [
-        {type: 'system', messages: `Let's get started with the iSorry.lol AI apology generator.`},
-    ];
-    
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
@@ -308,7 +298,7 @@ const Collection = ({open, setOpen}) => {
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
                             <Dialog.Panel className="flex flex-col justify-end bg-gray-100 h-3/5 relative transform overflow-hidden rounded-sm bg-white text-left drop-shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg md:max-w-prose shadow-3xl">                                                
-                                <div className='z-10 w-full p-2 border-b-1 border-x-0 border-t-0 border-gray-800  shadow-sm border flex items-center justify-center relative'>  
+                                <div className='z-10 w-full p-2 border-b-1 border-x-0 border-t-0 border-gray-200  shadow-sm border flex items-center justify-center relative'>  
                                     <strong className='inline-block mr-4'>iSorry.lol</strong>
                                     <div className='text-xs text-gray-400 absolute right-0 pr-6'>
                                         { progress && 
@@ -321,10 +311,7 @@ const Collection = ({open, setOpen}) => {
                                 </div>
                                 <div className='overflow-scroll h-full flex flex-col'>
                                     <div className='px-4 pt-4 flex-1 flex flex-col justify-end'>
-                                        <>
-                                            {/* { initialPrompts.map(MessageBlock) } */}
-                                            { messages.map(MessageBlock) }
-                                        </>
+                                        { messages.map(MessageBlock) }
                                     </div>
                                     
                                     { prompting === null && 
@@ -333,7 +320,7 @@ const Collection = ({open, setOpen}) => {
                                         </div>
                                     }
                                                             
-                                    <div className="px-14 pt-4 pb-2">
+                                    <div className="px-14 pt-4 pb-4">
                                         { template && template() }
                                     </div>
                                     <div className=''  ref={chatbox}/>
