@@ -1,5 +1,6 @@
 import CTA from './Anatomy/CTA';
 import Header from './Anatomy/Header';
+import LoggedIn from './Faux/LoggedIn';
 
 const faqs = [
   {
@@ -42,6 +43,7 @@ const faqs = [
       <>
         <div className="" id="parts">
           <Header />
+          <LoggedIn />
 
           <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700 pb-6">
             <p className="text-base font-semibold leading-7 text-brand">iSorry.lol</p>

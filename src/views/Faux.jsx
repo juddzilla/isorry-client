@@ -90,8 +90,8 @@ const Component = () => {
                 </p>
                 <ul className="mt-8 max-w-xl space-y-8 text-gray-600">
                   {
-                      apologyScenarios.map((scenario) => (
-                          <li key={scenario.feature} className="flex gap-x-3">
+                      apologyScenarios.map((scenario, i) => (
+                          <li key={`scenario-${i}`} className="flex gap-x-3">
                               <XCircleIcon className="mt-1 h-5 w-5 flex-none text-primary" aria-hidden="true" />
                               <span>
                                   <strong className="font-semibold text-gray-900 inline-block mr-2">{scenario.category}</strong> 
@@ -113,7 +113,7 @@ const Component = () => {
 
                 {
                   nonApologyFeaturesWithExamples.map((apology) => (
-                      <>
+                      <div key={apology.feature}>
                           <h3 className="mt-16 text-xl font-bold tracking-tight text-gray-900">{apology.feature}</h3>
                           <p className="mt-6">{apology.description}</p>
                           <figure className="mt-6 border-l border-secondary pl-9">
@@ -133,7 +133,7 @@ const Component = () => {
                               </div>
                               </figcaption>
                           </figure>
-                      </>
+                      </div>
                   ))
                 }
                 

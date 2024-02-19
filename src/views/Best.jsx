@@ -1,3 +1,4 @@
+import LoggedIn from './Faux/LoggedIn';
 const Component = () => {
     return (
         <>
@@ -43,6 +44,7 @@ const Component = () => {
                 </div>
             </div>
 
+            <LoggedIn />
             <div className="mt-12">
                 <div className="relative bg-white">
                     <div className="mx-auto max-w-7xl lg:flex lg:justify-between lg:px-8 xl:justify-end">

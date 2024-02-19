@@ -2,6 +2,7 @@ import { CheckCircleIcon, InformationCircleIcon } from '@heroicons/react/20/soli
 import { Link } from 'react-router-dom';
 import Trigger from '../components/Create/Trigger';
 import Smirk from '../images/emoji/smirking-face_1f60f.png';
+import LoggedIn from './Faux/LoggedIn';
 
 const Component = () => {
     const toSpaceCase = (str) => {
@@ -80,6 +81,8 @@ const Component = () => {
                     </div>          
                 </div>
             </div>
+
+            <LoggedIn />
 
             <div className="bg-white px-6 py-32 lg:px-8">
                 <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700">
