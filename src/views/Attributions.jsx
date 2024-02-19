@@ -17,7 +17,10 @@ const Component = () => {
             { name: "Bird's Eye View of Seashore", creator: 'Michael Olsen', link: 'https://unsplash.com/photos/birds-eye-view-of-seashore-aHCZXg0DodM'},
             { name: 'Black Pug in Black and White', creator: 'Priscilla Du Preez', link: 'https://unsplash.com/photos/black-pug-in-black-and-white-Iy9wIDKL4YU'},
         ],
-        Icons: [{ name: 'Heroicons', creator: 'Heroicons', link: 'https://heroicons.com/'},],        
+        Icons: [{ name: 'Heroicons', creator: 'Heroicons', link: 'https://heroicons.com/'},],
+        'How It Works': [
+            { name: 'A Close Up View of a Blue Blanket', creator: 'Klim Sergeev', link: 'https://unsplash.com/photos/wd5JNpAl3Ts/download?force=true&w=1920'}
+        ] 
     };
 
     return (
