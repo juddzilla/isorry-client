@@ -46,7 +46,7 @@ export default function NoApology({ onChange }) {
     ];
 
     return (
-      <RadioGroup onChange={onChange} className='flex justify-center flex-wrap  bg-gray-100 overflow-hidden pb-6'>
+      <RadioGroup onChange={onChange} className='flex justify-center flex-wrap overflow-hidden pb-6'>
         {types.map((type) => (
           <RadioGroup.Option
             key={type.name}
@@ -58,7 +58,7 @@ export default function NoApology({ onChange }) {
                 <span className="text-gray-500 text-sm">{type.description}</span>
               </RadioGroup.Label> 
                
-              <RadioGroup.Description as="div" className="mt-2 pt-1 pb-2 italic font-medium px-3 text-gray-900">
+              <RadioGroup.Description as="div" className="mt-2 pt-1 pb-2 italic font-medium px-3 text-sm text-gray-900">
                 "{type.example}"
               </RadioGroup.Description>
           </RadioGroup.Option>

@@ -46,6 +46,9 @@ export function getPrompts() {
             You have 2000 characters to share your thoughts and feelings. The more context provided, the better apology we can craft for you.`,
         yourFeeling: `How did this make you feel?`,
         noApology: `Select the style of Fauxpology to generate:`,
+        postGeneratingNotAuthed: `Upon completion, you will be redirected to your apology, which will be available for you one-time only. \n
+        We dedicate ourselves to creating apologies that sincerely convey regret and a determined plan for improvement, requiring thoughtful development to genuinely address the situation. \n
+        Your patience is valued, and we aim to present to you a heartfelt message shortly.`,
         theirFeelings: `And the person(s) you're apologizing to?`,
         targetAudience: `What is the relationship to whom you are apologizing to?`,
         type: `Will we be assisting you write a sincere apology, or a Fauxpology?`,
@@ -58,10 +61,6 @@ export function getPrompts() {
     };
 
     return Object.keys(data).reduce((acc, key) => {
-        // if (Array.isArray(data[key])) {
-        //     acc[key] = data[key].map(d => ({...d, property: key}));
-        // } else {
-        // }
         acc[key] = { messages: data[key], property: key, type: 'system' };
 
         return acc;

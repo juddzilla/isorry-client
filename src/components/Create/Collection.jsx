@@ -1,4 +1,5 @@
 import { Fragment, useContext, useEffect, useRef, useState } from 'react';
+import { UserCircleIcon } from '@heroicons/react/20/solid';
 import { useNavigate } from "react-router-dom";
 import { Dialog, Transition } from '@headlessui/react';
 import { PencilIcon } from '@heroicons/react/24/outline';
@@ -96,15 +97,23 @@ const Collection = ({open, setOpen}) => {
             setMessages([]);
         } else {
             const initialMessages = [
-                {type: 'system', messages: `Let's get started with the iSorry.lol AI apology generator.`, property: null},
-                prompts[order[0]],
+                {type: 'system', messages: `Welcome`, property: null},                
             ];  
+
+            if (!isAuthed) {
+                initialMessages.push({type: 'system', messages: "Log in now to ensure you can retrieve all your apologies at any time, as well as other features. If you choose not to log in, you'll only get a one-time access to the apology after finishing.", property: null})
+            }
+
+            initialMessages.push(
+                prompts[order[0]],
+                {type: 'system', messages: "After this step, expect to respond to a selection of multiple-choice questions, enabling us to construct your apology.", property: null},               
+            );
             setPrompting(order[0]);
             setProgress([1, order.length+1]);            
 
             const newMessages = [];
             initialMessages.forEach((m,i) => {
-                const delay = 2000;
+                const delay = 1500;
                 setTimeout(() => {                    
                     newMessages.push(m);
                     setMessages([...newMessages]);
@@ -131,14 +140,14 @@ const Collection = ({open, setOpen}) => {
         if (chatbox.current && messages.length) {              
             const generateAfter = ['noApology', order[order.length - 1]];
             const latest = messages[messages.length -1];
-            
+
             if (latest.type === 'user') {
                let property = null;
                 
                 if (generateAfter.includes(latest.property)) {
-                    property = 'generating';
-                    submit();                    
-                } else if (latest.property === 'type' && latest.message === 'Fauxpology') {                    
+                    property = isAuthed ? 'generating' : 'postGeneratingNotAuthed';                    
+                    submit();
+                } else if (latest.property === 'type' && latest.messages[0] === 'Fauxpology') {                    
                     property = 'noApology';                    
                 } else {
                     const currentIndex = order.indexOf(latest.property);
@@ -216,7 +225,7 @@ const Collection = ({open, setOpen}) => {
                     alt="iSorry.lol"                                        
                 />);
             }
-            return (<div className={`${iconClassList} rounded-full bg-gray-400 flex justify-center items-center`}>U</div>)
+            return (<UserCircleIcon className={iconClassList} />)
         }
 
         if (message.type === 'user') {
