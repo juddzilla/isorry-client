@@ -5,7 +5,7 @@ const Component = () => {
         AI: [{ name: 'ChatGPT', creator: 'OpenAI', link: 'https://openai.com/'},],
         Logo: [{ name: 'Tilde', creator: 'Akshar Pathal', link: 'https://thenounproject.com/browse/icons/term/tilde/'}],
         Home: [
-            { name: 'Man Hugging Woman Near Trees', creator: 'Gus Moretta', link: 'https://unsplash.com/photos/man-hugging-woman-near-trees-BCyfpZE3aVE'},
+            { name: 'Person Standing On Top of Mountain Covered With Fog', creator: 'Cédric Streit', link: 'https://unsplash.com/photos/_sKHcmyebN4/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MTB8fHNvcnJ5fGVufDB8fHx8MTcwODQ2MDQ3MXww&force=true&w=1920'},
             { name: 'Silhouette of Man and Woman Under Yellow Sky', creator: 'Eric Ward', link: 'https://unsplash.com/photos/silhouette-of-man-and-woman-under-yellow-sky-7KQe_8Meex8'}
         ],
         Anatomy: [{ name: 'Red And Yellow Bird Figurine', creator: 'Kenny Eliason', link: 'https://unsplash.com/photos/red-and-yellow-bird-figurine-MEbT27ZrtdE'}],
