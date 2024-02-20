@@ -1,4 +1,4 @@
-import { CheckCircleIcon, InformationCircleIcon } from '@heroicons/react/20/solid';
+import { CheckCircleIcon } from '@heroicons/react/20/solid';
 import { Link } from 'react-router-dom';
 import Trigger from '../components/Create/Trigger';
 import Smirk from '../images/emoji/smirking-face_1f60f.png';
@@ -94,7 +94,7 @@ const Component = () => {
                     <div className="mt-10 max-w-2xl">
                         <p><strong>Apology Context{'  '}</strong></p>
                         <p>{content.userInput.apologyContext}</p>
-                    <ul role="list" className="mt-8 max-w-xl space-y-8 text-gray-600">
+                    <ul className="mt-8 max-w-xl space-y-8 text-gray-600">
                         <strong>Emotional And Contextual Insights</strong>
                         {Object.keys(content.userInput.emotionalAndContextualInsights).map(key => {
                             return (
