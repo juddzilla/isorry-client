@@ -1,4 +1,7 @@
 import LoggedIn from './Faux/LoggedIn';
+import { Link } from 'react-router-dom';
+import Trigger from '../components/Create/Trigger';
+
 const Component = () => {
     return (
         <>
@@ -45,7 +48,7 @@ const Component = () => {
             </div>
 
             <LoggedIn />
-            <div className="mt-12">
+            <div className="my-12">
                 <div className="relative bg-white">
                     <div className="mx-auto max-w-7xl lg:flex lg:justify-between lg:px-8 xl:justify-end">
                         <div className="lg:flex lg:w-1/2 lg:shrink lg:grow-0 xl:absolute xl:inset-y-0 xl:right-1/2 xl:w-1/2">
@@ -138,6 +141,24 @@ const Component = () => {
                         </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div className="bg-secondary">
+                <div className="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
+                <div className="mx-auto max-w-2xl text-center">          
+                    <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                        Bare Minimum, Bold Outcomes
+                    </h2>
+                    <div className="mt-10 flex items-center justify-center gap-x-6">
+                    <Trigger>
+                        Take action today
+                    </Trigger>
+                    <Link to="/fauxpologies" className="text-sm font-semibold leading-6 ">
+                        What's the Non-Apology Apology? <span aria-hidden="true">→</span>
+                    </Link>
+                    </div>
+                </div>
                 </div>
             </div>
         </>

@@ -78,7 +78,7 @@ const Component = () => {
           <LoggedIn />
           <div className="bg-white">
             <Header />
-            <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700  px-2 md:px-0">
+            <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700  px-2 md:px-0 pb-24">
               <p className="text-base font-semibold leading-7 text-brand">iSorry.lol</p>
               <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Fauxpologies</h1>
               <p className="mt-6 text-xl leading-8 ">
@@ -177,7 +177,7 @@ const Component = () => {
                           <Trigger>
                             Get Started
                           </Trigger>
-                          <Link to="/best-practis" className="text-sm font-semibold leading-6 text-white">
+                          <Link to="/best-practices" className="text-sm font-semibold leading-6 text-white">
                           Learn more <span aria-hidden="true">→</span>
                           </Link>
                       </div>

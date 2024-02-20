@@ -17,7 +17,7 @@ export default function LoggedIn() {
     return (
         <div className="bg-primary mb-4">
             <div className="mx-auto max-w-3xl text-base leading-7 py-4  text-center text-white">
-                <Link to='/login' className='underline'>Register</Link> and utilize iSorry.lol to help you compose a <Link to='/fauxpology'  className='underline'>Fauxpology.</Link> <Link to='/login' className='underline'>Login</Link> here and unlock all features.
+                <Link to='/login' className='underline'>Login</Link> and utilize iSorry.lol to help you compose a <Link to='/fauxpology'  className='underline'>Fauxpology</Link>, and other features.
             </div>
         </div>
     )

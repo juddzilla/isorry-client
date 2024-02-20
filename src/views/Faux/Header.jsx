@@ -29,16 +29,18 @@ function Header() {
       
       <div className="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-24">
         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8">
-          <div className="mt-0 sm:mt-32 lg:mt-16 flex items-center">            
-            <span className="mr-8 rounded-full bg-secondary/10 px-3 py-1 text-sm font-semibold leading-6 text-primary ring-1 ring-inset ring-primary">
-            Learning
-            </span>
-            <Link to="/apologize" className="inline-flex space-x-6">
-              <span className="inline-flex items-center space-x-2 text-sm font-medium leading-6 text-gray-600">
-                <span>Let Us Help</span>
-                <ChevronRightIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-              </span>
-            </Link>
+        <div className="mt-24 sm:mt-32 lg:mt-16">
+            <Link to="/best-practices" className="inline-flex space-x-6">
+                <span className="rounded-full bg-secondary/10 px-3 py-1 text-sm font-semibold leading-6 text-primary ring-1 ring-inset ring-primary">
+                  Learning
+                </span>
+              </Link>
+              <Link to="/how-it-works" className="inline-flex space-x-6 sm:ml-4">
+                <span className="inline-flex items-center space-x-2 text-sm font-medium leading-6 text-gray-600">
+                  <span>Let Us Help</span>
+                  <ChevronRightIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                </span>
+              </Link>
           </div>
           <h1 className="mt-10 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
             {title}
