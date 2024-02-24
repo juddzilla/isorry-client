@@ -24,6 +24,7 @@ class Fetch {
         return fetch(`${this.api}/${url}`, 
             { 
                 credentials: 'include',
+                mode: 'cors', // no-cors, cors, *same-origin
                 'X-CSRFToken': this.getCSRFToken(),
             }
         )
