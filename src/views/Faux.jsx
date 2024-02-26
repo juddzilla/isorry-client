@@ -78,7 +78,7 @@ const Component = () => {
           <LoggedIn />
           <div className="bg-white">
             <Header />
-            <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700  px-2 md:px-0 pb-24">
+            <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700  px-4 md:px-0 pb-24">
               <p className="text-base font-semibold leading-7 text-brand">iSorry.lol</p>
               <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Fauxpologies</h1>
               <p className="mt-6 text-xl leading-8 ">
