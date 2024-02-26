@@ -12,6 +12,8 @@ const Component = () => {
     return params.join('&');
   }
 
+  const locationOrigin = (provider) => `${window.location.origin}/sorries?provider=${provider}`;
+
   function github() {
     const oauth2Endpoint = 'https://github.com/login/oauth/authorize';
 
@@ -22,7 +24,7 @@ const Component = () => {
 
     const params = {
       client_id: REACT_APP_GITHUB_CLIENT_ID,
-    redirect_uri: 'http://localhost:3000/sorries?provider=github',    
+      redirect_uri: locationOrigin('github'),    
       allow_signup: false,    
       response_type: 'token',
       prompt: 'consent',
@@ -41,7 +43,7 @@ const Component = () => {
 
     const params = {
         client_id: REACT_APP_GOOGLE_CLIENT_ID,
-        redirect_uri: 'http://localhost:3000/sorries?provider=google',        
+        redirect_uri: locationOrigin('google'), 
         response_type: 'token',
         prompt: 'consent',
         scope,

@@ -5,7 +5,7 @@ import CreateTrigger from '../../components/Create/Trigger';
 export default function Hero() {
   return (
     <div className="bg-gray-900">
-      <div className="relative isolate overflow-hidden pt-14">
+      <div className="relative isolate overflow-hidden pt-0">
         <img
           src='https://unsplash.com/photos/_sKHcmyebN4/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MTB8fHNvcnJ5fGVufDB8fHx8MTcwODQ2MDQ3MXww&force=true&w=1920'
           alt=""
@@ -15,7 +15,7 @@ export default function Hero() {
         <div
           className="absolute -z-10 bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-black bg-fixed opacity-50" />
         
-        <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+        <div className="mx-auto max-w-2xl py-16 sm:py-48 lg:py-56">
           <div className="hidden sm:mb-8 sm:flex sm:justify-center">
             <Link to='/best-practices' className="relative rounded-full px-3 py-1 text-sm leading-6 text-white ring-1 ring-white/90 hover:ring-white/20">
                 Turn Your Apology into Action{' '}
