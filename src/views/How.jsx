@@ -40,7 +40,7 @@ const Component = () => {
       
     return (
         <div>
-            <div className="relative isolate bg-gray-900 py-24 sm:py-32 overflow-clip">
+            <div className="relative isolate bg-gray-900 py-12 sm:py-32 overflow-clip">
                 <img
                     src="https://unsplash.com/photos/wd5JNpAl3Ts/download?force=true&w=1920"
                     alt=""
