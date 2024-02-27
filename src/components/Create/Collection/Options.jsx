@@ -1,6 +1,6 @@
 import { RadioGroup } from '@headlessui/react';
 
-export const pill = 'border border-gray-400 hover:border-gray-800 drsop-shadow-xl hover:shadow-md min-w-4 min-h-10 flex justify-center cursor-pointer text-md relative px-4 rounded-xl mb-4 items-center bg-white/90 hover:bg-white mr-4 last:mr-0';
+export const pill = 'border border-gray-400 hover:border-gray-800 hover:shadow-md min-w-4 min-h-10 flex justify-center cursor-pointer text-md relative px-4 rounded-xl mb-4 items-center bg-white/90 hover:bg-white mr-4 last:mr-0';
 
 const Options = ({ data, id, onClick }) => {   
     return (

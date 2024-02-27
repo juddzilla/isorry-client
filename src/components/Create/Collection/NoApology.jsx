@@ -46,12 +46,12 @@ export default function NoApology({ onChange }) {
     ];
 
     return (
-      <RadioGroup onChange={onChange} className='flex justify-center flex-wrap overflow-hidden pb-6'>
+      <RadioGroup onChange={onChange} className='flex flex-col md:flex-row justify-center flex-wrap overflow-hidden pb-6'>
         {types.map((type) => (
           <RadioGroup.Option
             key={type.name}
             value={type.name}
-              className={`${pill} !block !px-0 w-5/12 mr-4 even:mr-0 overflow-hidden`}
+              className={`${pill} !block !px-0 w-full md:w-5/12 mr-4 even:mr-0 overflow-hidden`}
               >
               <RadioGroup.Label as="div" className='px-3 pt-3 bg-white pb-1'>
                 <div className=''>{type.name}</div>

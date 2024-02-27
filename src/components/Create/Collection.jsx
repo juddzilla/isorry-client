@@ -127,7 +127,7 @@ const Collection = ({open, setOpen}) => {
             if (prompting === 'noApology') {
                 const totalLength = order.indexOf('type');
                 setProgress([totalLength+2,totalLength+2]);
-            } else if (prompting === 'generating') {
+            } else if (['generating', 'postGeneratingNotAuthed'].includes(prompting)) {
                 setProgress(null);
             } else {
                 const currentIndex = order.indexOf(prompting);            
@@ -140,7 +140,6 @@ const Collection = ({open, setOpen}) => {
         if (chatbox.current && messages.length) {              
             const generateAfter = ['noApology', order[order.length - 1]];
             const latest = messages[messages.length -1];
-
             if (latest.type === 'user') {
                let property = null;
                 
@@ -152,7 +151,7 @@ const Collection = ({open, setOpen}) => {
                 } else {
                     const currentIndex = order.indexOf(latest.property);
                     property = order[currentIndex + 1];
-                }         
+                }                         
                 addSystemMessage(property);
             } 
             
@@ -296,7 +295,7 @@ const Collection = ({open, setOpen}) => {
                 </Transition.Child>
 
                 <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-                    <div className="flex h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">                     
+                    <div className="flex h-full items-end justify-center p-2 text-center sm:items-center sm:p-0">                     
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
@@ -306,7 +305,7 @@ const Collection = ({open, setOpen}) => {
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <Dialog.Panel className="flex flex-col justify-end bg-gray-100 h-3/5 relative transform overflow-hidden rounded-sm bg-white text-left drop-shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg md:max-w-prose shadow-3xl">                                                
+                            <Dialog.Panel className="flex flex-col justify-end bg-gray-100 h-5/6 relative transform overflow-hidden rounded-sm bg-white text-left drop-shadow-xl transition-all sm:my-8 w-full sm:max-w-lg md:max-w-prose shadow-3xl">                                                
                                 <div className='z-10 w-full p-2 border-b-1 border-x-0 border-t-0 border-gray-200  shadow-sm border flex items-center justify-center relative'>  
                                     <strong className='inline-block mr-4'>iSorry.lol</strong>
                                     <div className='text-xs text-gray-400 absolute right-0 pr-6'>
