@@ -52,9 +52,9 @@ const Collection = ({open, setOpen}) => {
         const data = messages.reduce((acc, cur) => {
             if (cur.type === 'user') {
                 if (Object.hasOwn(acc, cur.property)) {
-                    acc[cur.property] = cur.message;
+                    acc[cur.property] = cur.messages[0];
                 } else {
-                    acc.parameters[cur.property] = cur.message;
+                    acc.parameters[cur.property] = cur.messages[0];
                 }
             }
             return acc;
